@@ -1,9 +1,11 @@
 from io import BytesIO
-from rest_framework import generics, permissions
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
 from django.http import HttpResponse
 from xhtml2pdf import pisa
 from .models import Cliente, Imovel, ContratoAluguel, ContratoServico, PerfilUsuario
@@ -16,12 +18,29 @@ from .serializers import (
     PerfilUsuarioSerializer,
 )
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    """Finaliza a sessão do usuário."""
+    logout(request)
+    return Response({"message": "Logout realizado com sucesso"})
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def profile_view(request):
+    """Retorna informações básicas do usuário autenticado."""
+    user = request.user
+    return Response({
+        "username": user.username,
+        "email": user.email
+    })
+
 
 # ── Registro 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
-    permission_classes = [permissions.AllowAny]  # único endpoint público
+    permission_classes = [AllowAny]  # único endpoint público
 
 
 # ── Perfil de Usuário 
@@ -113,7 +132,7 @@ class ContratoServicoDetailView(generics.RetrieveUpdateDestroyAPIView):
 # ── Geração de PDF ─────────────────────────────────────────────────────────────
 class GerarContratoPDFView(APIView):
     """Recebe HTML do contrato e devolve um arquivo PDF para download."""
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         html_content = request.data.get('html', '')

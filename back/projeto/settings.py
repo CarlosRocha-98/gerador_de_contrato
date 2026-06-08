@@ -168,7 +168,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Segurança
 SECRET_KEY = os.environ.get("SECRET_KEY", "chave-secreta-local")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["*"]  # ou coloque o domínio do Render
+ALLOWED_HOSTS = ["gerador-de-contrato-6uck.onrender.com", "localhost"]  # ou coloque o domínio do Render
 
 INSTALLED_APPS = [
     'django.contrib.admin',

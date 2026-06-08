@@ -76,8 +76,11 @@ function bloquearCampos(ids) {
     ids.forEach(id => {
         const el = document.getElementById(id);
         if (!el || !el.value) return;
-        if (el.tagName === 'SELECT') el.setAttribute('disabled', '');
-        else                         el.setAttribute('readonly', '');
+        if (el.tagName === 'SELECT') {
+            el.disabled = true;
+        } else {
+            el.readOnly = true;
+        }
         el.classList.add('prefilled');
     });
 }
@@ -256,7 +259,7 @@ function preencherPrestador(p) {
 }
 
 // ── Carregamento do perfil ────────────────────────────────────────────────────
-const jwtToken = localStorage.getItem('access_token') || localStorage.getItem('access');
+const jwtToken = localStorage.getItem('access') || localStorage.getItem('access');
 
 if (jwtToken) {
     const API_BASE = window.API_HOST || 'http://localhost:8000';
@@ -304,7 +307,7 @@ function clienteSimilarExiste(lista, novo) {
 
 async function adicionarCliente(dados) {
     const lista = carregarClientes();
-    const jwt   = localStorage.getItem('access_token') || localStorage.getItem('access');
+    const jwt   = localStorage.getItem('access') || localStorage.getItem('access');
     if (jwt) {
         try {
             const API_BASE = window.API_HOST || 'http://localhost:8000';
@@ -339,7 +342,7 @@ async function adicionarCliente(dados) {
 }
 
 async function sincronizarClientesDoBackend() {
-    const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
+    const jwt = localStorage.getItem('access') || localStorage.getItem('access');
     if (!jwt) return;
     try {
         const API_BASE = window.API_HOST || 'http://localhost:8000';
@@ -646,12 +649,26 @@ function validarFormulario() {
     return true;
 }
 
+if (faltando.length > 0) {
+    campos.forEach(c => {
+        const el = document.getElementById(c.id);
+        if (el && (!el.value.trim())) {
+            el.classList.add('campo-erro');
+        } else if (el) {
+            el.classList.remove('campo-erro');
+        }
+    });
+    alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
+    return false;
+}
+
+
 // ── Geração de PDF ────────────────────────────────────────────────────────────
 async function gerarPDF() {
     if (!validarFormulario()) return;
     const preview = document.getElementById('contract-preview');
     const html    = preview ? preview.innerHTML : '';
-    const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
+    const jwt     = localStorage.getItem('access') || localStorage.getItem('access');
 
     if (jwt) {
         const API_BASE      = window.API_HOST || 'http://localhost:8000';
@@ -709,7 +726,7 @@ document.getElementById('btn-gerar-pdf')?.addEventListener('click', () => {
 
 // ── Salvar contrato no banco ──────────────────────────────────────────────────
 async function resolverIdContratante(dados) {
-    const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
+    const jwt = localStorage.getItem('access') || localStorage.getItem('access');
     if (!jwt) return null;
     const API_BASE = window.API_HOST || 'http://localhost:8000';
     const cpf = (dados.cpf || '').trim();
@@ -741,7 +758,7 @@ async function resolverIdContratante(dados) {
 async function salvarContratoNoSistema(silent = false) {
     if (!silent && !validarFormulario()) return;
     try {
-        const jwt      = localStorage.getItem('access_token') || localStorage.getItem('access');
+        const jwt      = localStorage.getItem('access') || localStorage.getItem('access');
         const API_BASE = window.API_HOST || 'http://localhost:8000';
 
         const contratanteData = {

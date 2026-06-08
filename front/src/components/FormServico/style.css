@@ -358,6 +358,12 @@ body {
     font-weight: 600;
 }
 
+.campo-erro {
+    border: 2px solid red;
+    background-color: #ffe5e5;
+}
+
+
 /* Responsivo */
 @media (max-width: 900px) {
     .contract-page {

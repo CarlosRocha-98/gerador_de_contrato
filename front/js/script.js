@@ -1,13 +1,10 @@
 // ── Redireciona usuário logado para o dashboard ───────────────────────────────
 const DASHBOARD = 'src/pages/Home/index.html';
+const BACKEND = 'https://gerador-de-contrato-6uck.onrender.com/api';
 
-// 1) Sessão local (login por formulário)
-if (sessionStorage.getItem('session')) {
-    window.location.replace(DASHBOARD);
-}
 
-// 2) Token JWT (login pela API Django)
-if (!sessionStorage.getItem('session') && (localStorage.getItem('access_token') || localStorage.getItem('access'))) {
+// Redireciona usuário logado
+if (sessionStorage.getItem('session') || localStorage.getItem('access')) {
     window.location.replace(DASHBOARD);
 }
 
@@ -35,9 +32,6 @@ if (hamburger && navLinks) {
 
 // ── Auth: troca botões Entrar ↔ Sair ─────────────────────────────────────────
 
-const BACKEND = 'https://gerador-de-contrato-6uck.onrender.com/api';
-
-
 function setLoggedIn() {
     const btn = document.querySelector('.navbar-auth .login');
     if (btn) {
@@ -49,16 +43,10 @@ function setLoggedIn() {
 }
 
 function logout() {
-    sessionStorage.removeItem('session');
-    localStorage.removeItem('access_token');
+    sessionStorage.clear();
     localStorage.removeItem('access');
-    localStorage.removeItem('refresh_token');
     localStorage.removeItem('refresh');
-    fetch(BACKEND + '/logout', { credentials: 'include' })
-        .catch(() => {})
-        .finally(() => {
-            window.location.href = 'index.html';
-        });
+    window.location.href = 'index.html';
 }
 
 // 1) Verifica sessão local (login por formulário)
@@ -66,21 +54,67 @@ if (sessionStorage.getItem('session')) {
     setLoggedIn();
 }
 // 2) Verifica sessão OAuth (Google/Facebook) — only when frontend and backend share origin
-if (window.location.origin === (new URL(BACKEND)).origin) {
-    fetch(BACKEND + '/profile', { credentials: 'include' })
-        .then(res => {
-            if (!res.ok) throw new Error('Não autenticado');
-            return res.json();
-        })
-        .then(user => {
-            if (user) {
-                // Usuário OAuth logado: redireciona para o dashboard
-                window.location.replace(DASHBOARD);
-            }
-        })
-        .catch(() => {
-            console.log('Usuário não está logado');
+//???
+
+
+// Função para renovar token
+async function refreshToken() {
+    const refresh = localStorage.getItem('refresh');
+    if (!refresh) return null;
+
+    try {
+        const res = await fetch(BACKEND + '/token/refresh/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refresh })
         });
-} else {
-    console.log('Pulando verificação OAuth remota (origem diferente)');
+
+        if (!res.ok) throw new Error('Refresh token inválido');
+
+        const data = await res.json();
+        localStorage.setItem('access', data.access); // atualiza o access
+        return data.access;
+    } catch (err) {
+        console.error('Erro ao renovar token:', err);
+        logout(); // força logout se refresh falhar
+    }
 }
+
+// Wrapper para chamadas autenticadas
+async function apiFetch(url, options = {}) {
+    let access = localStorage.getItem('access');
+    if (!access) return logout();
+
+    // Tenta requisição com token atual
+    let res = await fetch(BACKEND + url, {
+        ...options,
+        headers: {
+            ...(options.headers || {}),
+            Authorization: `Bearer ${access}`
+        }
+    });
+
+    // Se deu 401 (token expirado), tenta renovar
+    if (res.status === 401) {
+        access = await refreshToken();
+        if (!access) return logout();
+
+        res = await fetch(BACKEND + url, {
+            ...options,
+            headers: {
+                ...(options.headers || {}),
+                Authorization: `Bearer ${access}`
+            }
+        });
+    }
+
+    return res;
+}
+
+// Verifica perfil com JWT
+apiFetch('/profile')
+    .then(res => res.json())
+    .then(user => {
+        if (user) window.location.replace(DASHBOARD);
+    })
+    .catch(() => console.log('Usuário não está logado'));

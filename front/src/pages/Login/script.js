@@ -15,8 +15,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
             body: JSON.stringify({ username, password }),
         });
 
-        // If initial attempt failed and user provided an email, try username before the @
-        if (!res.ok && username.includes && username.includes('@')) {
+        // Fallback: tenta username antes do @
+        if (!res.ok && username.includes('@')) {
             const altUsername = username.split('@')[0];
             res = await fetch(tokenUrl, {
                 method: 'POST',
@@ -28,35 +28,22 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         if (res.ok) {
             const data = await res.json();
-            // Save tokens using the same keys used by services/auth.js
-            localStorage.setItem('access_token', data.access);
-            localStorage.setItem('refresh_token', data.refresh);
+            localStorage.setItem('access', data.access);
+            localStorage.setItem('refresh', data.refresh);
+
             if (typeof window.setSession === 'function') {
                 window.setSession({ username });
             }
+
             showMessage('Login realizado com sucesso!', 'success');
             setTimeout(() => window.location.href = '../../pages/Home/index.html', 1000);
         } else {
-            // try to read API error message
-            const err = await res.json().catch(() => ({}));
-            const msg = err.detail || err.non_field_errors || 'Usuário ou senha incorretos.';
-            // Fallback: tenta login local
-            const result = login(username, password);
-            showMessage(result.success ? result.message : String(msg), result.success ? 'success' : 'error');
-            if (result.success) {
-                setTimeout(() => window.location.href = '../../pages/Home/index.html', 1000);
-            }
+            showMessage('Usuário ou senha incorretos.', 'error');
         }
     } catch (err) {
-        // API offline: usa login local
-        const result = login(username, password);
-        showMessage(result.message, result.success ? 'success' : 'error');
-        if (result.success) {
-            setTimeout(() => window.location.href = '../../pages/Home/index.html', 1000);
-        }
+        showMessage('Erro de conexão com o servidor.', 'error');
     }
 });
-
 
 function togglePassword() {
     const input = document.getElementById('password');
@@ -71,25 +58,7 @@ function showMessage(msg, type) {
     }
 }
 
-function openForgot() {
-    document.getElementById('forgotModal').classList.remove('hidden');
-    document.getElementById('forgotMessage').className = 'message hidden';
-    document.getElementById('forgotEmail').value = '';
-    document.getElementById('forgotNewPass').value = '';
-    document.getElementById('forgotConfirm').value = '';
-}
-
-function closeForgot() {
-    document.getElementById('forgotModal').classList.add('hidden');
-}
-
-function showForgotMessage(msg, type) {
-    const el = document.getElementById('forgotMessage');
-    el.textContent = msg;
-    el.className = 'message ' + type;
-}
-
-function resetPassword() {
+async function resetPassword() {
     const email    = document.getElementById('forgotEmail').value.trim();
     const newPass  = document.getElementById('forgotNewPass').value;
     const confirm  = document.getElementById('forgotConfirm').value;
@@ -104,19 +73,59 @@ function resetPassword() {
       return showForgotMessage('A senha deve ter pelo menos 6 caracteres.', 'error');
     }
 
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const idx   = users.findIndex(u => u.username.toLowerCase() === email.toLowerCase());
+    try {
+        const base = ((window.API_HOST || window.API_BASE) || '').replace(/\/$/, '');
+        const url = base.endsWith('/api') ? `${base}/reset-password/` : `${base}/api/reset-password/`;
 
-    if (idx === -1) {
-      return showForgotMessage('Email não encontrado.', 'error');
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, new_password: newPass })
+        });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            return showForgotMessage(err.detail || 'Erro ao redefinir senha.', 'error');
+        }
+
+        showForgotMessage('✅ Senha redefinida! Você já pode fazer login.', 'success');
+        setTimeout(closeForgot, 1800);
+    } catch (err) {
+        showForgotMessage('Erro de conexão com o servidor.', 'error');
     }
-
-    users[idx].password = newPass;
-    localStorage.setItem('users', JSON.stringify(users));
-    showForgotMessage('✅ Senha redefinida! Você já pode fazer login.', 'success');
-    setTimeout(closeForgot, 1800);
 }
 
-function loginGoogle() {
-    window.location.href = "https://modelo-de-contrato-backend.onrender.com/auth/google";
+async function gerarContratoPDF(html, titulo = "contrato") {
+    try {
+        const res = await apiFetch('/gerar-pdf', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ html, titulo })
+        });
+
+        if (!res.ok) throw new Error('Erro ao gerar PDF');
+
+        // Recebe o PDF como blob
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        // Cria link para download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${titulo}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        showMessage('📄 PDF gerado com sucesso!', 'success');
+    } catch (err) {
+        showMessage('Erro ao gerar PDF: ' + err.message, 'error');
+    }
 }
+
+const contratoHTML = "<h2>Contrato de Aluguel</h2><p>Este contrato é válido por 12 meses...</p>";
+gerarContratoPDF(contratoHTML, "Contrato_Aluguel");
+
+const contratoServicoHTML = "<h2>Contrato de Servico</h2><p>Este contrato é válido por 12 meses...</p>";
+gerarContratoPDF(contratoServicoHTML, "Contrato_Servico");
+
