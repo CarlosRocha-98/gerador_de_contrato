@@ -243,6 +243,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # CORS
 CORS_ALLOWED_ORIGINS = [
-    "https://meu-front.vercel.app",  # troque pela URL real do seu front
+    "https://gerador-de-contrato-chi.vercel.app",  # troque pela URL real do seu front
 ]
 CORS_ALLOW_CREDENTIALS = True

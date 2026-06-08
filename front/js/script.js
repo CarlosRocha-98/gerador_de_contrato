@@ -34,7 +34,9 @@ if (hamburger && navLinks) {
 }
 
 // ── Auth: troca botões Entrar ↔ Sair ─────────────────────────────────────────
-const BACKEND = window.API_HOST || 'http://localhost:8000';
+
+const BACKEND = 'https://gerador-de-contrato-6uck.onrender.com/api';
+
 
 function setLoggedIn() {
     const btn = document.querySelector('.navbar-auth .login');
