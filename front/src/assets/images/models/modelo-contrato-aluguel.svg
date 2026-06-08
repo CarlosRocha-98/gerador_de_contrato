@@ -1,0 +1,92 @@
+<svg width="1400" height="1900" viewBox="0 0 1400 1900" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Modelo visual de contrato de locacao com campos nomeados">
+  <defs>
+    <style>
+      .paper { fill: #ffffff; stroke: #d8e1ed; stroke-width: 2; }
+      .title { font: 700 34px Arial, sans-serif; fill: #14233b; }
+      .subtitle { font: 700 19px Arial, sans-serif; fill: #1e3353; }
+      .clause { font: 700 17px Arial, sans-serif; fill: #253b5e; }
+      .body { font: 500 15px Arial, sans-serif; fill: #2d3f5f; }
+      .label { fill: #edf3fd; stroke: #c5d5ea; stroke-width: 1; }
+      .label-text { font: 700 12px Arial, sans-serif; fill: #2c4f82; }
+      .divider { stroke: #e2e9f3; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="1900" fill="#f4f7fc" />
+  <rect x="110" y="60" width="1180" height="1780" rx="18" class="paper" />
+
+  <text x="170" y="130" class="title">CONTRATO DE LOCACAO DE IMOVEL RESIDENCIAL</text>
+  <line x1="170" y1="150" x2="1230" y2="150" class="divider" />
+
+  <text x="170" y="190" class="subtitle">IDENTIFICACAO DAS PARTES CONTRATANTES</text>
+
+  <text x="170" y="230" class="body">LOCADOR: [NOME], [NACIONALIDADE], [PROFISSAO], [ESTADO CIVIL], RG [NUMERO RG], ORGAO [ORGAO EMISSOR], CPF [CPF],</text>
+  <text x="170" y="255" class="body">residente na [ENDERECO], numero [NUMERO], [BAIRRO]/[CIDADE], CEP [CEP].</text>
+
+  <text x="170" y="295" class="body">LOCATARIO: [NOME], [NACIONALIDADE], [PROFISSAO], [ESTADO CIVIL], RG [NUMERO RG], ORGAO [ORGAO EMISSOR], CPF [CPF],</text>
+  <text x="170" y="320" class="body">residente na [ENDERECO], numero [NUMERO], [BAIRRO]/[CIDADE], CEP [CEP].</text>
+
+  <text x="170" y="365" class="body">As partes acima nomeadas acordam o presente Contrato de Locacao Residencial, de acordo com as clausulas a seguir:</text>
+
+  <text x="170" y="412" class="clause">Clausula 1a - DO OBJETO DO CONTRATO</text>
+  <text x="170" y="438" class="body">O OBJETO deste contrato e o imovel de propriedade do LOCADOR, situado na [ENDERECO DO IMOVEL], numero [NUMERO],</text>
+  <text x="170" y="462" class="body">[BAIRRO], [CIDADE/UF], com as caracteristicas: [CARACTERISTICAS DO IMOVEL].</text>
+  <text x="170" y="486" class="body">Imovel isento de encargos ou quaisquer pendencias financeiras.</text>
+  <text x="170" y="510" class="body">Paragrafo unico. O documento e complementado pelo laudo de vistoria no instante de entrega ao LOCATARIO.</text>
+
+  <text x="170" y="556" class="clause">Clausula 2a - DO PRAZO DE LOCACAO</text>
+  <text x="170" y="582" class="body">A duracao da locacao deste imovel e de [PRAZO EM MESES] meses, iniciando-se em [DATA DE INICIO].</text>
+
+  <text x="170" y="628" class="clause">Clausula 3a - DA FINALIDADE DO IMOVEL</text>
+  <text x="170" y="654" class="body">A locacao e estritamente para fins de moradia, vedada sublocacao ou uso diverso sem consentimento do LOCADOR.</text>
+
+  <text x="170" y="700" class="clause">Clausula 4a - SOBRE O VALOR DO ALUGUEL, DESPESAS E IMPOSTOS</text>
+  <text x="170" y="726" class="body">O LOCATARIO pagara aluguel mensal no valor de [VALOR DO ALUGUEL], ate o dia [DIA DE VENCIMENTO] de cada mes.</text>
+  <text x="170" y="750" class="body">Paragrafo 1o. Pagamento em dinheiro ao LOCADOR ou terceiro autorizado.</text>
+  <text x="170" y="774" class="body">Paragrafo 2o. O valor do aluguel podera ser reajustado anualmente pelo IGP-M acumulado.</text>
+  <text x="170" y="798" class="body">Paragrafo 3o. Atraso implica multa de 10 por cento sobre o aluguel e juros de 1 por cento ao mes.</text>
+
+  <text x="170" y="844" class="clause">Clausula 5a - DA CAUCAO</text>
+  <text x="170" y="870" class="body">O LOCATARIO entrega ao LOCADOR, a titulo de caucao, o valor de [VALOR DA CAUCAO], devolvido ao final sem debitos.</text>
+
+  <text x="170" y="916" class="clause">Clausula 6a - DAS INFRACOES</text>
+  <text x="170" y="942" class="body">Em caso de infracao a qualquer clausula, a parte infratora pagara multa de [VALOR DA MULTA DE INFRACAO].</text>
+
+  <text x="170" y="988" class="clause">Clausula 7a - DA RESCISAO</text>
+  <text x="170" y="1014" class="body">Em caso de rescisao antecipada, sera paga multa de [VALOR DA MULTA DE RESCISAO], proporcional ao periodo restante.</text>
+
+  <text x="170" y="1064" class="subtitle">ASSINATURA</text>
+  <text x="170" y="1090" class="body">[CIDADE DA ASSINATURA], [ESTADO DA ASSINATURA], [DATA DA ASSINATURA].</text>
+
+  <rect x="170" y="1130" width="460" height="42" rx="8" class="label" />
+  <text x="192" y="1157" class="label-text">ASSINATURA LOCADOR</text>
+
+  <rect x="770" y="1130" width="460" height="42" rx="8" class="label" />
+  <text x="792" y="1157" class="label-text">ASSINATURA LOCATARIO</text>
+
+  <line x1="170" y1="1220" x2="1230" y2="1220" class="divider" />
+  <text x="170" y="1260" class="subtitle">MAPA DE CAMPOS (PREENCHIMENTO)</text>
+
+  <rect x="170" y="1288" width="510" height="36" rx="8" class="label" /><text x="186" y="1311" class="label-text">NOME DO LOCADOR</text>
+  <rect x="720" y="1288" width="510" height="36" rx="8" class="label" /><text x="736" y="1311" class="label-text">CPF DO LOCADOR</text>
+
+  <rect x="170" y="1334" width="510" height="36" rx="8" class="label" /><text x="186" y="1357" class="label-text">NOME DO LOCATARIO</text>
+  <rect x="720" y="1334" width="510" height="36" rx="8" class="label" /><text x="736" y="1357" class="label-text">CPF DO LOCATARIO</text>
+
+  <rect x="170" y="1380" width="510" height="36" rx="8" class="label" /><text x="186" y="1403" class="label-text">ENDERECO DO IMOVEL</text>
+  <rect x="720" y="1380" width="510" height="36" rx="8" class="label" /><text x="736" y="1403" class="label-text">CARACTERISTICAS DO IMOVEL</text>
+
+  <rect x="170" y="1426" width="510" height="36" rx="8" class="label" /><text x="186" y="1449" class="label-text">PRAZO EM MESES</text>
+  <rect x="720" y="1426" width="510" height="36" rx="8" class="label" /><text x="736" y="1449" class="label-text">DATA DE INICIO</text>
+
+  <rect x="170" y="1472" width="510" height="36" rx="8" class="label" /><text x="186" y="1495" class="label-text">VALOR DO ALUGUEL</text>
+  <rect x="720" y="1472" width="510" height="36" rx="8" class="label" /><text x="736" y="1495" class="label-text">DIA DE VENCIMENTO</text>
+
+  <rect x="170" y="1518" width="510" height="36" rx="8" class="label" /><text x="186" y="1541" class="label-text">VALOR DA CAUCAO</text>
+  <rect x="720" y="1518" width="510" height="36" rx="8" class="label" /><text x="736" y="1541" class="label-text">VALOR DA MULTA DE INFRACAO</text>
+
+  <rect x="170" y="1564" width="510" height="36" rx="8" class="label" /><text x="186" y="1587" class="label-text">VALOR DA MULTA DE RESCISAO</text>
+  <rect x="720" y="1564" width="510" height="36" rx="8" class="label" /><text x="736" y="1587" class="label-text">CIDADE, ESTADO E DATA DA ASSINATURA</text>
+
+  <text x="170" y="1650" class="body">Imagem modelo baseada no texto do contrato de locacao exibido no preview do sistema.</text>
+</svg>

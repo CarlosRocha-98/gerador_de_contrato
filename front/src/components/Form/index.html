@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script>window.API_HOST = window.API_HOST || 'http://localhost:8000';</script>
+    <title>Contrato de Locação Residencial</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <div class="navbar-brand">
+          <span class="navbar-icon"></span>
+          <span class="navbar-logo-text">Contrato</span>
+        </div>
+
+        <nav class="navbar-menu">
+          <a href="../../../index.html">Início</a>
+          <a href="../../../src/components/Form/index.html">Modelos</a>
+          <a href="../../../src/pages/ComoFunciona/index.html">Como Funciona</a>
+          <a href="../../../src/pages/Contato/index.html">Contato</a>
+        </nav>
+
+        <div class="navbar-actions">
+          <a
+            href="../../../src/pages/Home/index.html"
+            class="navbar-cta"
+            id="btn-dashboard"
+            >Dashboard</a
+          >
+
+          <a
+            href="../../../src/pages/ContractType/index.html"
+            class="navbar-cta"
+            >Trocar Tipo de Contrato</a
+          >
+        </div>
+
+        <button class="navbar-toggle" aria-label="Abrir menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <div class="navbar-overlay"></div>
+    </header>
+
+    <div class="contract-page">
+      <!-- Formulário -->
+      <div class="form-panel">
+        <h1 class="form-title">Contrato de Locação Residencial</h1>
+        <div class="form-divider"></div>
+
+        <form id="contractForm">
+          <!-- Dados do Proprietário -->
+          <fieldset class="form-section" id="secao-prop">
+            <legend class="section-title">
+              Dados do Proprietário(a)
+            </legend>
+
+            <div class="form-group full">
+              <label for="prop-nome">Nome completo</label>
+              <input
+                type="text"
+                id="prop-nome"
+                placeholder="Ex: João da Silva"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="prop-nacionalidade">Nacionalidade</label>
+                <input
+                  type="text"
+                  id="prop-nacionalidade"
+                  placeholder="Brasileiro(a)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="prop-profissao">Profissão</label>
+                <input
+                  type="text"
+                  id="prop-profissao"
+                  placeholder="Ex: Empresário"
+                />
+              </div>
+              <div class="form-group">
+                <label for="prop-estado-civil">Estado civil</label>
+                <select id="prop-estado-civil">
+                  <option value="Solteiro(a)">Solteiro(a)</option>
+                  <option value="Casado(a)">Casado(a)</option>
+                  <option value="Divorciado(a)">Divorciado(a)</option>
+                  <option value="Viúvo(a)">Viúvo(a)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="prop-cpf">CPF</label>
+              <input type="text" id="prop-cpf" placeholder="000.000.000-00" />
+            </div>
+
+            <div class="form-group full">
+              <label for="prop-endereco">Endereço (rua/av)</label>
+              <input
+                type="text"
+                id="prop-endereco"
+                placeholder="Ex: Rua das Flores"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="prop-numero">Número</label>
+                <input type="text" id="prop-numero" placeholder="123" />
+              </div>
+              <div class="form-group">
+                <label for="prop-bairro">Bairro</label>
+                <input type="text" id="prop-bairro" placeholder="Centro" />
+              </div>
+              <div class="form-group">
+                <label for="prop-cep">CEP</label>
+                <input type="text" id="prop-cep" placeholder="00000-000" />
+              </div>
+            </div>
+
+            <div class="form-row cols-cidade-uf">
+              <div class="form-group">
+                <label for="prop-cidade">Cidade</label>
+                <input type="text" id="prop-cidade" placeholder="São Paulo" />
+              </div>
+              <div class="form-group">
+                <label for="prop-estado">Estado</label>
+                <select id="prop-estado">
+                  <option value="">UF</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Dados do Inquilino -->
+          <fieldset class="form-section" id="secao-inq">
+            <legend class="section-title">
+              Dados do Inquilino(a)
+            </legend>
+
+            <button
+              type="button"
+              class="btn-selecionar-cliente"
+              id="btn-selecionar-inquilino"
+            >
+              Selecionar Cliente Cadastrado
+            </button>
+
+            <div class="form-group full">
+              <label for="inq-nome">Nome completo</label>
+              <input
+                type="text"
+                id="inq-nome"
+                placeholder="Ex: Maria Oliveira"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="inq-nacionalidade">Nacionalidade</label>
+                <input
+                  type="text"
+                  id="inq-nacionalidade"
+                  placeholder="Brasileiro(a)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="inq-profissao">Profissão</label>
+                <input
+                  type="text"
+                  id="inq-profissao"
+                  placeholder="Ex: Advogada"
+                />
+              </div>
+              <div class="form-group">
+                <label for="inq-estado-civil">Estado civil</label>
+                <select id="inq-estado-civil">
+                  <option value="Solteiro(a)">Solteiro(a)</option>
+                  <option value="Casado(a)">Casado(a)</option>
+                  <option value="Divorciado(a)">Divorciado(a)</option>
+                  <option value="Viúvo(a)">Viúvo(a)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="inq-cpf">CPF</label>
+              <input type="text" id="inq-cpf" placeholder="000.000.000-00" />
+            </div>
+
+            <div class="form-group full">
+              <label for="inq-endereco">Endereço atual (rua/av)</label>
+              <input
+                type="text"
+                id="inq-endereco"
+                placeholder="Ex: Av. Brasil"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="inq-numero">Número</label>
+                <input type="text" id="inq-numero" placeholder="456" />
+              </div>
+              <div class="form-group">
+                <label for="inq-bairro">Bairro</label>
+                <input type="text" id="inq-bairro" placeholder="Jardins" />
+              </div>
+              <div class="form-group">
+                <label for="inq-cep">CEP</label>
+                <input type="text" id="inq-cep" placeholder="00000-000" />
+              </div>
+            </div>
+
+            <div class="form-row cols-cidade-uf">
+              <div class="form-group">
+                <label for="inq-cidade">Cidade</label>
+                <input type="text" id="inq-cidade" placeholder="São Paulo" />
+              </div>
+              <div class="form-group">
+                <label for="inq-estado">Estado</label>
+                <select id="inq-estado">
+                  <option value="">UF</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Dados do Imóvel -->
+          <fieldset class="form-section" id="secao-imovel">
+            <legend class="section-title">
+              Dados do Imóvel
+            </legend>
+
+            <button
+              type="button"
+              class="btn-selecionar-cliente"
+              id="btn-selecionar-imovel"
+            >
+               Selecionar Imóvel Cadastrado
+            </button>
+
+            <div class="form-group full">
+              <label for="imovel-endereco">Endereço do imóvel (rua/av)</label>
+              <input
+                type="text"
+                id="imovel-endereco"
+                placeholder="Ex: Rua das Palmeiras"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="imovel-numero">Número</label>
+                <input type="text" id="imovel-numero" placeholder="789" />
+              </div>
+              <div class="form-group">
+                <label for="imovel-bairro">Bairro</label>
+                <input type="text" id="imovel-bairro" placeholder="Vila Nova" />
+              </div>
+              <div class="form-group">
+                <label for="imovel-cidade-uf">Cidade/UF</label>
+                <input
+                  type="text"
+                  id="imovel-cidade-uf"
+                  placeholder="São Paulo/SP"
+                />
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="imovel-caracteristicas"
+                >Características do imóvel</label
+              >
+              <textarea
+                id="imovel-caracteristicas"
+                rows="3"
+                placeholder="Ex: Apartamento com 2 quartos, 1 banheiro, sala, cozinha e área de serviço"
+              ></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Condições do Contrato -->
+          <fieldset class="form-section">
+            <legend class="section-title">Condições do Contrato</legend>
+
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="prazo">Prazo (meses)</label>
+                <input type="number" id="prazo" placeholder="12" />
+              </div>
+              <div class="form-group">
+                <label for="data-inicio">Data de início</label>
+                <input type="date" id="data-inicio" />
+              </div>
+            </div>
+
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="valor-aluguel">Valor do aluguel (R$)</label>
+                <input type="text" id="valor-aluguel" placeholder="1500.00" />
+              </div>
+              <div class="form-group">
+                <label for="dia-vencimento">Dia do vencimento</label>
+                <input type="number" id="dia-vencimento" placeholder="10" />
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="valor-caucao">Valor da caução (R$)</label>
+              <input type="text" id="valor-caucao" placeholder="3000.00" />
+            </div>
+            <div class="form-group full checkbox-group">
+              <label
+                ><input type="checkbox" id="sem-caucao" /> Sem caução</label
+              >
+            </div>
+
+            <div class="form-group full">
+              <label for="multa-infracao">Multa por infração (R$)</label>
+              <input type="text" id="multa-infracao" placeholder="1000.00" />
+            </div>
+            <div class="form-group full checkbox-group">
+              <label
+                ><input type="checkbox" id="sem-multa-infracao" /> Sem multa por
+                infração</label
+              >
+            </div>
+
+            <div class="form-group full">
+              <label for="multa-rescisao">Multa por rescisão (R$)</label>
+              <input type="text" id="multa-rescisao" placeholder="1500.00" />
+            </div>
+            <div class="form-group full checkbox-group">
+              <label
+                ><input type="checkbox" id="sem-multa-rescisao" /> Sem multa por
+                rescisão</label
+              >
+            </div>
+          </fieldset>
+
+          <!-- Local e Data da Assinatura -->
+          <fieldset class="form-section">
+            <legend class="section-title">Local e Data da Assinatura</legend>
+
+            <div class="form-row cols-cidade-uf">
+              <div class="form-group">
+                <label for="assinatura-cidade">Cidade</label>
+                <input
+                  type="text"
+                  id="assinatura-cidade"
+                  placeholder="São Paulo"
+                />
+              </div>
+              <div class="form-group">
+                <label for="assinatura-estado">Estado</label>
+                <select id="assinatura-estado">
+                  <option value="">UF</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="data-assinatura">Data da assinatura</label>
+              <input type="date" id="data-assinatura" />
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="button" id="btn-gerar-pdf" class="btn-primary">
+              Baixar Contrato em PDF
+            </button>
+            <button type="button" id="btn-limpar" class="btn-secondary">
+              Limpar Formulário
+            </button>
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="salvarContratoNoSistema()"
+            >
+              Salvar no Sistema
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Barra Divisória -->
+      <div class="divider-bar">
+        <button
+          class="divider-btn"
+          id="btn-collapse-form"
+          title="Recolher formulário"
+        >
+          <span>◀</span>
+        </button>
+        <div class="divider-line"></div>
+        <button
+          class="divider-btn"
+          id="btn-collapse-preview"
+          title="Recolher contrato"
+        >
+          <span>▶</span>
+        </button>
+      </div>
+
+      <!-- Preview do Contrato -->
+      <div class="preview-panel">
+        <div class="preview-content" id="contract-preview">
+          <h2 class="preview-title">
+            CONTRATO DE LOCAÇÃO DE IMÓVEL RESIDENCIAL
+          </h2>
+
+          <h3 class="preview-subtitle">
+            IDENTIFICAÇÃO DAS PARTES CONTRATANTES
+          </h3>
+
+          <p>
+            <strong>LOCADOR:</strong>
+            <span class="preview-field" id="pv-prop-nome">______________</span>,
+            <span class="preview-field" id="pv-prop-nacionalidade"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-prop-profissao"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-prop-estado-civil"
+              >______________</span
+            >, C.P.F. nº
+            <span class="preview-field" id="pv-prop-cpf">______________</span>,
+            residente na
+            <span class="preview-field" id="pv-prop-endereco"
+              >______________</span
+            >, nº
+            <span class="preview-field" id="pv-prop-numero">______________</span
+            >,
+            <span class="preview-field" id="pv-prop-bairro">______________</span
+            >/<span class="preview-field" id="pv-prop-cidade"
+              >______________</span
+            >, CEP:
+            <span class="preview-field" id="pv-prop-cep">______________</span>.
+          </p>
+
+          <p>
+            <strong>LOCATÁRIO:</strong>
+            <span class="preview-field" id="pv-inq-nome">______________</span>,
+            <span class="preview-field" id="pv-inq-nacionalidade"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-inq-profissao"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-inq-estado-civil"
+              >______________</span
+            >, C.P.F. nº
+            <span class="preview-field" id="pv-inq-cpf">______________</span>,
+            residente na
+            <span class="preview-field" id="pv-inq-endereco"
+              >______________</span
+            >, nº
+            <span class="preview-field" id="pv-inq-numero">______________</span
+            >,
+            <span class="preview-field" id="pv-inq-bairro">______________</span
+            >/<span class="preview-field" id="pv-inq-cidade"
+              >______________</span
+            >, CEP:
+            <span class="preview-field" id="pv-inq-cep">______________</span>.
+          </p>
+
+          <p class="preview-text">
+            As partes acima nomeadas acordam o presente
+            <strong>Contrato de Locação Residencial</strong>, de acordo com as
+            cláusulas a seguir:
+          </p>
+
+          <h3 class="preview-clause">Cláusula 1ª – DO OBJETO DO CONTRATO</h3>
+          <p class="preview-text">
+            O OBJETO deste contrato é o imóvel de propriedade do LOCADOR,
+            situado na
+            <span class="preview-field" id="pv-imovel-endereco"
+              >______________</span
+            >, nº
+            <span class="preview-field" id="pv-imovel-numero"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-imovel-bairro"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-imovel-cidade-uf"
+              >______________</span
+            >, com as características a seguir:
+          </p>
+          <p class="preview-text">
+            <span class="preview-field" id="pv-imovel-caracteristicas"
+              >______________</span
+            >
+          </p>
+          <p class="preview-text">
+            Imóvel isento de encargos ou quaisquer pendências financeiras.
+          </p>
+          <p class="preview-text">
+            Parágrafo único. O atual documento é complementado pelo laudo de
+            vistoria que descreve meticulosamente o imóvel e sua condição de
+            preservação, no instante de entrega ao LOCATÁRIO.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 2ª – DO PRAZO DE LOCAÇÃO</h3>
+          <p class="preview-text">
+            A duração da locação deste imóvel é de
+            <span class="preview-field" id="pv-prazo">______________</span>
+            meses, iniciando-se em
+            <span class="preview-field" id="pv-data-inicio">______________</span
+            >.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 3ª – DA FINALIDADE DO IMÓVEL</h3>
+          <p class="preview-text">
+            O objetivo desta LOCAÇÃO é estritamente para a utilização do imóvel
+            para fins de moradia, sendo vedado ao LOCATÁRIO sublocá-lo ou
+            utilizá-lo de maneira diferente do estabelecido, a menos que haja
+            consentimento explícito do LOCADOR.
+          </p>
+
+          <h3 class="preview-clause">
+            Cláusula 4ª – SOBRE O VALOR DO ALUGUEL, DESPESAS E IMPOSTOS
+          </h3>
+          <p class="preview-text">
+            O LOCATÁRIO se compromete a pagar o aluguel mensal no valor de
+            <span class="preview-field" id="pv-valor-aluguel"
+              >______________</span
+            >, que deverá ser realizado até o dia
+            <span class="preview-field" id="pv-dia-vencimento"
+              >______________</span
+            >
+            de cada mês subsequente ao vencido.
+          </p>
+          <p class="preview-text">
+            § 1º. Este pagamento será efetuado em dinheiro (espécie),
+            diretamente ao LOCADOR ou a terceiros que tenham a devida
+            autorização deste.
+          </p>
+          <p class="preview-text">
+            § 2º. O valor do aluguel poderá ser reajustado anualmente, com base
+            nos índices previstos e acumulados no período anual do IGP-M.
+          </p>
+          <p class="preview-text">
+            § 3º. O LOCATÁRIO, não realizando o pagamento do aluguel até a data
+            estipulada, fica obrigado a pagar uma multa de 10% (dez por cento)
+            sobre o valor do aluguel acordado neste contrato, além de juros de
+            1% ao mês.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 5ª – DA CAUÇÃO</h3>
+          <p class="preview-text" id="pv-caucao-text">
+            O LOCATÁRIO entrega ao LOCADOR, a título de caução, o valor de R$
+            <span class="preview-field" id="pv-valor-caucao"
+              >______________</span
+            >, que será devolvido ao final do contrato, caso não haja débitos
+            pendentes.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 6ª – DAS INFRAÇÕES</h3>
+          <p class="preview-text" id="pv-infracao-text">
+            Em caso de infração a qualquer cláusula deste contrato, a parte
+            infratora pagará à outra uma multa no valor de R$
+            <span class="preview-field" id="pv-multa-infracao"
+              >______________</span
+            >.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 7ª – DA RESCISÃO</h3>
+          <p class="preview-text" id="pv-rescisao-text">
+            Em caso de rescisão antecipada por qualquer das partes, deverá ser
+            paga uma multa no valor de R$
+            <span class="preview-field" id="pv-multa-rescisao"
+              >______________</span
+            >, proporcional ao período restante do contrato.
+          </p>
+
+          <div class="preview-signature">
+            <p>
+              <span class="preview-field" id="pv-assinatura-cidade"
+                >______________</span
+              >,
+              <span class="preview-field" id="pv-assinatura-estado"
+                >______________</span
+              >,
+              <span class="preview-field" id="pv-data-assinatura"
+                >______________</span
+              >.
+            </p>
+            <div class="signature-lines">
+              <div class="signature-line">
+                <hr />
+                <p>LOCADOR</p>
+              </div>
+              <div class="signature-line">
+                <hr />
+                <p>LOCATÁRIO</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-top">
+        <div class="footer-container">
+          <div class="footer-brand">
+            <div class="footer-logo">
+              <span class="logo-icon">📄</span>
+              <span class="logo-text">Contrato</span>
+            </div>
+            <p class="footer-description">
+              Ferramenta gratuita para geração de contratos de aluguel simples.
+              Nosso objetivo é facilitar a vida de locadores e locatários,
+              oferecendo um modelo de contrato profissional e fácil de usar.
+            </p>
+          </div>
+
+          <div class="footer-links">
+            <h4>Links Úteis</h4>
+            <ul>
+              <li><a href="#">Benefícios</a></li>
+              <li><a href="#">Como Funciona</a></li>
+              <li><a href="#">Cláusulas do Contrato</a></li>
+              <li><a href="#">Perguntas Frequentes</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Ferramenta</h4>
+            <ul>
+              <li><a href="#">Gerar Contrato de Aluguel</a></li>
+              <li><a href="#">Baixar Contrato em PDF</a></li>
+              <li><a href="#">Pack Completo 2026</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h4>Guias</h4>
+            <ul>
+              <li><a href="#">O que é Contrato de Aluguel</a></li>
+              <li><a href="#">Modelo de Contrato</a></li>
+              <li><a href="#">Como Preencher Contrato</a></li>
+              <li><a href="#">Lei do Inquilinato</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Contrato</p>
+        <p class="footer-disclaimer">
+          Este é um modelo de contrato de aluguel simples para uso geral. Não
+          substitui a orientação de um advogado.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Modal: Selecionar Cliente -->
+    <div id="modal-clientes" class="modal-overlay" aria-hidden="true">
+      <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-clientes-titulo"
+      >
+        <div class="modal-header">
+          <h3 id="modal-clientes-titulo">Selecionar Cliente</h3>
+          <div class="modal-header-actions">
+            <button class="modal-close" id="modal-clientes-close" aria-label="Fechar">&times;</button>
+          </div>
+        </div>
+
+        <!-- Mini-form: novo cliente -->
+        <div id="form-novo-cliente" class="modal-quick-form hidden">
+          <div class="quick-form-grid">
+            <div class="quick-form-group">
+              <label>Nome *</label>
+              <input type="text" id="nc-nome" placeholder="João Silva">
+            </div>
+            <div class="quick-form-group">
+              <label>Nacionalidade</label>
+              <input type="text" id="nc-nacionalidade" placeholder="Brasileiro(a)">
+            </div>
+            <div class="quick-form-group">
+              <label>Profissão</label>
+              <input type="text" id="nc-profissao" placeholder="Ex: Empresário">
+            </div>
+            <div class="quick-form-group">
+              <label>Estado Civil</label>
+              <select id="nc-estado-civil">
+                <option value="">Selecione</option>
+                <option value="Solteiro(a)">Solteiro(a)</option>
+                <option value="Casado(a)">Casado(a)</option>
+                <option value="Divorciado(a)">Divorciado(a)</option>
+                <option value="Viúvo(a)">Viúvo(a)</option>
+              </select>
+            </div>
+            <div class="quick-form-group">
+              <label>CPF *</label>
+              <input type="text" id="nc-cpf" placeholder="000.000.000-00">
+            </div>
+            <div class="quick-form-group">
+              <label>RG</label>
+              <input type="text" id="nc-rg" placeholder="00.000.000-0">
+            </div>
+            <div class="quick-form-group">
+              <label>Órgão Expedidor</label>
+              <input type="text" id="nc-orgao-expedidor" placeholder="SSP/SP">
+            </div>
+            <div class="quick-form-group">
+              <label>Telefone</label>
+              <input type="text" id="nc-telefone" placeholder="(11) 99999-9999">
+            </div>
+            <div class="quick-form-group">
+              <label>E-mail</label>
+              <input type="email" id="nc-email" placeholder="email@exemplo.com">
+            </div>
+            <div class="quick-form-group">
+              <label>Rua / Av.</label>
+              <input type="text" id="nc-rua" placeholder="Rua das Flores">
+            </div>
+            <div class="quick-form-group">
+              <label>Número</label>
+              <input type="text" id="nc-numero" placeholder="123">
+            </div>
+            <div class="quick-form-group">
+              <label>Bairro</label>
+              <input type="text" id="nc-bairro" placeholder="Centro">
+            </div>
+            <div class="quick-form-group">
+              <label>CEP</label>
+              <input type="text" id="nc-cep" placeholder="00000-000">
+            </div>
+            <div class="quick-form-group">
+              <label>Cidade</label>
+              <input type="text" id="nc-cidade" placeholder="São Paulo">
+            </div>
+            <div class="quick-form-group">
+              <label>Estado (UF)</label>
+              <input type="text" id="nc-estado" placeholder="SP" maxlength="2">
+            </div>
+          </div>
+          <div class="quick-form-msg hidden" id="nc-msg"></div>
+          <div class="quick-form-actions">
+            <button type="button" class="btn-quick-cancel" onclick="toggleNovoCliente()">Cancelar</button>
+            <button type="button" class="btn-quick-save"   onclick="salvarNovoClienteModal()">Salvar e Selecionar</button>
+          </div>
+        </div>
+
+        <div class="modal-search">
+          <input type="text" id="modal-busca-cliente" placeholder="Buscar por nome ou CPF..." autocomplete="off" />
+        </div>
+        <div class="modal-table-wrapper">
+          <table class="modal-tabela-clientes">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="modal-clientes-tbody">
+              <!-- linhas geradas por JS -->
+            </tbody>
+          </table>
+          <p class="modal-vazio" id="modal-sem-clientes">
+            Nenhum cliente cadastrado ainda.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Selecionar Imóvel -->
+    <div id="modal-imoveis" class="modal-overlay" aria-hidden="true">
+      <div
+        class="modal-box"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-imoveis-titulo"
+      >
+        <div class="modal-header">
+          <h3 id="modal-imoveis-titulo">Selecionar Imóvel</h3>
+          <div class="modal-header-actions">
+            <button class="modal-close" id="modal-imoveis-close" aria-label="Fechar">&times;</button>
+          </div>
+        </div>
+
+        <!-- Mini-form: novo imóvel -->
+        <div id="form-novo-imovel" class="modal-quick-form hidden">
+          <div class="quick-form-grid">
+            <div class="quick-form-group">
+              <label>Endereço *</label>
+              <input type="text" id="ni-endereco" placeholder="Rua das Palmeiras">
+            </div>
+            <div class="quick-form-group">
+              <label>Número *</label>
+              <input type="text" id="ni-numero" placeholder="123">
+            </div>
+            <div class="quick-form-group">
+              <label>Bairro</label>
+              <input type="text" id="ni-bairro" placeholder="Centro">
+            </div>
+            <div class="quick-form-group">
+              <label>Cidade / UF *</label>
+              <input type="text" id="ni-cidade-uf" placeholder="São Paulo/SP">
+            </div>
+            <div class="quick-form-group">
+              <label>Tipo *</label>
+              <select id="ni-tipo">
+                <option value="apartamento">Apartamento</option>
+                <option value="casa">Casa</option>
+                <option value="comercial">Comercial</option>
+              </select>
+            </div>
+            <div class="quick-form-group">
+              <label>Características</label>
+              <input type="text" id="ni-caracteristicas" placeholder="Ex: 2 quartos, 1 banheiro">
+            </div>
+          </div>
+          <div class="quick-form-msg hidden" id="ni-msg"></div>
+          <div class="quick-form-actions">
+            <button type="button" class="btn-quick-cancel" onclick="toggleNovoImovel()">Cancelar</button>
+            <button type="button" class="btn-quick-save"   onclick="salvarNovoImovelModal()">Salvar e Selecionar</button>
+          </div>
+        </div>
+
+        <div class="modal-search">
+          <input type="text" id="modal-busca-imovel" placeholder="Buscar por endereço ou cidade..." autocomplete="off" />
+        </div>
+        <div class="modal-table-wrapper">
+          <table class="modal-tabela-clientes">
+            <thead>
+              <tr>
+                <th>Endereço</th>
+                <th>Cidade/UF</th>
+                <th>Tipo</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="modal-imoveis-tbody">
+              <!-- linhas geradas por JS -->
+            </tbody>
+          </table>
+          <p class="modal-vazio" id="modal-sem-imoveis">
+            Nenhum imóvel cadastrado ainda.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="preview.js"></script>
+    <script src="storage.js"></script>
+    <script src="modals.js"></script>
+    <script src="script.js"></script>
+
+    <!-- Modal: Salvar Novo Inquilino -->
+    <div
+      id="modal-salvar-inquilino"
+      class="modal-salvar-overlay hidden"
+      onclick="fecharModalSalvarSeClicouFora(event)"
+    >
+      <div class="modal-salvar-box">
+        <p class="modal-salvar-msg">
+          Cliente/Inquilino não cadastrado.<br />
+          Gostaria de salvar os dados desse cliente/inquilino para futuros
+          contratos?
+        </p>
+        <div class="modal-salvar-actions">
+          <button class="btn-modal-sim" onclick="confirmarSalvarInquilino()">
+            &#x2705; Sim, salvar
+          </button>
+          <button class="btn-modal-nao" onclick="naoSalvarInquilino()">
+            &#x274C; Não, apenas usar neste contrato
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Alerta de Duplicado (inquilino) -->
+    <div id="modal-duplicado-inquilino" class="modal-salvar-overlay hidden">
+      <div class="modal-salvar-box">
+        <p class="modal-salvar-msg">
+          <strong>⚠️ Atenção!</strong><br />
+          Já existe um cliente cadastrado com o mesmo nome ou CPF:
+        </p>
+        <div id="duplicado-inquilino-info" class="duplicado-info"></div>
+        <p class="modal-salvar-msg">
+          Deseja salvar mesmo assim como um novo registro?
+        </p>
+        <div class="modal-salvar-actions">
+          <button class="btn-modal-sim" onclick="salvarInquilinoMesmoAssim()">
+            &#x2705; Sim, salvar mesmo assim
+          </button>
+          <button
+            class="btn-modal-nao"
+            onclick="cancelarSalvarDuplicadoInquilino()"
+          >
+            &#x274C; Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

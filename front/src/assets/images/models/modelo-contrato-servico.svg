@@ -1,0 +1,101 @@
+<svg width="1400" height="2200" viewBox="0 0 1400 2200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Modelo visual de contrato de prestacao de servicos com campos nomeados">
+  <defs>
+    <style>
+      .paper { fill: #ffffff; stroke: #d7e8db; stroke-width: 2; }
+      .title { font: 700 34px Arial, sans-serif; fill: #173928; }
+      .subtitle { font: 700 19px Arial, sans-serif; fill: #1f4a34; }
+      .clause { font: 700 17px Arial, sans-serif; fill: #25553d; }
+      .body { font: 500 15px Arial, sans-serif; fill: #2d4738; }
+      .label { fill: #edf8f0; stroke: #c8e0cf; stroke-width: 1; }
+      .label-text { font: 700 12px Arial, sans-serif; fill: #2d6146; }
+      .divider { stroke: #dfede3; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <rect width="1400" height="2200" fill="#f3faf5" />
+  <rect x="110" y="60" width="1180" height="2080" rx="18" class="paper" />
+
+  <text x="170" y="130" class="title">CONTRATO DE PRESTACAO DE SERVICOS</text>
+  <line x1="170" y1="150" x2="1230" y2="150" class="divider" />
+
+  <text x="170" y="190" class="subtitle">IDENTIFICACAO DAS PARTES CONTRATANTES</text>
+
+  <text x="170" y="230" class="body">CONTRATANTE: [NOME], [NACIONALIDADE], [PROFISSAO], [ESTADO CIVIL], RG [NUMERO RG], ORGAO [ORGAO EMISSOR],</text>
+  <text x="170" y="255" class="body">CPF [CPF], residente na [ENDERECO], numero [NUMERO], bairro [BAIRRO], [CIDADE]/[ESTADO], CEP [CEP].</text>
+
+  <text x="170" y="295" class="body">PRESTADOR: [NOME], [NACIONALIDADE], [PROFISSAO], [ESTADO CIVIL], RG [NUMERO RG], ORGAO [ORGAO EMISSOR],</text>
+  <text x="170" y="320" class="body">CPF [CPF], residente na [ENDERECO], numero [NUMERO], bairro [BAIRRO], [CIDADE]/[ESTADO], CEP [CEP].</text>
+
+  <text x="170" y="365" class="body">As partes celebram o presente Contrato de Prestacao de Servicos, que se regera pelas clausulas seguintes:</text>
+
+  <text x="170" y="412" class="clause">Clausula 1a - DO OBJETO DO CONTRATO</text>
+  <text x="170" y="438" class="body">Objeto: prestacao de servicos de [TIPO DE SERVICO], conforme especificacao:</text>
+  <text x="170" y="462" class="body">[ESPECIFICACAO DO SERVICO].</text>
+
+  <text x="170" y="508" class="clause">Clausula 2a - DAS ATIVIDADES CONTRATADAS</text>
+  <text x="170" y="534" class="body">As seguintes atividades deverao ser executadas pelo PRESTADOR: [ATIVIDADES CONTRATADAS].</text>
+
+  <text x="170" y="580" class="clause">Clausula 3a - DO MOTIVO DA CONTRATACAO</text>
+  <text x="170" y="606" class="body">[MOTIVO DA CONTRATACAO].</text>
+
+  <text x="170" y="652" class="clause">Clausula 4a - DO PRAZO</text>
+  <text x="170" y="678" class="body">Vigencia por [PRAZO EM MESES] meses, com inicio em [DATA DE INICIO] e termino em [DATA DE TERMINO].</text>
+
+  <text x="170" y="724" class="clause">Clausula 5a - DO LOCAL DE EXECUCAO</text>
+  <text x="170" y="750" class="body">Os servicos serao executados nas dependencias da CONTRATANTE, situadas em [LOCAL DE EXECUCAO].</text>
+
+  <text x="170" y="796" class="clause">Clausula 6a - DA REMUNERACAO E FORMA DE PAGAMENTO</text>
+  <text x="170" y="822" class="body">Valor mensal de [VALOR MENSAL], forma [FORMA DE PAGAMENTO], vencimento dia [DIA DE VENCIMENTO].</text>
+  <text x="170" y="846" class="body">Paragrafo 1o. Nao pagamento sujeita multa de [MULTA POR ATRASO], alem de juros de 1 por cento ao mes.</text>
+
+  <text x="170" y="892" class="clause">Clausula 7a - DAS DISPOSICOES DE SEGURANCA, HIGIENE E SALUBRIDADE</text>
+  <text x="170" y="918" class="body">[DISPOSICOES DE SEGURANCA].</text>
+  <text x="170" y="942" class="body">Paragrafo unico. O PRESTADOR e responsavel pelo cumprimento das normas de seguranca aplicaveis.</text>
+
+  <text x="170" y="988" class="clause">Clausula 8a - DA RESCISAO</text>
+  <text x="170" y="1014" class="body">Rescisao antecipada sem justa causa gera multa de [MULTA DE RESCISAO] a parte prejudicada.</text>
+
+  <text x="170" y="1060" class="clause">Clausula 9a - DA RESPONSABILIDADE SUBSIDIARIA</text>
+  <text x="170" y="1086" class="body">A CONTRATANTE responde subsidiariamente pelas obrigacoes trabalhistas e previdenciarias da execucao contratual.</text>
+
+  <text x="170" y="1132" class="clause">Clausula 10a - DO FORO</text>
+  <text x="170" y="1158" class="body">As partes elegem o foro da comarca de [CIDADE DO FORO]/[ESTADO DO FORO] para dirimir controversias.</text>
+
+  <text x="170" y="1208" class="subtitle">ASSINATURA</text>
+  <text x="170" y="1234" class="body">[CIDADE DA ASSINATURA], [ESTADO DA ASSINATURA], [DATA DA ASSINATURA].</text>
+
+  <rect x="170" y="1274" width="460" height="42" rx="8" class="label" />
+  <text x="192" y="1301" class="label-text">ASSINATURA CONTRATANTE</text>
+
+  <rect x="770" y="1274" width="460" height="42" rx="8" class="label" />
+  <text x="792" y="1301" class="label-text">ASSINATURA PRESTADOR</text>
+
+  <line x1="170" y1="1364" x2="1230" y2="1364" class="divider" />
+  <text x="170" y="1404" class="subtitle">MAPA DE CAMPOS (PREENCHIMENTO)</text>
+
+  <rect x="170" y="1432" width="510" height="36" rx="8" class="label" /><text x="186" y="1455" class="label-text">NOME DO CONTRATANTE</text>
+  <rect x="720" y="1432" width="510" height="36" rx="8" class="label" /><text x="736" y="1455" class="label-text">CPF DO CONTRATANTE</text>
+
+  <rect x="170" y="1478" width="510" height="36" rx="8" class="label" /><text x="186" y="1501" class="label-text">NOME DO PRESTADOR</text>
+  <rect x="720" y="1478" width="510" height="36" rx="8" class="label" /><text x="736" y="1501" class="label-text">CPF DO PRESTADOR</text>
+
+  <rect x="170" y="1524" width="510" height="36" rx="8" class="label" /><text x="186" y="1547" class="label-text">TIPO DE SERVICO</text>
+  <rect x="720" y="1524" width="510" height="36" rx="8" class="label" /><text x="736" y="1547" class="label-text">ESPECIFICACAO DO SERVICO</text>
+
+  <rect x="170" y="1570" width="510" height="36" rx="8" class="label" /><text x="186" y="1593" class="label-text">ATIVIDADES CONTRATADAS</text>
+  <rect x="720" y="1570" width="510" height="36" rx="8" class="label" /><text x="736" y="1593" class="label-text">MOTIVO DA CONTRATACAO</text>
+
+  <rect x="170" y="1616" width="510" height="36" rx="8" class="label" /><text x="186" y="1639" class="label-text">PRAZO EM MESES</text>
+  <rect x="720" y="1616" width="510" height="36" rx="8" class="label" /><text x="736" y="1639" class="label-text">DATA DE INICIO E DATA DE TERMINO</text>
+
+  <rect x="170" y="1662" width="510" height="36" rx="8" class="label" /><text x="186" y="1685" class="label-text">LOCAL DE EXECUCAO</text>
+  <rect x="720" y="1662" width="510" height="36" rx="8" class="label" /><text x="736" y="1685" class="label-text">VALOR MENSAL E FORMA DE PAGAMENTO</text>
+
+  <rect x="170" y="1708" width="510" height="36" rx="8" class="label" /><text x="186" y="1731" class="label-text">DIA DE VENCIMENTO E MULTA POR ATRASO</text>
+  <rect x="720" y="1708" width="510" height="36" rx="8" class="label" /><text x="736" y="1731" class="label-text">DISPOSICOES DE SEGURANCA</text>
+
+  <rect x="170" y="1754" width="510" height="36" rx="8" class="label" /><text x="186" y="1777" class="label-text">MULTA DE RESCISAO</text>
+  <rect x="720" y="1754" width="510" height="36" rx="8" class="label" /><text x="736" y="1777" class="label-text">CIDADE/ESTADO DO FORO E ASSINATURA</text>
+
+  <text x="170" y="1840" class="body">Imagem modelo baseada no texto do contrato de prestacao de servicos exibido no preview do sistema.</text>
+</svg>

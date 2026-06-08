@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualizar Contrato</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="top-actions">
+      <button type="button" onclick="history.back()" class="btn-secondary">
+        ← Voltar
+      </button>
+
+      <button type="button" id="btnPrint" class="btn-primary">
+        📥 Salvar como PDF
+      </button>
+    </div>
+
+    <main class="page">
+      <article id="contractContent" class="contract-paper">
+        Carregando contrato...
+      </article>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

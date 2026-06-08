@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Imóvel - Gerador de Contrato</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <header>
+                <a href="../Home/index.html" class="btn-back">⬅ Voltar</a>
+                <h2>Registrar Imóvel</h2>
+                <p>Preencha os dados do imóvel para o contrato.</p>
+            </header>
+
+            <form id="propertyForm">
+                <div class="section-title">Dados do Imóvel</div>
+                
+                <div class="input-group">
+                    <label for="endereco">Endereço do imóvel (rua/av)</label>
+                    <input type="text" id="endereco" placeholder="Ex: Rua das Palmeiras" required>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="numero">Número</label>
+                        <input type="text" id="numero" placeholder="789" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="bairro">Bairro</label>
+                        <input type="text" id="bairro" placeholder="Vila Nova" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="cidade_uf">Cidade/UF</label>
+                        <input type="text" id="cidade_uf" placeholder="São Paulo/SP" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="tipo">Tipo de Imóvel</label>
+                    <select id="tipo" name="tipo" class="input-field" required>
+                        <option value="" disabled selected>Selecione o tipo...</option>
+                        <option value="apartamento">Apartamento</option>
+                        <option value="casa">Casa</option>
+                        <option value="comercial">Comercial</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="caracteristicas">Características do imóvel</label>
+                    <textarea id="caracteristicas" rows="4" placeholder="Ex: Apartamento com 2 quartos, 1 banheiro, sala, cozinha..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-save">Salvar Imóvel</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contato – Contrato S.A.</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+      <a href="../../../index.html" class="navbar__brand">Contrato S.A.</a>
+
+      <ul class="navbar__links" id="navLinks">
+        <li><a href="../../../index.html">Início</a></li>
+        <li><a href="../Models/index.html">Modelos</a></li>
+        <li><a href="../ComoFunciona/index.html">Como Funciona</a></li>
+        <li><a href="../Contato/index.html" class="active">Contato</a></li>
+      </ul>
+
+      <div class="navbar__actions" id="navActions">
+        <button class="btn btn--outline" onclick="location.href='../../pages/Login/index.html'">Entrar</button>
+        <button class="btn btn--solid" onclick="location.href='../../pages/Register/index.html'">Cadastrar</button>
+      </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="hero__tag">Suporte &amp; Atendimento</div>
+      <h1>Fale com a <span>nossa equipe</span></h1>
+      <p>
+        Estamos à disposição para tirar dúvidas, receber sugestões ou ajudar com
+        qualquer questão sobre a plataforma.
+      </p>
+    </section>
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section class="contact-section">
+      <!-- Coluna de informações -->
+      <div class="contact-info">
+        <h2>Informações de Contato</h2>
+        <p>
+          Escolha o canal que preferir. Nossa equipe responde em até 24 horas em
+          dias úteis.
+        </p>
+
+        <div class="info-card">
+          <div class="info-card__icon">📧</div>
+          <div>
+            <h4>E-mail</h4>
+            <a href="mailto:suporte@contratosa.com.br"
+              >suporte@contratosa.com.br</a
+            >
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card__icon">📱</div>
+          <div>
+            <h4>WhatsApp</h4>
+            <a href="https://wa.me/5511999999999" target="_blank" rel="noopener"
+              >+55 (11) 99999-9999</a
+            >
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-card__icon">📍</div>
+          <div>
+            <h4>Endereço</h4>
+            <p>
+              Av. Paulista, 1000 – Bela Vista<br />São Paulo – SP, 01310-100
+            </p>
+          </div>
+        </div>
+
+        <div class="hours-table">
+          <h4>
+            🕐 Horário de Atendimento
+            <span class="badge-open" id="statusBadge">Verificando…</span>
+          </h4>
+          <table>
+            <tr>
+              <td>Segunda a Sexta</td>
+              <td>08:00 – 18:00</td>
+            </tr>
+            <tr>
+              <td>Sábado</td>
+              <td>09:00 – 13:00</td>
+            </tr>
+            <tr>
+              <td>Domingo e Feriados</td>
+              <td>Fechado</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Coluna do formulário -->
+      <div class="contact-form-wrap">
+        <h2>Envie uma Mensagem</h2>
+        <p>Preencha o formulário e retornaremos o mais breve possível.</p>
+
+        <form id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome <span>*</span></label>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                placeholder="Seu nome completo"
+                autocomplete="name"
+              />
+              <span class="field-error" id="nomeErr"
+                >Por favor, informe seu nome.</span
+              >
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail <span>*</span></label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="seu@email.com"
+                autocomplete="email"
+              />
+              <span class="field-error" id="emailErr"
+                >Informe um e-mail válido.</span
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input
+                type="tel"
+                id="telefone"
+                name="telefone"
+                placeholder="(11) 99999-9999"
+                autocomplete="tel"
+                maxlength="15"
+              />
+            </div>
+            <div class="form-group">
+              <label for="assunto">Assunto <span>*</span></label>
+              <select id="assunto" name="assunto">
+                <option value="">Selecione um assunto</option>
+                <option value="suporte">Suporte Técnico</option>
+                <option value="duvida">Dúvida sobre Contratos</option>
+                <option value="planos">Planos e Preços</option>
+                <option value="parceria">Parceria Comercial</option>
+                <option value="outro">Outro</option>
+              </select>
+              <span class="field-error" id="assuntoErr"
+                >Selecione um assunto.</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="mensagem">Mensagem <span>*</span></label>
+            <textarea
+              id="mensagem"
+              name="mensagem"
+              placeholder="Descreva sua dúvida ou solicitação em detalhes…"
+            ></textarea>
+            <span class="field-error" id="mensagemErr"
+              >A mensagem não pode estar vazia.</span
+            >
+          </div>
+
+          <div class="form-check">
+            <input type="checkbox" id="lgpd" name="lgpd" />
+            <label for="lgpd">
+              Concordo com a <a href="#">Política de Privacidade</a> e autorizo
+              o uso dos meus dados para fins de atendimento, conforme a LGPD.
+            </label>
+          </div>
+          <span
+            class="field-error field-error--hidden"
+            id="lgpdErr"
+            >Você precisa concordar para continuar.</span
+          >
+
+          <button type="submit" class="btn btn--solid btn--full" id="submitBtn">
+            Enviar Mensagem
+          </button>
+
+          <div class="form-feedback" id="formFeedback"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== MAP ===== -->
+    <section class="map-section">
+      <h2>Nossa Localização</h2>
+      <p>Venha nos visitar na Av. Paulista, coração de São Paulo.</p>
+      <div class="map-placeholder">
+        <span>🗺️</span>
+        <p>
+          Mapa interativo disponível em breve.<br />Av. Paulista, 1000 – São
+          Paulo, SP
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="../../../index.html" class="navbar__brand navbar__brand--footer"
+            >Contrato S.A.</a
+          >
+          <p>
+            Simplificamos a burocracia imobiliária com tecnologia. Nossa
+            plataforma permite que corretores e proprietários criem documentos
+            juridicamente sólidos de forma automatizada.
+          </p>
+        </div>
+        <div class="footer__col">
+          <h5>Links Úteis</h5>
+          <ul>
+            <li><a href="../ComoFunciona/index.html">Como Funciona</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5>Ferramenta</h5>
+          <ul>
+            <li><a href="../Login/index.html">Gerar Contrato</a></li>
+            <li><a href="../Login/index.html">Painel de Controle</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h5>Guias</h5>
+          <ul>
+            <li><a href="../Models/index.html">Modelo de Contrato</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        © 2026 Contrato S.A. – Todos os direitos reservados.
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

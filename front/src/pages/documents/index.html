@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Meus Contratos - Gerador de Contrato</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script>
+      window.API_HOST = window.API_HOST || 'http://localhost:8000';
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+
+      <div class="form-box">
+
+        <header>
+          <a href="../Home/index.html" class="btn-back">
+            ← Voltar
+          </a>
+
+          <h2>Meus Contratos</h2>
+
+          <p>
+            Visualize, imprima e gerencie seus contratos gerados.
+          </p>
+        </header>
+
+        <div class="section-title">
+          Contratos Recentes
+        </div>
+
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchContracts"
+            placeholder="Pesquisar contratos..."
+          />
+        </div>
+
+        <div id="statusMessage" class="status-message">
+          Carregando contratos...
+        </div>
+
+        <div id="documentsList" class="documents-list"></div>
+
+      </div>
+
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

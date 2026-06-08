@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu Perfil - Contrato S.A.</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="profile-box">
+        <header class="profile-header">
+          <button class="btn-back" onclick="history.back()">← Voltar</button>
+          <h2>👤 Meu Perfil</h2>
+          <p class="subtitle">Visualize e atualize seus dados cadastrais</p>
+        </header>
+
+        <div id="msg-area" class="msg-area hidden"></div>
+
+        <form id="profileForm" novalidate>
+          <!-- Dados da conta (somente leitura) -->
+          <section class="form-section">
+            <h3 class="section-title">
+              🔒 Dados da Conta <span class="badge">Não editável</span>
+            </h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="field-username">Usuário / E-mail</label>
+                <input type="text" id="field-username" disabled />
+              </div>
+              <div class="form-group">
+                <label for="field-cpf">CPF</label>
+                <input type="text" id="field-cpf" disabled />
+              </div>
+            </div>
+          </section>
+
+          <!-- Dados pessoais -->
+          <section class="form-section">
+            <h3 class="section-title">📋 Dados Pessoais</h3>
+            <div class="form-group full">
+              <label for="field-nome">Nome completo</label>
+              <input
+                type="text"
+                id="field-nome"
+                placeholder="Ex: João da Silva"
+              />
+            </div>
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="field-nacionalidade">Nacionalidade</label>
+                <input
+                  type="text"
+                  id="field-nacionalidade"
+                  placeholder="Brasileiro(a)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="field-profissao">Profissão</label>
+                <input
+                  type="text"
+                  id="field-profissao"
+                  placeholder="Ex: Empresário"
+                />
+              </div>
+              <div class="form-group">
+                <label for="field-estado-civil">Estado Civil</label>
+                <select id="field-estado-civil">
+                  <option value="">Selecione</option>
+                  <option value="Solteiro(a)">Solteiro(a)</option>
+                  <option value="Casado(a)">Casado(a)</option>
+                  <option value="Divorciado(a)">Divorciado(a)</option>
+                  <option value="Viúvo(a)">Viúvo(a)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="field-rg">RG</label>
+                <input type="text" id="field-rg" placeholder="00.000.000-0" />
+              </div>
+              <div class="form-group">
+                <label for="field-orgao-expedidor">Órgão Expedidor</label>
+                <input type="text" id="field-orgao-expedidor" placeholder="SSP" />
+              </div>
+            </div>
+            <div class="form-group full">
+              <label for="field-telefone">Telefone</label>
+              <input
+                type="text"
+                id="field-telefone"
+                placeholder="(11) 99999-9999"
+              />
+            </div>
+          </section>
+
+          <!-- Endereço -->
+          <section class="form-section">
+            <h3 class="section-title">📍 Endereço</h3>
+            <div class="form-group full">
+              <label for="field-rua">Rua / Avenida</label>
+              <input
+                type="text"
+                id="field-rua"
+                placeholder="Ex: Rua das Flores"
+              />
+            </div>
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="field-numero">Número</label>
+                <input type="text" id="field-numero" placeholder="123" />
+              </div>
+              <div class="form-group">
+                <label for="field-bairro">Bairro</label>
+                <input type="text" id="field-bairro" placeholder="Centro" />
+              </div>
+              <div class="form-group">
+                <label for="field-cep">CEP</label>
+                <input type="text" id="field-cep" placeholder="00000-000" />
+              </div>
+            </div>
+            <div class="form-row cols-cidade-uf">
+              <div class="form-group">
+                <label for="field-cidade">Cidade</label>
+                <input type="text" id="field-cidade" placeholder="São Paulo" />
+              </div>
+              <div class="form-group">
+                <label for="field-estado">Estado (UF)</label>
+                <select id="field-estado">
+                  <option value="">Selecione</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <div class="form-actions">
+            <button type="button" class="btn-cancel" onclick="history.back()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn-save" id="btn-save">
+              💾 Salvar Alterações
+            </button>
+          </div>
+        </form>
+      </div>
+    
+
+      <!-- ── Gerenciar Clientes e Imóveis ── -->
+      <div class="profile-box manage-wrapper">
+        <section class="form-section">
+          <h3 class="section-title">🗂 Gerenciar Cadastros</h3>
+          <div class="manage-tabs">
+            <button type="button" id="btn-tab-clientes" class="btn-tab active" onclick="abrirTab('clientes')">👥 Meus Clientes</button>
+            <button type="button" id="btn-tab-imoveis"  class="btn-tab"        onclick="abrirTab('imoveis')">🏠 Meus Imóveis</button>
+          </div>
+
+          <!-- Painel Clientes -->
+          <div id="tab-clientes" class="tab-panel">
+            <p id="clientes-loading" class="tab-info">Carregando clientes…</p>
+            <p id="clientes-vazio"   class="tab-info hidden">Nenhum cliente cadastrado.</p>
+            <div class="table-wrapper">
+              <table id="clientes-table" class="listagem-table hidden">
+                <thead><tr><th>Nome</th><th>CPF</th><th>Cidade / UF</th><th>Ações</th></tr></thead>
+                <tbody id="clientes-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Painel Imóveis -->
+          <div id="tab-imoveis" class="tab-panel hidden">
+            <p id="imoveis-loading" class="tab-info hidden">Carregando imóveis…</p>
+            <p id="imoveis-vazio"   class="tab-info hidden">Nenhum imóvel cadastrado.</p>
+            <div class="table-wrapper">
+              <table id="imoveis-table" class="listagem-table hidden">
+                <thead><tr><th>Endereço</th><th>Cidade / UF</th><th>Tipo</th><th>Ações</th></tr></thead>
+                <tbody id="imoveis-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Modal: editar cliente -->
+      <div id="modal-edit-cliente" class="modal-edit-overlay hidden">
+        <div class="modal-edit-box">
+          <div class="modal-edit-header">
+            <h3>✏️ Editar Cliente</h3>
+            <button type="button" class="modal-close" onclick="fecharModalEditCliente()">&times;</button>
+          </div>
+          <div id="modal-edit-cliente-msg" class="msg-area hidden"></div>
+          <form id="form-edit-cliente" onsubmit="return false">
+            <input type="hidden" id="edit-cli-id">
+            <div class="form-row">
+              <div class="form-group"><label>Nome</label><input id="edit-cli-nome" type="text"></div>
+              <div class="form-group"><label>CPF</label><input id="edit-cli-cpf" type="text"></div>
+            </div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>RG</label><input id="edit-cli-rg" type="text"></div>
+              <div class="form-group"><label>Órgão Expedidor</label><input id="edit-cli-orgao" type="text"></div>
+              <div class="form-group"><label>Telefone</label><input id="edit-cli-telefone" type="text"></div>
+            </div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>Nacionalidade</label><input id="edit-cli-nacionalidade" type="text"></div>
+              <div class="form-group"><label>Profissão</label><input id="edit-cli-profissao" type="text"></div>
+              <div class="form-group">
+                <label>Estado Civil</label>
+                <select id="edit-cli-estado-civil">
+                  <option value="">Selecione</option>
+                  <option value="Solteiro(a)">Solteiro(a)</option>
+                  <option value="Casado(a)">Casado(a)</option>
+                  <option value="Divorciado(a)">Divorciado(a)</option>
+                  <option value="Viúvo(a)">Viúvo(a)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group full"><label>E-mail</label><input id="edit-cli-email" type="email"></div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>Rua / Av</label><input id="edit-cli-rua" type="text"></div>
+              <div class="form-group"><label>Número</label><input id="edit-cli-numero" type="text"></div>
+              <div class="form-group"><label>Bairro</label><input id="edit-cli-bairro" type="text"></div>
+            </div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>CEP</label><input id="edit-cli-cep" type="text"></div>
+              <div class="form-group"><label>Cidade</label><input id="edit-cli-cidade" type="text"></div>
+              <div class="form-group"><label>Estado (UF)</label><input id="edit-cli-estado" type="text" maxlength="2"></div>
+            </div>
+          </form>
+          <div class="modal-edit-actions">
+            <button type="button" class="btn-cancel" onclick="fecharModalEditCliente()">Cancelar</button>
+            <button type="button" class="btn-save"   onclick="salvarEdicaoCliente()">💾 Salvar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal: editar imóvel -->
+      <div id="modal-edit-imovel" class="modal-edit-overlay hidden">
+        <div class="modal-edit-box">
+          <div class="modal-edit-header">
+            <h3>✏️ Editar Imóvel</h3>
+            <button type="button" class="modal-close" onclick="fecharModalEditImovel()">&times;</button>
+          </div>
+          <div id="modal-edit-imovel-msg" class="msg-area hidden"></div>
+          <form id="form-edit-imovel" onsubmit="return false">
+            <input type="hidden" id="edit-imo-id">
+            <div class="form-row">
+              <div class="form-group"><label>Endereço</label><input id="edit-imo-endereco" type="text"></div>
+              <div class="form-group"><label>Número</label><input id="edit-imo-numero" type="text"></div>
+            </div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>Bairro</label><input id="edit-imo-bairro" type="text"></div>
+              <div class="form-group"><label>Cidade / UF</label><input id="edit-imo-cidade-uf" type="text" placeholder="São Paulo/SP"></div>
+              <div class="form-group">
+                <label>Tipo</label>
+                <select id="edit-imo-tipo">
+                  <option value="apartamento">Apartamento</option>
+                  <option value="casa">Casa</option>
+                  <option value="comercial">Comercial</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group full">
+              <label>Características</label>
+              <textarea id="edit-imo-caracteristicas" rows="3"></textarea>
+            </div>
+          </form>
+          <div class="modal-edit-actions">
+            <button type="button" class="btn-cancel" onclick="fecharModalEditImovel()">Cancelar</button>
+            <button type="button" class="btn-save"   onclick="salvarEdicaoImovel()">💾 Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="../../services/auth.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,185 @@
+/* =========================================
+   1. RESET E CONFIGURAÇÕES BASE
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 20px;
+}
+
+/* =========================================
+   2. CONTAINER E FORM BOX
+   ========================================= */
+.container {
+    width: 100%;
+    max-width: 700px;
+}
+
+.form-box {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+header {
+    margin-bottom: 30px;
+}
+
+.btn-back {
+    text-decoration: none;
+    color: #ccc;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    display: inline-block;
+    margin-bottom: 28px;
+}
+
+.btn-back:hover {
+    color: #fff;
+}
+
+h2 {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+header p {
+    color: #bbb;
+    font-size: 0.95rem;
+}
+
+.section-title {
+    color: #e94560;
+    font-weight: bold;
+    border-left: 4px solid #e94560;
+    padding-left: 10px;
+    margin: 25px 0;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   3. FORMULÁRIO E CAMPOS UNIFICADOS
+   ========================================= */
+.input-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.input-row .input-group {
+    flex: 1;
+}
+
+label {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: #ddd;
+}
+
+/* AQUI ESTÁ O SEGREDO: Estilo compartilhado para Input, Textarea e Select */
+input,
+textarea,
+select.input-field {
+    width: 100%;
+    /* Mesma largura para todos */
+    padding: 13px;
+    background: rgba(255, 255, 255, 0.08);
+    /* Mesma cor de fundo do número/bairro */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    color: #fff;
+    /* Texto branco */
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* Ajustes específicos para o SELECT para remover o estilo padrão do navegador */
+select.input-field {
+    cursor: pointer;
+    /* Remove a seta padrão cinza do navegador */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* Adiciona uma seta branca customizada mais elegante */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+}
+
+/* Estilo das opções internas para não ficarem com fundo branco */
+select.input-field option {
+    background-color: #1a1a2e;
+    /* Fundo escuro igual ao body */
+    color: #fff;
+}
+
+/* Placeholder e estados de foco */
+input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+input:focus,
+textarea:focus,
+select.input-field:focus {
+    border-color: #e94560;
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0 10px rgba(233, 69, 96, 0.2);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* =========================================
+   4. BOTÃO SALVAR
+   ========================================= */
+.btn-save {
+    width: 100%;
+    padding: 16px;
+    background: #e94560;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-save:hover {
+    background: #ff5e78;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
+}

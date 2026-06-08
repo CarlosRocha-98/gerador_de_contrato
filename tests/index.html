@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testes de API</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>🧪 Testes de API — localhost:8000</h1>
+
+    <!-- ── 0. Geração em Massa ───────────────────────────────── -->
+    <section class="section-bulk">
+      <h2>🚀 Geração Automática em Massa</h2>
+      <p class="hint">
+        Cria N usuários com <code>testeN@teste.com</code>, senha
+        <code>123456@</code> e campos <code>TESTEN_campo</code>. Para cada
+        usuário cadastra também um cliente e um imóvel.
+      </p>
+      <div class="form-row">
+        <label for="bulk-qty" class="qty-label">Quantidade de usuários:</label>
+        <input
+          id="bulk-qty"
+          type="number"
+          min="1"
+          max="50"
+          value="3"
+          title="Quantidade de usuários a gerar"
+        />
+        <button type="button" onclick="gerarEmMassa()" id="btn-bulk">
+          ▶ Gerar
+        </button>
+        <button type="button" onclick="limparLog()" class="btn-secondary">
+          🗑 Limpar log
+        </button>
+      </div>
+      <div id="bulk-progress" class="bulk-progress bulk-hidden">
+        <div id="bulk-bar-inner" class="bulk-bar-inner"></div>
+      </div>
+      <pre id="bulk-log" class="result bulk-log"></pre>
+    </section>
+
+    <!-- ── 1. Cadastro de Usuário ─────────────────────────────── -->
+    <section>
+      <h2>1. Cadastro de Usuário <code>POST /api/register/</code></h2>
+      <div class="form-row">
+        <label for="reg-email" class="sr-only">Email</label>
+        <input
+          id="reg-email"
+          type="email"
+          placeholder="Email"
+          title="Email do usuário"
+        />
+        <label for="reg-password" class="sr-only">Senha</label>
+        <input
+          id="reg-password"
+          type="password"
+          placeholder="Senha (mín. 6 chars)"
+          title="Senha do usuário"
+        />
+        <button type="button" onclick="testarCadastro()">Cadastrar</button>
+      </div>
+      <pre id="reg-result" class="result"></pre>
+    </section>
+
+    <!-- ── 2. Login (obter JWT) ───────────────────────────────── -->
+    <section>
+      <h2>2. Login <code>POST /api/token/</code></h2>
+      <div class="form-row">
+        <label for="login-email" class="sr-only">Email</label>
+        <input
+          id="login-email"
+          type="email"
+          placeholder="Email"
+          title="Email do usuário"
+        />
+        <label for="login-password" class="sr-only">Senha</label>
+        <input
+          id="login-password"
+          type="password"
+          placeholder="Senha"
+          title="Senha do usuário"
+        />
+        <button type="button" onclick="testarLogin()">Login</button>
+      </div>
+      <pre id="login-result" class="result"></pre>
+      <p id="token-info" class="token-info"></p>
+    </section>
+
+    <!-- ── 3. Cadastro de Cliente ─────────────────────────────── -->
+    <section>
+      <h2>3. Cadastro de Cliente <code>POST /api/clientes/</code></h2>
+      <p class="hint">⚠️ Faça login primeiro para obter o token JWT.</p>
+      <div class="form-row">
+        <label for="cli-nome" class="sr-only">Nome</label>
+        <input
+          id="cli-nome"
+          type="text"
+          placeholder="Nome"
+          title="Nome do cliente"
+        />
+        <label for="cli-cpf" class="sr-only">CPF</label>
+        <input
+          id="cli-cpf"
+          type="text"
+          placeholder="CPF"
+          title="CPF do cliente"
+        />
+        <label for="cli-email" class="sr-only">Email do cliente</label>
+        <input
+          id="cli-email"
+          type="text"
+          placeholder="Email do cliente"
+          title="Email do cliente"
+        />
+      </div>
+      <div class="form-row">
+        <label for="cli-telefone" class="sr-only">Telefone</label>
+        <input
+          id="cli-telefone"
+          type="text"
+          placeholder="Telefone"
+          title="Telefone do cliente"
+        />
+        <label for="cli-cidade" class="sr-only">Cidade</label>
+        <input
+          id="cli-cidade"
+          type="text"
+          placeholder="Cidade"
+          title="Cidade do cliente"
+        />
+        <label for="cli-estado" class="sr-only">UF</label>
+        <input
+          id="cli-estado"
+          type="text"
+          placeholder="UF"
+          title="Estado (UF) do cliente"
+          maxlength="2"
+        />
+        <button type="button" onclick="testarCadastroCliente()">
+          Cadastrar Cliente
+        </button>
+      </div>
+      <pre id="cli-result" class="result"></pre>
+    </section>
+
+    <!-- ── 4. Cadastro de Imóvel ──────────────────────────────── -->
+    <section>
+      <h2>4. Cadastro de Imóvel <code>POST /api/imoveis/</code></h2>
+      <p class="hint">⚠️ Faça login primeiro para obter o token JWT.</p>
+      <div class="form-row">
+        <label for="imo-endereco" class="sr-only">Endereço</label>
+        <input
+          id="imo-endereco"
+          type="text"
+          placeholder="Endereço"
+          title="Endereço do imóvel"
+        />
+        <label for="imo-numero" class="sr-only">Número</label>
+        <input
+          id="imo-numero"
+          type="text"
+          placeholder="Número"
+          title="Número do imóvel"
+        />
+        <label for="imo-bairro" class="sr-only">Bairro</label>
+        <input
+          id="imo-bairro"
+          type="text"
+          placeholder="Bairro"
+          title="Bairro do imóvel"
+        />
+      </div>
+      <div class="form-row">
+        <label for="imo-cidadeuf" class="sr-only">Cidade/UF</label>
+        <input
+          id="imo-cidadeuf"
+          type="text"
+          placeholder="Cidade/UF"
+          title="Cidade e UF do imóvel"
+        />
+        <label for="imo-tipo" class="sr-only">Tipo do imóvel</label>
+        <select id="imo-tipo" title="Tipo do imóvel">
+          <option value="casa">Casa</option>
+          <option value="apartamento">Apartamento</option>
+          <option value="comercial">Comercial</option>
+        </select>
+        <label for="imo-caract" class="sr-only">Características</label>
+        <input
+          id="imo-caract"
+          type="text"
+          placeholder="Características"
+          title="Características do imóvel"
+        />
+        <button type="button" onclick="testarCadastroImovel()">
+          Cadastrar Imóvel
+        </button>
+      </div>
+      <pre id="imo-result" class="result"></pre>
+    </section>
+
+    <!-- ── 5. Listar Clientes ─────────────────────────────────── -->
+    <section>
+      <h2>5. Listar Clientes <code>GET /api/clientes/</code></h2>
+      <button type="button" onclick="listarClientes()">Buscar Clientes</button>
+      <pre id="list-cli-result" class="result"></pre>
+    </section>
+
+    <!-- ── 6. Listar Imóveis ──────────────────────────────────── -->
+    <section>
+      <h2>6. Listar Imóveis <code>GET /api/imoveis/</code></h2>
+      <button type="button" onclick="listarImoveis()">Buscar Imóveis</button>
+      <pre id="list-imo-result" class="result"></pre>
+    </section>
+
+    <script src="test.js"></script>
+  </body>
+</html>

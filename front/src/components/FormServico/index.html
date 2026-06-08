@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script>window.API_HOST = window.API_HOST || 'http://localhost:8000';</script>
+    <title>Contrato de Prestação de Serviços</title>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="navbar-container">
+        <div class="navbar-brand">
+          <span class="navbar-icon"></span>
+          <span class="navbar-logo-text">Contrato</span>
+        </div>
+
+        <nav class="navbar-menu">
+          <a href="../../../index.html">Início</a>
+          <a href="../../../src/pages/ComoFunciona/index.html">Como Funciona</a>
+          <a href="../../../src/pages/Contato/index.html">Contato</a>
+        </nav>
+
+        <div class="navbar-actions">
+          <a
+            href="../../../src/pages/Home/index.html"
+            class="navbar-cta"
+            id="btn-dashboard"
+            >Dashboard</a
+          >
+
+          <a
+            href="../../../src/pages/ContractType/index.html"
+            class="navbar-cta"
+            >Trocar Tipo de Contrato</a
+          >
+        </div>
+
+        <button class="navbar-toggle" aria-label="Abrir menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+      <div class="navbar-overlay"></div>
+    </header>
+
+    <div class="contract-page">
+      <!-- Formulário -->
+      <div class="form-panel">
+        <h1 class="form-title">Contrato de Prestação de Serviços</h1>
+        <div class="form-divider"></div>
+
+        <form id="contractForm">
+          <!-- Dados do Contratante -->
+          <fieldset class="form-section">
+            <legend class="section-title">Dados do Contratante</legend>
+
+            <button
+              type="button"
+              class="btn-selecionar-cliente"
+              id="btn-selecionar-contratante"
+            >
+              Selecionar Cliente Cadastrado
+            </button>
+
+            <div class="form-group full">
+              <label for="cont-nome">Nome completo</label>
+              <input
+                type="text"
+                id="cont-nome"
+                placeholder="Ex: João da Silva"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="cont-nacionalidade">Nacionalidade</label>
+                <input
+                  type="text"
+                  id="cont-nacionalidade"
+                  placeholder="Brasileiro(a)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="cont-profissao">Profissão</label>
+                <input
+                  type="text"
+                  id="cont-profissao"
+                  placeholder="Ex: Empresário"
+                />
+              </div>
+              <div class="form-group">
+                <label for="cont-estado-civil">Estado civil</label>
+                <select id="cont-estado-civil">
+                  <option value="Solteiro(a)">Solteiro(a)</option>
+                  <option value="Casado(a)">Casado(a)</option>
+                  <option value="Divorciado(a)">Divorciado(a)</option>
+                  <option value="Viúvo(a)">Viúvo(a)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="cont-cpf">CPF</label>
+                <input type="text" id="cont-cpf" placeholder="000.000.000-00" />
+              </div>
+              <div class="form-group">
+                <label for="cont-telefone">Telefone</label>
+                <input
+                  type="text"
+                  id="cont-telefone"
+                  placeholder="(11) 99999-0000"
+                />
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="cont-endereco">Endereço (rua/av)</label>
+              <input
+                type="text"
+                id="cont-endereco"
+                placeholder="Ex: Rua das Flores"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="cont-numero">Número</label>
+                <input type="text" id="cont-numero" placeholder="123" />
+              </div>
+              <div class="form-group">
+                <label for="cont-bairro">Bairro</label>
+                <input type="text" id="cont-bairro" placeholder="Centro" />
+              </div>
+              <div class="form-group">
+                <label for="cont-cep">CEP</label>
+                <input type="text" id="cont-cep" placeholder="00000-000" />
+              </div>
+            </div>
+
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="cont-cidade">Cidade</label>
+                <input type="text" id="cont-cidade" placeholder="São Paulo" />
+              </div>
+              <div class="form-group">
+                <label for="cont-estado">Estado</label>
+                <input type="text" id="cont-estado" placeholder="SP" />
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Dados do Prestador -->
+          <fieldset class="form-section">
+            <legend class="section-title">
+              Dados do Prestador de Serviços
+            </legend>
+
+            <div class="form-group full">
+              <label for="prest-nome">Nome completo</label>
+              <input
+                type="text"
+                id="prest-nome"
+                placeholder="Ex: Maria Oliveira"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="prest-nacionalidade">Nacionalidade</label>
+                <input
+                  type="text"
+                  id="prest-nacionalidade"
+                  placeholder="Brasileiro(a)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="prest-profissao">Profissão</label>
+                <input
+                  type="text"
+                  id="prest-profissao"
+                  placeholder="Ex: Técnico"
+                />
+              </div>
+              <div class="form-group">
+                <label for="prest-estado-civil">Estado civil</label>
+                <select id="prest-estado-civil">
+                  <option value="Solteiro(a)">Solteiro(a)</option>
+                  <option value="Casado(a)">Casado(a)</option>
+                  <option value="Divorciado(a)">Divorciado(a)</option>
+                  <option value="Viúvo(a)">Viúvo(a)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="prest-cpf">CPF</label>
+                <input
+                  type="text"
+                  id="prest-cpf"
+                  placeholder="000.000.000-00"
+                />
+              </div>
+              <div class="form-group">
+                <label for="prest-telefone">Telefone</label>
+                <input
+                  type="text"
+                  id="prest-telefone"
+                  placeholder="(11) 98888-0000"
+                />
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="prest-email">E-mail</label>
+              <input
+                type="email"
+                id="prest-email"
+                placeholder="prestador@email.com"
+              />
+            </div>
+
+            <div class="form-group full">
+              <label for="prest-endereco">Endereço atual (rua/av)</label>
+              <input
+                type="text"
+                id="prest-endereco"
+                placeholder="Ex: Av. Brasil"
+              />
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="prest-numero">Número</label>
+                <input type="text" id="prest-numero" placeholder="456" />
+              </div>
+              <div class="form-group">
+                <label for="prest-bairro">Bairro</label>
+                <input type="text" id="prest-bairro" placeholder="Jardins" />
+              </div>
+              <div class="form-group">
+                <label for="prest-cep">CEP</label>
+                <input type="text" id="prest-cep" placeholder="00000-000" />
+              </div>
+            </div>
+
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="prest-cidade">Cidade</label>
+                <input type="text" id="prest-cidade" placeholder="São Paulo" />
+              </div>
+              <div class="form-group">
+                <label for="prest-estado">Estado</label>
+                <input type="text" id="prest-estado" placeholder="SP" />
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Dados do Serviço -->
+          <fieldset class="form-section">
+            <legend class="section-title">Dados do Serviço</legend>
+
+            <div class="form-group full">
+              <label for="tipo-servico">Tipo de serviço</label>
+              <input
+                type="text"
+                id="tipo-servico"
+                placeholder="Ex: Limpeza, Segurança, Manutenção"
+              />
+            </div>
+
+            <div class="form-group full">
+              <label for="especificacao-servico"
+                >Especificação do serviço</label
+              >
+              <textarea
+                id="especificacao-servico"
+                rows="3"
+                placeholder="Descrição detalhada do serviço a ser prestado"
+              ></textarea>
+            </div>
+
+            <div class="form-group full">
+              <label for="atividades-contratadas">Atividades contratadas</label>
+              <textarea
+                id="atividades-contratadas"
+                rows="3"
+                placeholder="Definição clara das atividades a serem executadas pelo prestador"
+              ></textarea>
+            </div>
+
+            <div class="form-group full">
+              <label for="motivo-contratacao">Motivo da contratação</label>
+              <textarea
+                id="motivo-contratacao"
+                rows="2"
+                placeholder="Justificativa da necessidade do serviço"
+              ></textarea>
+            </div>
+
+            <div class="form-group full">
+              <label for="local-execucao">Local de execução</label>
+              <input
+                type="text"
+                id="local-execucao"
+                placeholder="Ex: Dependências da contratante, Rua das Flores, 123"
+              />
+            </div>
+            <div class="form-group full checkbox-group">
+              <label
+                ><input type="checkbox" id="executa-nas-dependencias" checked />
+                Serviço executado nas dependências da contratante</label
+              >
+            </div>
+
+            <div class="form-group full">
+              <label for="disposicoes-seguranca"
+                >Disposições de segurança, higiene e salubridade</label
+              >
+              <textarea
+                id="disposicoes-seguranca"
+                rows="3"
+                placeholder="Ex: O prestador deverá utilizar EPI adequados e seguir as normas de segurança vigentes..."
+              ></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Condições do Contrato -->
+          <fieldset class="form-section">
+            <legend class="section-title">Condições do Contrato</legend>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="prazo-meses">Prazo (meses)</label>
+                <input type="number" id="prazo-meses" placeholder="12" />
+              </div>
+              <div class="form-group">
+                <label for="data-inicio">Data de início</label>
+                <input type="date" id="data-inicio" />
+              </div>
+              <div class="form-group">
+                <label for="data-termino">Data de término</label>
+                <input type="date" id="data-termino" />
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="valor-mensal">Valor mensal (R$)</label>
+                <input type="text" id="valor-mensal" placeholder="2000.00" />
+              </div>
+              <div class="form-group">
+                <label for="forma-pagamento">Forma de pagamento</label>
+                <input
+                  type="text"
+                  id="forma-pagamento"
+                  placeholder="Ex: Mensal, Quinzenal"
+                />
+              </div>
+              <div class="form-group">
+                <label for="dia-vencimento">Dia do vencimento</label>
+                <input
+                  type="number"
+                  id="dia-vencimento"
+                  placeholder="10"
+                  min="1"
+                  max="31"
+                />
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="multa-atraso">Multa por atraso (R$)</label>
+              <input type="text" id="multa-atraso" placeholder="200.00" />
+            </div>
+
+            <div class="form-group full">
+              <label for="multa-rescisao">Multa por rescisão (R$)</label>
+              <input type="text" id="multa-rescisao" placeholder="1000.00" />
+            </div>
+            <div class="form-group full checkbox-group">
+              <label
+                ><input type="checkbox" id="sem-multa-rescisao" /> Sem multa por
+                rescisão</label
+              >
+            </div>
+
+            <div class="form-group full checkbox-group">
+              <label
+                ><input
+                  type="checkbox"
+                  id="responsabilidade-subsidiaria"
+                  checked
+                />
+                Responsabilidade subsidiária da contratante</label
+              >
+            </div>
+          </fieldset>
+
+          <!-- Local e Data da Assinatura -->
+          <fieldset class="form-section">
+            <legend class="section-title">Local e Data da Assinatura</legend>
+
+            <div class="form-row cols-2">
+              <div class="form-group">
+                <label for="assinatura-cidade">Cidade</label>
+                <input
+                  type="text"
+                  id="assinatura-cidade"
+                  placeholder="São Paulo"
+                />
+              </div>
+              <div class="form-group">
+                <label for="assinatura-estado">Estado</label>
+                <input type="text" id="assinatura-estado" placeholder="SP" />
+              </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="data-assinatura">Data da assinatura</label>
+              <input type="date" id="data-assinatura" />
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="button" id="btn-gerar-pdf" class="btn-primary">
+              Baixar Contrato em PDF
+            </button>
+            <button type="button" id="btn-limpar" class="btn-secondary">
+              Limpar Formulário
+            </button>
+            <button
+              type="button"
+              class="btn-secondary"
+              onclick="salvarContratoNoSistema()"
+            >
+              Salvar no Sistema
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Barra Divisória -->
+      <div class="divider-bar">
+        <button
+          class="divider-btn"
+          id="btn-collapse-form"
+          title="Recolher formulário"
+        >
+          <span>◀</span>
+        </button>
+        <div class="divider-line"></div>
+        <button
+          class="divider-btn"
+          id="btn-collapse-preview"
+          title="Recolher contrato"
+        >
+          <span>▶</span>
+        </button>
+      </div>
+
+      <!-- Preview do Contrato -->
+      <div class="preview-panel">
+        <div class="preview-content" id="contract-preview">
+          <h2 class="preview-title">CONTRATO DE PRESTAÇÃO DE SERVIÇOS</h2>
+
+          <h3 class="preview-subtitle">
+            IDENTIFICAÇÃO DAS PARTES CONTRATANTES
+          </h3>
+
+          <p>
+            <strong>CONTRATANTE:</strong>
+            <span class="preview-field" id="pv-cont-nome">______________</span>,
+            <span class="preview-field" id="pv-cont-nacionalidade"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-cont-profissao"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-cont-estado-civil"
+              >______________</span
+            >, C.P.F. nº
+            <span class="preview-field" id="pv-cont-cpf">______________</span>,
+            residente na
+            <span class="preview-field" id="pv-cont-endereco"
+              >______________</span
+            >, nº
+            <span class="preview-field" id="pv-cont-numero">______________</span
+            >, bairro
+            <span class="preview-field" id="pv-cont-bairro">______________</span
+            >,
+            <span class="preview-field" id="pv-cont-cidade">______________</span
+            >/<span class="preview-field" id="pv-cont-estado"
+              >______________</span
+            >, CEP:
+            <span class="preview-field" id="pv-cont-cep">______________</span>.
+          </p>
+
+          <p>
+            <strong>PRESTADOR:</strong>
+            <span class="preview-field" id="pv-prest-nome">______________</span
+            >,
+            <span class="preview-field" id="pv-prest-nacionalidade"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-prest-profissao"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-prest-estado-civil"
+              >______________</span
+            >, C.P.F. nº
+            <span class="preview-field" id="pv-prest-cpf">______________</span>,
+            residente na
+            <span class="preview-field" id="pv-prest-endereco"
+              >______________</span
+            >, nº
+            <span class="preview-field" id="pv-prest-numero"
+              >______________</span
+            >, bairro
+            <span class="preview-field" id="pv-prest-bairro"
+              >______________</span
+            >,
+            <span class="preview-field" id="pv-prest-cidade"
+              >______________</span
+            >/<span class="preview-field" id="pv-prest-estado"
+              >______________</span
+            >, CEP:
+            <span class="preview-field" id="pv-prest-cep">______________</span>.
+          </p>
+
+          <p class="preview-text">
+            As partes acima identificadas celebram o presente
+            <strong>Contrato de Prestação de Serviços</strong>, que se regerá
+            pelas cláusulas seguintes:
+          </p>
+
+          <h3 class="preview-clause">Cláusula 1ª – DO OBJETO DO CONTRATO</h3>
+          <p class="preview-text">
+            O presente contrato tem por objeto a prestação de serviços de
+            <span class="preview-field" id="pv-tipo-servico"
+              >______________</span
+            >, conforme especificado a seguir:
+          </p>
+          <p class="preview-text">
+            <span class="preview-field" id="pv-especificacao-servico"
+              >______________</span
+            >
+          </p>
+
+          <h3 class="preview-clause">
+            Cláusula 2ª – DAS ATIVIDADES CONTRATADAS
+          </h3>
+          <p class="preview-text">
+            As seguintes atividades deverão ser executadas pelo PRESTADOR:
+          </p>
+          <p class="preview-text">
+            <span class="preview-field" id="pv-atividades-contratadas"
+              >______________</span
+            >
+          </p>
+
+          <h3 class="preview-clause">Cláusula 3ª – DO MOTIVO DA CONTRATAÇÃO</h3>
+          <p class="preview-text">
+            <span class="preview-field" id="pv-motivo-contratacao"
+              >______________</span
+            >
+          </p>
+
+          <h3 class="preview-clause">Cláusula 4ª – DO PRAZO</h3>
+          <p class="preview-text">
+            O presente contrato vigorará pelo prazo de
+            <span class="preview-field" id="pv-prazo-meses"
+              >______________</span
+            >
+            meses, com início em
+            <span class="preview-field" id="pv-data-inicio"
+              >______________</span
+            >
+            e término em
+            <span class="preview-field" id="pv-data-termino"
+              >______________</span
+            >.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 5ª – DO LOCAL DE EXECUÇÃO</h3>
+          <p class="preview-text" id="pv-local-texto">
+            Os serviços serão executados nas dependências da CONTRATANTE,
+            situadas em
+            <span class="preview-field" id="pv-local-execucao"
+              >______________</span
+            >.
+          </p>
+
+          <h3 class="preview-clause">
+            Cláusula 6ª – DA REMUNERAÇÃO E FORMA DE PAGAMENTO
+          </h3>
+          <p class="preview-text">
+            Pela prestação dos serviços, a CONTRATANTE pagará ao PRESTADOR o
+            valor mensal de R$
+            <span class="preview-field" id="pv-valor-mensal"
+              >______________</span
+            >, de forma
+            <span class="preview-field" id="pv-forma-pagamento"
+              >______________</span
+            >, com vencimento no dia
+            <span class="preview-field" id="pv-dia-vencimento"
+              >______________</span
+            >
+            de cada mês.
+          </p>
+          <p class="preview-text">
+            § 1º. O não pagamento na data acordada sujeitará a CONTRATANTE ao
+            pagamento de multa de R$
+            <span class="preview-field" id="pv-multa-atraso"
+              >______________</span
+            >, além de juros de 1% ao mês sobre o valor em atraso.
+          </p>
+
+          <h3 class="preview-clause">
+            Cláusula 7ª – DAS DISPOSIÇÕES DE SEGURANÇA, HIGIENE E SALUBRIDADE
+          </h3>
+          <p class="preview-text">
+            <span class="preview-field" id="pv-disposicoes-seguranca"
+              >______________</span
+            >
+          </p>
+          <p class="preview-text">
+            Parágrafo único. O PRESTADOR é o responsável pelo cumprimento das
+            normas de segurança do trabalho aplicáveis à atividade prestada.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 8ª – DA RESCISÃO</h3>
+          <p class="preview-text" id="pv-rescisao-texto">
+            Em caso de rescisão antecipada por qualquer das partes, sem justa
+            causa, deverá ser paga à outra parte uma multa no valor de R$
+            <span class="preview-field" id="pv-multa-rescisao"
+              >______________</span
+            >.
+          </p>
+
+          <h3 class="preview-clause">
+            Cláusula 9ª – DA RESPONSABILIDADE SUBSIDIÁRIA
+          </h3>
+          <p class="preview-text" id="pv-resp-texto">
+            A CONTRATANTE responde subsidiariamente pelas obrigações
+            trabalhistas e previdenciárias decorrentes da execução deste
+            contrato, nos termos da legislação vigente.
+          </p>
+
+          <h3 class="preview-clause">Cláusula 10ª – DO FORO</h3>
+          <p class="preview-text">
+            As partes elegem o foro da comarca de
+            <span class="preview-field" id="pv-assinatura-cidade2"
+              >______________</span
+            >/<span class="preview-field" id="pv-assinatura-estado2"
+              >______________</span
+            >
+            para dirimir quaisquer controvérsias oriundas do presente contrato.
+          </p>
+
+          <div class="preview-signature">
+            <p>
+              <span class="preview-field" id="pv-assinatura-cidade"
+                >______________</span
+              >,
+              <span class="preview-field" id="pv-assinatura-estado"
+                >______________</span
+              >,
+              <span class="preview-field" id="pv-data-assinatura"
+                >______________</span
+              >.
+            </p>
+            <div class="signature-lines">
+              <div class="signature-line">
+                <hr />
+                <p>CONTRATANTE</p>
+              </div>
+              <div class="signature-line">
+                <hr />
+                <p>PRESTADOR</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Contrato</p>
+        <p class="footer-disclaimer">
+          Este é um modelo de contrato de prestação de serviços para uso geral.
+          Não substitui a orientação de um advogado.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Modal: Buscar Cliente Contratante -->
+    <div id="modal-clientes" class="modal-overlay hidden">
+      <div class="modal-box">
+        <div class="modal-header">
+          <h3 id="modal-clientes-titulo">Selecionar Cliente</h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button type="button" class="modal-close" id="modal-clientes-close" aria-label="Fechar">&times;</button>
+          </div>
+        </div>
+        <!-- Quick-add contratante -->
+        <div id="form-novo-contratante" class="modal-quick-form hidden">
+          <p id="nc-msg" class="quick-form-msg hidden"></p>
+          <div class="quick-form-grid">
+            <div class="quick-form-group"><label>Nome *</label><input type="text" id="nc-nome" placeholder="Nome completo" /></div>
+            <div class="quick-form-group"><label>Nacionalidade</label><input type="text" id="nc-nacionalidade" placeholder="Brasileiro(a)" /></div>
+            <div class="quick-form-group"><label>Profissão</label><input type="text" id="nc-profissao" placeholder="Ex: Empresário" /></div>
+            <div class="quick-form-group">
+              <label>Estado Civil</label>
+              <select id="nc-estado-civil">
+                <option value="">Selecione</option>
+                <option value="Solteiro(a)">Solteiro(a)</option>
+                <option value="Casado(a)">Casado(a)</option>
+                <option value="Divorciado(a)">Divorciado(a)</option>
+                <option value="Viúvo(a)">Viúvo(a)</option>
+              </select>
+            </div>
+            <div class="quick-form-group"><label>CPF *</label><input type="text" id="nc-cpf" placeholder="000.000.000-00" /></div>
+            <div class="quick-form-group"><label>RG</label><input type="text" id="nc-rg" placeholder="00.000.000-0" /></div>
+            <div class="quick-form-group"><label>Órgão Expedidor</label><input type="text" id="nc-orgao-expedidor" placeholder="SSP/SP" /></div>
+            <div class="quick-form-group"><label>Telefone</label><input type="text" id="nc-telefone" placeholder="(11) 99999-0000" /></div>
+            <div class="quick-form-group"><label>E-mail</label><input type="email" id="nc-email" placeholder="email@exemplo.com" /></div>
+            <div class="quick-form-group"><label>Rua / Av.</label><input type="text" id="nc-rua" placeholder="Rua das Flores" /></div>
+            <div class="quick-form-group"><label>Número</label><input type="text" id="nc-numero" placeholder="123" /></div>
+            <div class="quick-form-group"><label>Bairro</label><input type="text" id="nc-bairro" placeholder="Centro" /></div>
+            <div class="quick-form-group"><label>CEP</label><input type="text" id="nc-cep" placeholder="00000-000" /></div>
+            <div class="quick-form-group"><label>Cidade</label><input type="text" id="nc-cidade" placeholder="São Paulo" /></div>
+            <div class="quick-form-group"><label>Estado (UF)</label><input type="text" id="nc-estado" placeholder="SP" maxlength="2" /></div>
+          </div>
+          <div class="quick-form-actions">
+            <button type="button" class="btn-quick-cancel" onclick="toggleNovoContratante()">Cancelar</button>
+            <button type="button" class="btn-quick-save" onclick="salvarNovoContratanteModal()">Salvar</button>
+          </div>
+        </div>
+        <div class="modal-search">
+          <input
+            type="text"
+            id="modal-busca-cliente"
+            placeholder="Buscar por nome ou CPF..."
+            autocomplete="off"
+          />
+        </div>
+        <div class="modal-table-wrapper">
+          <table class="modal-tabela-clientes">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="modal-clientes-tbody">
+              <!-- linhas geradas por JS -->
+            </tbody>
+          </table>
+          <p class="modal-vazio" id="modal-sem-clientes">
+            Nenhum cliente cadastrado ainda.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Salvar Novo Cliente -->
+    <div
+      id="modal-salvar-cliente"
+      class="modal-overlay hidden"
+      onclick="fecharModalSeClicouFora(event, 'modal-salvar-cliente')"
+    >
+      <div class="modal-box modal-box--sm">
+        <p class="modal-salvar-msg">
+          Cliente/Contratante não cadastrado.<br />
+          Gostaria de salvar os dados desse cliente/contratante para futuros
+          contratos?
+        </p>
+        <div class="modal-actions">
+          <button class="btn-modal-sim" onclick="confirmarSalvarCliente()">
+            ✅ Sim, salvar
+          </button>
+          <button class="btn-modal-nao" onclick="naoSalvarCliente()">
+            ❌ Não, apenas usar neste contrato
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Alerta de Duplicado (contratante) -->
+    <div
+      id="modal-duplicado-cliente"
+      class="modal-overlay hidden"
+      onclick="fecharModalSeClicouFora(event, 'modal-duplicado-cliente')"
+    >
+      <div class="modal-box modal-box--sm">
+        <p class="modal-salvar-msg">
+          <strong>⚠️ Atenção!</strong><br />
+          Já existe um cliente cadastrado com o mesmo nome ou CPF:
+        </p>
+        <div id="duplicado-cliente-info" class="duplicado-info"></div>
+        <p class="modal-salvar-msg">
+          Deseja salvar mesmo assim como um novo registro?
+        </p>
+        <div class="modal-actions">
+          <button class="btn-modal-sim" onclick="salvarClienteMesmoAssim()">
+            ✅ Sim, salvar mesmo assim
+          </button>
+          <button
+            class="btn-modal-nao"
+            onclick="cancelarSalvarDuplicadoCliente()"
+          >
+            ❌ Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

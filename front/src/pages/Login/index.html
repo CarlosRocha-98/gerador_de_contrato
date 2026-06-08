@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script>window.API_HOST = window.API_HOST || 'http://localhost:8000';</script>
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
+      <h2>Login</h2>
+
+      <div id="userInfo"></div>
+
+      <div id="message" class="message hidden"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Digite seu email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Senha</label>
+          <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Digite sua senha" required />
+            <span class="toggle-password" onclick="togglePassword()"></span>
+          </div>
+        </div>
+        <button type="submit" class="btn-login">Entrar</button>
+        <p class="forgot-link"><a href="#" onclick="openForgot()">Esqueceu a senha?</a></p>
+
+        <div class="social-divider"><span>ou continue com</span></div>
+
+        <div class="social-buttons">
+          <a href="https://modelo-de-contrato-backend.onrender.com/auth/google" class="btn-social btn-google">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+              <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.86l6.1-6.1C34.46 3.09 29.5 1 24 1 14.82 1 7.07 6.48 3.64 14.18l7.18 5.57C12.6 13.36 17.85 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.7c-.55 2.99-2.2 5.52-4.67 7.22l7.18 5.57C43.36 37.92 46.5 31.68 46.5 24.5z"/>
+              <path fill="#FBBC05" d="M10.82 28.25A14.6 14.6 0 0 1 9.5 24c0-1.48.25-2.91.68-4.25l-7.18-5.57A23.94 23.94 0 0 0 0 24c0 3.86.92 7.51 2.54 10.73l8.28-6.48z"/>
+              <path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.5-4.95l-7.18-5.57C28.55 38.1 26.4 38.5 24 38.5c-6.15 0-11.4-3.86-13.18-9.25l-8.28 6.48C6.07 43.52 14.82 47 24 47z"/>
+            </svg>
+            <span>
+              <span class="google-blue">G</span><span class="google-red">o</span><span class="google-yellow">o</span><span class="google-blue">g</span><span class="google-green">l</span><span class="google-red">e</span>
+            </span>
+          </a>
+          <a href="https://modelo-de-contrato-backend.onrender.com/auth/facebook" class="btn-social btn-facebook">
+            <i class="fab fa-facebook-f"></i> Facebook
+          </a>
+        </div>
+
+        <p class="register-link">Não tem conta? <a href="../../pages/Register/index.html">Cadastre-se</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Esqueceu a senha -->
+  <div id="forgotModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3>🔑 Redefinir Senha</h3>
+      <div id="forgotMessage" class="message hidden"></div>
+      <div class="form-group">
+        <label>Email cadastrado</label>
+        <input type="email" id="forgotEmail" placeholder="Digite seu email" />
+      </div>
+      <div class="form-group">
+        <label>Nova senha</label>
+        <input type="password" id="forgotNewPass" placeholder="Digite a nova senha" />
+      </div>
+      <div class="form-group">
+        <label>Confirmar nova senha</label>
+        <input type="password" id="forgotConfirm" placeholder="Repita a nova senha" />
+      </div>
+      <button class="btn-login" onclick="resetPassword()">Redefinir</button>
+      <button class="btn-cancel" onclick="closeForgot()">Cancelar</button>
+    </div>
+  </div>
+
+  <script src="../../services/auth.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

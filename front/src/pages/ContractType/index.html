@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tipo de Contrato - Gerador de Contratos</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="dashboard-box">
+        <header class="dash-header">
+          <h2> Gerar Contrato</h2>
+          <p>Escolha o tipo de contrato que deseja gerar:</p>
+        </header>
+
+        <div class="type-grid">
+          <button class="type-card" onclick="goToAluguel()">
+            <span class="icon">🏠</span>
+            <span class="card-title">Aluguel</span>
+            <span class="card-desc"
+              >Contrato de locação residencial ou comercial</span
+            >
+          </button>
+
+          <button class="type-card" onclick="goToServico()">
+            <span class="icon">🔧</span>
+            <span class="card-title">Serviço</span>
+            <span class="card-desc">Contrato de prestação de serviços</span>
+          </button>
+        </div>
+
+        <button
+          class="btn-back"
+          onclick="window.location.href = '../Home/index.html'"
+        >
+          ← Voltar
+        </button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
