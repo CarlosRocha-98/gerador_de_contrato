@@ -1,5 +1,5 @@
 // ── Redireciona usuário logado para o dashboard ───────────────────────────────
-const DASHBOARD = 'src/pages/Home/index.html';
+const DASHBOARD = 'pages/Home/index.html';
 const BACKEND = 'https://gerador-de-contrato-6uck.onrender.com/api';
 
 

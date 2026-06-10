@@ -168,7 +168,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Segurança
 SECRET_KEY = os.environ.get("SECRET_KEY", "chave-secreta-local")
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ["gerador-de-contrato-6uck.onrender.com", "localhost"]  # ou coloque o domínio do Render
+ALLOWED_HOSTS = [
+    "gerador-de-contrato-6uck.onrender.com", 
+    "gerador-de-contrato-chi.vercel.app",    
+    "localhost",
+]  # ou coloque o domínio do Render
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -244,5 +248,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # CORS
 CORS_ALLOWED_ORIGINS = [
     "https://gerador-de-contrato-chi.vercel.app",  # troque pela URL real do seu front
+    "http://localhost:3000", # Testes locais
+    "http://127.0.0.1:5500", 
 ]
 CORS_ALLOW_CREDENTIALS = True
