@@ -54,7 +54,30 @@ if (sessionStorage.getItem('session')) {
     setLoggedIn();
 }
 // 2) Verifica sessão OAuth (Google/Facebook) — only when frontend and backend share origin
-//???
+async function checkOAuthSession() {
+    try {
+        const res = await fetch(BACKEND + '/auth/jwt/', {
+            credentials: 'include' // importante se backend usa cookies HttpOnly
+        });
+
+        if (res.ok) {
+            const user = await res.json();
+            if (user) {
+                // salva tokens se backend retornar no corpo
+                if (user.access) localStorage.setItem('access', user.access);
+                if (user.refresh) localStorage.setItem('refresh', user.refresh);
+
+                setLoggedIn();
+                window.location.replace(DASHBOARD);
+            }
+        }
+    } catch (err) {
+        console.log("Nenhuma sessão OAuth ativa");
+    }
+}
+
+// Chama logo após verificar sessionStorage
+checkOAuthSession();
 
 
 // Função para renovar token
@@ -63,7 +86,7 @@ async function refreshToken() {
     if (!refresh) return null;
 
     try {
-        const res = await fetch(BACKEND + '/token/refresh/', {
+        const res = await fetch(BACKEND + '/auth/token/refresh/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ refresh })
@@ -85,36 +108,50 @@ async function apiFetch(url, options = {}) {
     let access = localStorage.getItem('access');
     if (!access) return logout();
 
-    // Tenta requisição com token atual
-    let res = await fetch(BACKEND + url, {
-        ...options,
-        headers: {
-            ...(options.headers || {}),
-            Authorization: `Bearer ${access}`
-        }
-    });
-
-    // Se deu 401 (token expirado), tenta renovar
-    if (res.status === 401) {
-        access = await refreshToken();
-        if (!access) return logout();
-
-        res = await fetch(BACKEND + url, {
+    try {
+        // Tenta requisição com token atual
+        let res = await fetch(BACKEND + url, {
             ...options,
             headers: {
                 ...(options.headers || {}),
                 Authorization: `Bearer ${access}`
             }
         });
-    }
 
-    return res;
+        // Se deu 401 (token expirado), tenta renovar
+        if (res.status === 401) {
+            access = await refreshToken();
+            if (!access) return logout();
+
+            res = await fetch(BACKEND + url, {
+                ...options,
+                headers: {
+                    ...(options.headers || {}),
+                    Authorization: `Bearer ${access}`
+                }
+            });
+        }
+
+        return res;
+
+    // Trata erros de rede
+    } catch (err) {
+        console.error("Erro de rede:", err);
+    return logout();
+    }
 }
 
+
 // Verifica perfil com JWT
-apiFetch('/profile')
-    .then(res => res.json())
-    .then(user => {
+(async () => {
+    try {
+        const res = await apiFetch('/profile');
+        if (!res.ok) throw new Error();
+        const user = await res.json();
         if (user) window.location.replace(DASHBOARD);
-    })
-    .catch(() => console.log('Usuário não está logado'));
+    } catch {
+        console.log('Usuário não está logado');
+    }
+})();
+
+

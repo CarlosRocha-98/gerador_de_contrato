@@ -161,8 +161,11 @@ import os
 import dj_database_url
 from pathlib import Path
 from datetime import timedelta
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 #SECRET_KEY → cole a chave segura que você gerou com python -c "import secrets; print(secrets.token_urlsafe(50))".
 # Segurança
@@ -183,7 +186,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'api',
+    'rest_framework_simplejwt',
+    'social_django',
+    'api', # Sua app principal
 ]
 
 REST_FRAMEWORK = {
@@ -259,3 +264,20 @@ CORS_ALLOW_HEADERS = [
 ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+# Configurações OAuth # Chaves do Google (pegue no Google Cloud Console)
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+# Chaves do Facebook (pegue no Facebook Developers)
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get("SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get("SOCIAL_AUTH_FACEBOOK_SECRET")
+
+# URL de redirecionamento após login
+LOGIN_REDIRECT_URL = '/api/auth/jwt/'   # endpoint que devolve os tokens
