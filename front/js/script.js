@@ -1,5 +1,5 @@
 // ── Redireciona usuário logado para o dashboard ───────────────────────────────
-const DASHBOARD = 'pages/Home/index.html';
+const DASHBOARD = 'src/pages/Home/index.html';
 const BACKEND = 'https://gerador-de-contrato-6uck.onrender.com/api';
 
 
@@ -46,7 +46,7 @@ function logout() {
     sessionStorage.clear();
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
-    window.location.href = 'index.html';
+    window.location.href = 'src/pages/Home/index.html';
 }
 
 // 1) Verifica sessão local (login por formulário)
@@ -143,15 +143,17 @@ async function apiFetch(url, options = {}) {
 
 
 // Verifica perfil com JWT
-(async () => {
-    try {
-        const res = await apiFetch('/profile');
-        if (!res.ok) throw new Error();
-        const user = await res.json();
-        if (user) window.location.replace(DASHBOARD);
-    } catch {
-        console.log('Usuário não está logado');
-    }
-})();
+const access = localStorage.getItem('access');
 
-
+if (access) {
+    (async () => {
+        try {
+            const res = await apiFetch('/profile');
+            if (!res.ok) throw new Error();
+            const user = await res.json();
+            if (user) window.location.replace(DASHBOARD);
+        } catch {
+            console.log('Usuário não está logado');
+        }
+    })();
+}
