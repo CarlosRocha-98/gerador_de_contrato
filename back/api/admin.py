@@ -54,13 +54,13 @@ class ClienteAdmin(admin.ModelAdmin):
 
 @admin.register(Imovel)
 class ImovelAdmin(admin.ModelAdmin):
-    list_display = ['endereco', 'numero', 'bairro', 'cidade_uf', 'tipo', 'usuario', 'criado_em']
+    list_display = ['endereco', 'numero', 'bairro', 'cidade', 'estado', 'tipo', 'usuario', 'criado_em']
     list_filter = ['tipo', 'usuario', 'criado_em']
-    search_fields = ['endereco', 'bairro', 'cidade_uf']
+    search_fields = ['endereco', 'bairro', 'cidade', 'estado']
     readonly_fields = ['criado_em']
     fieldsets = (
         ('Localização', {
-            'fields': ('endereco', 'numero', 'bairro', 'cidade_uf')
+            'fields': ('endereco', 'numero', 'bairro', 'cidade', 'estado')
         }),
         ('Detalhes', {
             'fields': ('tipo', 'caracteristicas')

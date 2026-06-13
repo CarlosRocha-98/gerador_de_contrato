@@ -23,7 +23,7 @@ urlpatterns = [
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/', include('api.auth.urls')), # Nosso auth_me e social_jwt
-    path('auth/social/', include('social_django.urls', namespace='social')), # URLs do social auth
+    # path('auth/social/', include('social_django.urls', namespace='social')), # URLs do social auth
 
     path('register/', RegisterView.as_view(), name='register'),
     path('perfil/', PerfilUsuarioView.as_view(), name='perfil'),
