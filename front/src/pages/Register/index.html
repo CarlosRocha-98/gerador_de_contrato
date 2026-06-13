@@ -15,12 +15,12 @@
       <div id="message" class="message hidden"></div>
 
       <form id="registerForm" onsubmit="console.log('[Register] inline form onsubmit');">
-        <div class="form-group">
+        <div class="form-group full">
           <label for="email">Email</label>
           <input type="email" id="email" placeholder="Digite seu email" required />
         </div>
 
-        <div class="form-group">
+        <div class="form-group full">
           <label for="nome">Nome completo</label>
           <input type="text" id="nome" placeholder="Nome completo" />
         </div>
@@ -39,7 +39,7 @@
         <div class="form-row">
           <div class="form-group">
             <label for="nacionalidade">Nacionalidade</label>
-            <input type="text" id="nacionalidade" />
+            <input type="text" id="nacionalidade"  placeholder="Brasileiro(a)" />
           </div>
           <div class="form-group">
             <label for="profissao">Profissão</label>
@@ -53,10 +53,10 @@
         </div>
 
         <div class="form-row">
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="rg">RG</label>
             <input type="text" id="rg" />
-          </div>
+          </div> -->
           <div class="form-group">
             <label for="orgao_expedidor">Órgão expedidor</label>
             <input type="text" id="orgao_expedidor" />
@@ -96,14 +96,14 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group full">
           <label for="password">Senha</label>
           <div class="password-wrapper">
             <input type="password" id="password" placeholder="Crie uma senha" required />
             <span class="toggle-password" onclick="togglePassword('password')"></span>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group full">
           <label for="confirm">Confirmar Senha</label>
           <div class="password-wrapper">
             <input type="password" id="confirm" placeholder="Repita a senha" required />

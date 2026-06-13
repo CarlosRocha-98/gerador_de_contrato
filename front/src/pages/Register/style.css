@@ -22,10 +22,15 @@ body {
 }
 
 .login-box {
-    width: 100%;
-    max-width: 520px;
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
     padding: 32px;
-    border-radius: 10px;
+    width: 100%;
+    max-width: 780px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .login-box h2 {
@@ -35,14 +40,28 @@ body {
     margin-bottom: 28px;
 }
 
-.form-row {
+#registerForm {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.form-row {
+    display: contents;
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 0;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.strength-bar,
+.register-link,
+.message {
+    grid-column: 1 / -1;
 }
 
 .form-group label {
@@ -54,6 +73,14 @@ body {
 
 .form-group input {
     width: 100%;
+     padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.3s;
 }
 
 .form-group input::placeholder {
@@ -108,7 +135,9 @@ body {
 }
 
 .btn-login {
-    width: 100%;
+    grid-column: 1/-1;
+    width: 240px;
+    justify-self: center;
     padding: 13px;
     background: #e94560;
     color: #fff;
@@ -131,7 +160,6 @@ body {
 
 .register-link {
     text-align: center;
-    margin-top: 18px;
     color: #aaa;
     font-size: 0.9rem;
 }
@@ -171,12 +199,13 @@ body {
 }
 
 @media (max-width: 600px) {
-  .login-box {
+ 
+    #registerForm {
+        grid-template-columns: 1fr;
+    }
+
+    .login-box {
     max-width: 92%;
     padding: 24px 18px;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
   }
 }
