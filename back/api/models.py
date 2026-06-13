@@ -76,13 +76,14 @@ class Imovel(models.Model):
     endereco = models.CharField(max_length=255)
     numero = models.CharField(max_length=10)
     bairro = models.CharField(max_length=100)
-    cidade_uf = models.CharField(max_length=100)
+    cidade = models.CharField(max_length=100)
+    estado = models.CharField(max_length=2)
     tipo = models.CharField(max_length=50)             # casa, apartamento, comercial
     caracteristicas = models.TextField(blank=True)
     criado_em = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.endereco}, {self.numero} - {self.cidade_uf}'
+        return f'{self.endereco}, {self.numero} - {self.cidade}/{self.estado}'
     
     class Meta:
         verbose_name = 'Imóvel'
