@@ -738,6 +738,12 @@ body {
     margin: 0;
 }
 
+.modal-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .modal-close {
     background: none;
     border: none;
