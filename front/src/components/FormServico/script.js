@@ -453,7 +453,7 @@ function toggleNovoContratante() {
     const btn   = document.getElementById('btn-toggle-novo-contratante');
     const aberto = !form.classList.contains('hidden');
     form.classList.toggle('hidden', aberto);
-    btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
+    if (btn) btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
     if (!aberto) {
         ['nc-nome','nc-nacionalidade','nc-profissao','nc-cpf','nc-rg','nc-orgao-expedidor',
          'nc-telefone','nc-email','nc-rua','nc-numero','nc-bairro','nc-cep','nc-cidade','nc-estado']
@@ -642,10 +642,6 @@ function validarFormulario() {
     const faltando = campos
         .filter(c => { const el = document.getElementById(c.id); return !el || !el.value.trim(); })
         .map(c => c.label);
-    if (faltando.length > 0) {
-        alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
-        return false;
-    }
     return true;
 }
 

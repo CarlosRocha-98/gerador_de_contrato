@@ -713,12 +713,12 @@
         <div id="form-novo-contratante" class="modal-quick-form hidden">
           <p id="nc-msg" class="quick-form-msg hidden"></p>
           <div class="quick-form-grid">
-            <div class="quick-form-group"><label>Nome *</label><input type="text" id="nc-nome" placeholder="Nome completo" /></div>
-            <div class="quick-form-group"><label>Nacionalidade</label><input type="text" id="nc-nacionalidade" placeholder="Brasileiro(a)" /></div>
-            <div class="quick-form-group"><label>Profissão</label><input type="text" id="nc-profissao" placeholder="Ex: Empresário" /></div>
+            <div class="quick-form-group"><label for="nc-nome">Nome *</label><input type="text" id="nc-nome" placeholder="Nome completo" /></div>
+            <div class="quick-form-group"><label for="nc-nacionalidade">Nacionalidade</label><input type="text" id="nc-nacionalidade" placeholder="Brasileiro(a)" /></div>
+            <div class="quick-form-group"><label for="nc-profissao">Profissão</label><input type="text" id="nc-profissao" placeholder="Ex: Empresário" /></div>
             <div class="quick-form-group">
-              <label>Estado Civil</label>
-              <select id="nc-estado-civil">
+              <label for="nc-estado-civil">Estado Civil</label>
+              <select id="nc-estado-civil" name="estado_civil">
                 <option value="">Selecione</option>
                 <option value="Solteiro(a)">Solteiro(a)</option>
                 <option value="Casado(a)">Casado(a)</option>
@@ -726,17 +726,17 @@
                 <option value="Viúvo(a)">Viúvo(a)</option>
               </select>
             </div>
-            <div class="quick-form-group"><label>CPF *</label><input type="text" id="nc-cpf" placeholder="000.000.000-00" /></div>
-            <div class="quick-form-group"><label>RG</label><input type="text" id="nc-rg" placeholder="00.000.000-0" /></div>
-            <div class="quick-form-group"><label>Órgão Expedidor</label><input type="text" id="nc-orgao-expedidor" placeholder="SSP/SP" /></div>
-            <div class="quick-form-group"><label>Telefone</label><input type="text" id="nc-telefone" placeholder="(11) 99999-0000" /></div>
-            <div class="quick-form-group"><label>E-mail</label><input type="email" id="nc-email" placeholder="email@exemplo.com" /></div>
-            <div class="quick-form-group"><label>Rua / Av.</label><input type="text" id="nc-rua" placeholder="Rua das Flores" /></div>
-            <div class="quick-form-group"><label>Número</label><input type="text" id="nc-numero" placeholder="123" /></div>
-            <div class="quick-form-group"><label>Bairro</label><input type="text" id="nc-bairro" placeholder="Centro" /></div>
-            <div class="quick-form-group"><label>CEP</label><input type="text" id="nc-cep" placeholder="00000-000" /></div>
-            <div class="quick-form-group"><label>Cidade</label><input type="text" id="nc-cidade" placeholder="São Paulo" /></div>
-            <div class="quick-form-group"><label>Estado (UF)</label><input type="text" id="nc-estado" placeholder="SP" maxlength="2" /></div>
+            <div class="quick-form-group"><label for="nc-cpf">CPF *</label><input type="text" id="nc-cpf" placeholder="000.000.000-00" /></div>
+            <div class="quick-form-group"><label for="nc-rg">RG</label><input type="text" id="nc-rg" placeholder="00.000.000-0" /></div>
+            <div class="quick-form-group"><label for="nc-orgao-expedidor">Órgão Expedidor</label><input type="text" id="nc-orgao-expedidor" placeholder="SSP/SP" /></div>
+            <div class="quick-form-group"><label for="nc-telefone">Telefone</label><input type="text" id="nc-telefone" placeholder="(11) 99999-0000" /></div>
+            <div class="quick-form-group"><label for="nc-email">E-mail</label><input type="email" id="nc-email" placeholder="email@exemplo.com" /></div>
+            <div class="quick-form-group"><label for="nc-rua">Rua / Av.</label><input type="text" id="nc-rua" placeholder="Rua das Flores" /></div>
+            <div class="quick-form-group"><label for="nc-numero">Número</label><input type="text" id="nc-numero" placeholder="123" /></div>
+            <div class="quick-form-group"><label for="nc-bairro">Bairro</label><input type="text" id="nc-bairro" placeholder="Centro" /></div>
+            <div class="quick-form-group"><label for="nc-cep">CEP</label><input type="text" id="nc-cep" placeholder="00000-000" /></div>
+            <div class="quick-form-group"><label for="nc-cidade">Cidade</label><input type="text" id="nc-cidade" placeholder="São Paulo" /></div>
+            <div class="quick-form-group"><label for="nc-estado">Estado (UF)</label><input type="text" id="nc-estado" placeholder="SP" maxlength="2" /></div>
           </div>
           <div class="quick-form-actions">
             <button type="button" class="btn-quick-cancel" onclick="toggleNovoContratante()">Cancelar</button>

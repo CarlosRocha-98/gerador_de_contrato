@@ -22,7 +22,6 @@
     'imovel-endereco': 'pv-imovel-endereco',
     'imovel-numero': 'pv-imovel-numero',
     'imovel-bairro': 'pv-imovel-bairro',
-    'imovel-cidade-uf': 'pv-imovel-cidade-uf',
     'imovel-caracteristicas': 'pv-imovel-caracteristicas',
     'prazo': 'pv-prazo',
     'valor-aluguel': 'pv-valor-aluguel',
@@ -45,6 +44,7 @@ function updatePreview(inputId) {
 
 function sincronizarTodosPreview() {
     Object.keys(fieldMap).forEach(updatePreview);
+    updateCidadeEstadoPreview();
 }
 
 function atualizarPreviewData(inputId) {
@@ -66,3 +66,30 @@ function atualizarPreviewData(inputId) {
     const [y, m, d] = el.value.split('-');
     pv.textContent = `${d}/${m}/${y}`;
 }
+
+// Função extra para atualizar cidade/estado juntos
+function updateCidadeEstadoPreview() {
+  const cidade = document.getElementById('imovel-cidade')?.value.trim() || '';
+  const estado = document.getElementById('imovel-estado')?.value.trim() || '';
+  const pv = document.getElementById('pv-imovel-cidade-estado');
+
+  if (!pv) return;
+
+  if (cidade && estado) {
+    pv.textContent = `${cidade}/${estado}`;
+  } else if (cidade) {
+    pv.textContent = cidade;
+  } else if (estado) {
+    pv.textContent = estado;
+  } else {
+    pv.textContent = '______________';
+  }
+}
+
+document
+  .getElementById('imovel-cidade')
+  ?.addEventListener('input', updateCidadeEstadoPreview);
+
+document
+  .getElementById('imovel-estado')
+  ?.addEventListener('change', updateCidadeEstadoPreview);

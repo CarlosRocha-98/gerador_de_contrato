@@ -8,8 +8,12 @@ const INQ_FIELD_IDS = [
     'inq-endereco','inq-numero','inq-bairro','inq-cep','inq-cidade','inq-estado'
 ];
 const IMOVEL_FIELD_IDS = [
-    'imovel-endereco','imovel-numero','imovel-bairro',
-    'imovel-cidade-uf','imovel-caracteristicas'
+    'imovel-endereco',
+    'imovel-numero',
+    'imovel-bairro',
+    'imovel-cidade',
+    'imovel-estado',
+    'imovel-caracteristicas'
 ];
 
 let _selectedClienteId = null;
@@ -79,10 +83,11 @@ function preencherInquilino(cliente) {
 
 function preencherImovel(imovel) {
     const mapa = {
-        'imovel-endereco':        imovel.endereco,
-        'imovel-numero':          imovel.numero,
-        'imovel-bairro':          imovel.bairro,
-        'imovel-cidade-uf':       imovel.cidadeUf || imovel.cidade_uf,
+        'imovel-endereco':     imovel.endereco,
+        'imovel-numero':       imovel.numero,
+        'imovel-bairro':       imovel.bairro,
+        'imovel-cidade':       imovel.cidade,
+        'imovel-estado':       imovel.estado,
         'imovel-caracteristicas': imovel.caracteristicas,
     };
     Object.entries(mapa).forEach(([id, valor]) => {
@@ -182,7 +187,7 @@ function toggleNovoImovel() {
     form.classList.toggle('hidden', aberto);
     btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
     if (!aberto) {
-        ['ni-endereco','ni-numero','ni-bairro','ni-cidade-uf','ni-caracteristicas']
+        ['ni-endereco','ni-numero','ni-bairro','ni-cidade','ni-estado','ni-caracteristicas']
             .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         document.getElementById('ni-tipo').value = 'apartamento';
         const msg = document.getElementById('ni-msg');
@@ -193,15 +198,16 @@ function toggleNovoImovel() {
 async function salvarNovoImovelModal() {
     const endereco = document.getElementById('ni-endereco')?.value.trim();
     const numero   = document.getElementById('ni-numero')?.value.trim();
-    const cidadeUf = document.getElementById('ni-cidade-uf')?.value.trim();
+    const cidade   = document.getElementById('ni-cidade')?.value.trim();
+    const estado   = document.getElementById('ni-estado')?.value.trim();
     const msg      = document.getElementById('ni-msg');
-    if (!endereco || !numero || !cidadeUf) {
-        msg.textContent = 'Endereço, número e cidade/UF são obrigatórios.';
+    if (!endereco || !numero || !cidade || !estado) {
+        msg.textContent = 'Endereço, número, cidade e estado são obrigatórios.';
         msg.className = 'quick-form-msg error';
         return;
     }
     const imovel = {
-        endereco, numero, cidadeUf, cidade_uf: cidadeUf,
+        endereco, numero, cidade, estado,
         bairro:          document.getElementById('ni-bairro')?.value.trim()          || '',
         tipo:            document.getElementById('ni-tipo')?.value                    || 'casa',
         caracteristicas: document.getElementById('ni-caracteristicas')?.value.trim() || '',
@@ -290,7 +296,7 @@ function renderizarTabelaImoveis(filtro = '') {
     const termo     = filtro.toLowerCase();
     const filtrados = lista.filter(i =>
         (i.endereco               || '').toLowerCase().includes(termo) ||
-        (i.cidadeUf || i.cidade_uf|| '').toLowerCase().includes(termo) ||
+        (i.cidadeUf || i.cidade_uf|| `${i.cidade || ''}/${i.estado || ''}`).toLowerCase().includes(termo) ||
         (i.bairro                 || '').toLowerCase().includes(termo)
     );
     tbodyImoveis.innerHTML = '';
@@ -299,7 +305,12 @@ function renderizarTabelaImoveis(filtro = '') {
     filtrados.forEach(imovel => {
         const tr        = document.createElement('tr');
         const endDisplay = imovel.endereco + (imovel.numero ? ', ' + imovel.numero : '');
-        const cidadeUf   = imovel.cidadeUf || imovel.cidade_uf || '—';
+        const cidadeUf   = 
+            imovel.cidadeUf || 
+            imovel.cidade_uf || 
+            (imovel.cidade && imovel.estado 
+                ? `${imovel.cidade}/${imovel.estado}` 
+                : '—');
         tr.innerHTML = `
             <td>${endDisplay || '—'}</td>
             <td>${cidadeUf}</td>

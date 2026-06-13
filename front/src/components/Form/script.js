@@ -52,6 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('input', () => updatePreview(id));
         if (el && el.tagName === 'SELECT') el.addEventListener('change', () => updatePreview(id));
+        const cidadeEl = document.getElementById('imovel-cidade');
+        const estadoEl = document.getElementById('imovel-estado');
+        cidadeEl?.addEventListener('input', updateCidadeEstadoPreview);
+        estadoEl?.addEventListener('change', updateCidadeEstadoPreview);
     });
 
     const hoje = new Date().toISOString().slice(0, 10);
@@ -155,7 +159,8 @@ function validarFormulario() {
         { id: 'inq-cpf',           label: 'CPF do inquilino' },
         { id: 'imovel-endereco',   label: 'Endereço do imóvel' },
         { id: 'imovel-numero',     label: 'Número do imóvel' },
-        { id: 'imovel-cidade-uf',  label: 'Cidade/UF do imóvel' },
+        { id: 'imovel-cidade',     label: 'Cidade do imóvel' },
+        { id: 'imovel-estado',     label: 'Estado do imóvel' },
         { id: 'prazo',             label: 'Prazo (meses)' },
         { id: 'valor-aluguel',     label: 'Valor do aluguel' },
         { id: 'dia-vencimento',    label: 'Dia de vencimento' },
@@ -279,7 +284,7 @@ async function resolverIdImovel(dados) {
         if (local) return local.id;
     }
 
-    const imovelPayload = { ...dados, cidade_uf: dados.cidadeUf || dados.cidade_uf || '', tipo: dados.tipo || 'casa' };
+    const imovelPayload = { ...dados, cidade: dados.cidade || '', estado: dados.estado || '', tipo: dados.tipo || 'casa' };
     const saved = await adicionarImovel(imovelPayload);
     if (saved?.id) return saved.id;
 
@@ -305,7 +310,8 @@ async function salvarContratoNoSistema(silent = false) {
             endereco:        document.getElementById('imovel-endereco')?.value.trim()        || '',
             numero:          document.getElementById('imovel-numero')?.value.trim()          || '',
             bairro:          document.getElementById('imovel-bairro')?.value.trim()          || '',
-            cidadeUf:        document.getElementById('imovel-cidade-uf')?.value.trim()       || '',
+            cidade:          document.getElementById('imovel-cidade')?.value.trim()       || '',
+            estado:          document.getElementById('imovel-estado')?.value.trim()       || '',
             caracteristicas: document.getElementById('imovel-caracteristicas')?.value.trim() || '',
         };
 

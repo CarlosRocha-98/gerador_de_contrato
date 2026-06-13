@@ -65,6 +65,7 @@
               <input
                 type="text"
                 id="prop-nome"
+                name="prop_nome"
                 placeholder="Ex: João da Silva"
               />
             </div>
@@ -75,6 +76,7 @@
                 <input
                   type="text"
                   id="prop-nacionalidade"
+                  name="prop_nacionalidade"
                   placeholder="Brasileiro(a)"
                 />
               </div>
@@ -83,12 +85,13 @@
                 <input
                   type="text"
                   id="prop-profissao"
+                  name="prop_profissao"
                   placeholder="Ex: Empresário"
                 />
               </div>
               <div class="form-group">
                 <label for="prop-estado-civil">Estado civil</label>
-                <select id="prop-estado-civil">
+                <select id="prop-estado-civil" name="prop_estado_civil">
                   <option value="Solteiro(a)">Solteiro(a)</option>
                   <option value="Casado(a)">Casado(a)</option>
                   <option value="Divorciado(a)">Divorciado(a)</option>
@@ -99,7 +102,7 @@
 
             <div class="form-group full">
               <label for="prop-cpf">CPF</label>
-              <input type="text" id="prop-cpf" placeholder="000.000.000-00" />
+              <input type="text" id="prop-cpf" name="prop_cpf" placeholder="000.000.000-00" />
             </div>
 
             <div class="form-group full">
@@ -107,6 +110,7 @@
               <input
                 type="text"
                 id="prop-endereco"
+                name="prop_endereco"
                 placeholder="Ex: Rua das Flores"
               />
             </div>
@@ -114,26 +118,26 @@
             <div class="form-row cols-3">
               <div class="form-group">
                 <label for="prop-numero">Número</label>
-                <input type="text" id="prop-numero" placeholder="123" />
+                <input type="text" id="prop-numero" name="prop_numero" placeholder="123" />
               </div>
               <div class="form-group">
                 <label for="prop-bairro">Bairro</label>
-                <input type="text" id="prop-bairro" placeholder="Centro" />
+                <input type="text" id="prop-bairro" name="prop_bairro" placeholder="Centro" />
               </div>
               <div class="form-group">
                 <label for="prop-cep">CEP</label>
-                <input type="text" id="prop-cep" placeholder="00000-000" />
+                <input type="text" id="prop-cep" name="prop_cep" placeholder="00000-000" />
               </div>
             </div>
 
             <div class="form-row cols-cidade-uf">
               <div class="form-group">
                 <label for="prop-cidade">Cidade</label>
-                <input type="text" id="prop-cidade" placeholder="São Paulo" />
+                <input type="text" id="prop-cidade" name="prop_cidade" placeholder="São Paulo" />
               </div>
               <div class="form-group">
                 <label for="prop-estado">Estado</label>
-                <select id="prop-estado">
+                <select id="prop-estado" name="prop_estado" required>
                   <option value="">UF</option>
                   <option value="AC">AC</option>
                   <option value="AL">AL</option>
@@ -209,7 +213,7 @@
               </div>
               <div class="form-group">
                 <label for="inq-estado-civil">Estado civil</label>
-                <select id="inq-estado-civil">
+                <select id="inq-estado-civil" name="inq_estado_civil">
                   <option value="Solteiro(a)">Solteiro(a)</option>
                   <option value="Casado(a)">Casado(a)</option>
                   <option value="Divorciado(a)">Divorciado(a)</option>
@@ -254,7 +258,7 @@
               </div>
               <div class="form-group">
                 <label for="inq-estado">Estado</label>
-                <select id="inq-estado">
+                <select id="inq-estado" name="inq_estado" required>
                   <option value="">UF</option>
                   <option value="AC">AC</option>
                   <option value="AL">AL</option>
@@ -321,12 +325,46 @@
                 <input type="text" id="imovel-bairro" placeholder="Vila Nova" />
               </div>
               <div class="form-group">
-                <label for="imovel-cidade-uf">Cidade/UF</label>
+                <label for="imovel-cidade-uf">Cidade</label>
                 <input
                   type="text"
                   id="imovel-cidade-uf"
-                  placeholder="São Paulo/SP"
+                  placeholder="São Paulo"
                 />
+              </div>
+
+              <div class="form-group">
+                <label for="imovel-estado">Estado</label>
+                <select id="imovel-estado">
+                  <option value="">UF</option>
+                  <option value="AC">AC</option>
+                  <option value="AL">AL</option>
+                  <option value="AP">AP</option>
+                  <option value="AM">AM</option>
+                  <option value="BA">BA</option>
+                  <option value="CE">CE</option>
+                  <option value="DF">DF</option>
+                  <option value="ES">ES</option>
+                  <option value="GO">GO</option>
+                  <option value="MA">MA</option>
+                  <option value="MT">MT</option>
+                  <option value="MS">MS</option>
+                  <option value="MG">MG</option>
+                  <option value="PA">PA</option>
+                  <option value="PB">PB</option>
+                  <option value="PR">PR</option>
+                  <option value="PE">PE</option>
+                  <option value="PI">PI</option>
+                  <option value="RJ">RJ</option>
+                  <option value="RN">RN</option>
+                  <option value="RS">RS</option>
+                  <option value="RO">RO</option>
+                  <option value="RR">RR</option>
+                  <option value="SC">SC</option>
+                  <option value="SP">SP</option>
+                  <option value="SE">SE</option>
+                  <option value="TO">TO</option>
+                </select>
               </div>
             </div>
 
@@ -416,7 +454,7 @@
               </div>
               <div class="form-group">
                 <label for="assinatura-estado">Estado</label>
-                <select id="assinatura-estado">
+                <select id="assinatura-estado" name="assinatura_estado" required>
                   <option value="">UF</option>
                   <option value="AC">AC</option>
                   <option value="AL">AL</option>
@@ -574,7 +612,7 @@
             <span class="preview-field" id="pv-imovel-bairro"
               >______________</span
             >,
-            <span class="preview-field" id="pv-imovel-cidade-uf"
+            <span class="preview-field" id="pv-imovel-cidade-estado"
               >______________</span
             >, com as características a seguir:
           </p>
@@ -767,19 +805,19 @@
         <div id="form-novo-cliente" class="modal-quick-form hidden">
           <div class="quick-form-grid">
             <div class="quick-form-group">
-              <label>Nome *</label>
+              <label for="nc-nome">Nome *</label>
               <input type="text" id="nc-nome" placeholder="João Silva">
             </div>
             <div class="quick-form-group">
-              <label>Nacionalidade</label>
+              <label for="nc-nacionalidade">Nacionalidade</label>
               <input type="text" id="nc-nacionalidade" placeholder="Brasileiro(a)">
             </div>
             <div class="quick-form-group">
-              <label>Profissão</label>
+              <label for="nc-profissao">Profissão</label>
               <input type="text" id="nc-profissao" placeholder="Ex: Empresário">
             </div>
             <div class="quick-form-group">
-              <label>Estado Civil</label>
+              <label for="nc-estado-civil">Estado Civil</label>
               <select id="nc-estado-civil">
                 <option value="">Selecione</option>
                 <option value="Solteiro(a)">Solteiro(a)</option>
@@ -789,47 +827,47 @@
               </select>
             </div>
             <div class="quick-form-group">
-              <label>CPF *</label>
+              <label for="nc-cpf">CPF *</label>
               <input type="text" id="nc-cpf" placeholder="000.000.000-00">
             </div>
             <div class="quick-form-group">
-              <label>RG</label>
+              <label for="nc-rg">RG</label>
               <input type="text" id="nc-rg" placeholder="00.000.000-0">
             </div>
             <div class="quick-form-group">
-              <label>Órgão Expedidor</label>
+              <label for="nc-orgao-expedidor">Órgão Expedidor</label>
               <input type="text" id="nc-orgao-expedidor" placeholder="SSP/SP">
             </div>
             <div class="quick-form-group">
-              <label>Telefone</label>
+              <label for="nc-telefone">Telefone</label>
               <input type="text" id="nc-telefone" placeholder="(11) 99999-9999">
             </div>
             <div class="quick-form-group">
-              <label>E-mail</label>
+              <label for="nc-email">E-mail</label>
               <input type="email" id="nc-email" placeholder="email@exemplo.com">
             </div>
             <div class="quick-form-group">
-              <label>Rua / Av.</label>
+              <label for="nc-rua">Rua / Av.</label>
               <input type="text" id="nc-rua" placeholder="Rua das Flores">
             </div>
             <div class="quick-form-group">
-              <label>Número</label>
+              <label for="nc-numero">Número</label>
               <input type="text" id="nc-numero" placeholder="123">
             </div>
             <div class="quick-form-group">
-              <label>Bairro</label>
+              <label for="nc-bairro">Bairro</label>
               <input type="text" id="nc-bairro" placeholder="Centro">
             </div>
             <div class="quick-form-group">
-              <label>CEP</label>
+              <label for="nc-cep">CEP</label>
               <input type="text" id="nc-cep" placeholder="00000-000">
             </div>
             <div class="quick-form-group">
-              <label>Cidade</label>
+              <label for="nc-cidade">Cidade</label>
               <input type="text" id="nc-cidade" placeholder="São Paulo">
             </div>
             <div class="quick-form-group">
-              <label>Estado (UF)</label>
+              <label for="nc-estado">Estado (UF)</label>
               <input type="text" id="nc-estado" placeholder="SP" maxlength="2">
             </div>
           </div>
@@ -841,7 +879,7 @@
         </div>
 
         <div class="modal-search">
-          <input type="text" id="modal-busca-cliente" placeholder="Buscar por nome ou CPF..." autocomplete="off" />
+          <input type="text" id="modal-busca-cliente" aria-label="Buscar cliente" placeholder="Buscar por nome ou CPF..." autocomplete="off" />
         </div>
         <div class="modal-table-wrapper">
           <table class="modal-tabela-clientes">
@@ -885,23 +923,28 @@
         <div id="form-novo-imovel" class="modal-quick-form hidden">
           <div class="quick-form-grid">
             <div class="quick-form-group">
-              <label>Endereço *</label>
+              <label for="ni-endereco">Endereço *</label>
               <input type="text" id="ni-endereco" placeholder="Rua das Palmeiras">
             </div>
             <div class="quick-form-group">
-              <label>Número *</label>
+              <label for="ni-numero">Número *</label>
               <input type="text" id="ni-numero" placeholder="123">
             </div>
             <div class="quick-form-group">
-              <label>Bairro</label>
+              <label for="ni-bairro">Bairro</label>
               <input type="text" id="ni-bairro" placeholder="Centro">
             </div>
             <div class="quick-form-group">
-              <label>Cidade / UF *</label>
-              <input type="text" id="ni-cidade-uf" placeholder="São Paulo/SP">
+              <label for="ni-cidade">Cidade / UF *</label>
+              <input type="text" id="ni-cidade" placeholder="São Paulo">
             </div>
             <div class="quick-form-group">
-              <label>Tipo *</label>
+              <label for="ni-estado">Estado *</label>
+              <input type="text" id="ni-estado" placeholder="SP" maxlength="2">
+            </div>
+            <div class="quick-form-group">
+
+              <label for="ni-tipo">Tipo *</label>
               <select id="ni-tipo">
                 <option value="apartamento">Apartamento</option>
                 <option value="casa">Casa</option>
@@ -909,7 +952,7 @@
               </select>
             </div>
             <div class="quick-form-group">
-              <label>Características</label>
+              <label for="ni-caracteristicas">Características</label>
               <input type="text" id="ni-caracteristicas" placeholder="Ex: 2 quartos, 1 banheiro">
             </div>
           </div>
@@ -921,7 +964,7 @@
         </div>
 
         <div class="modal-search">
-          <input type="text" id="modal-busca-imovel" placeholder="Buscar por endereço ou cidade..." autocomplete="off" />
+          <input type="text" id="modal-busca-imovel" aria-label="Buscar imóvel" placeholder="Buscar por endereço ou cidade..." autocomplete="off" />
         </div>
         <div class="modal-table-wrapper">
           <table class="modal-tabela-clientes">

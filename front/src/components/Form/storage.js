@@ -128,7 +128,8 @@ async function adicionarImovel(imovel) {
                 endereco: imovel.endereco,
                 numero: imovel.numero,
                 bairro: imovel.bairro,
-                cidade_uf: imovel.cidadeUf || imovel.cidade_uf,
+                cidade: imovel.cidade,
+                estado: imovel.estado,
                 tipo: imovel.tipo || '',
                 caracteristicas: imovel.caracteristicas || ''
             };

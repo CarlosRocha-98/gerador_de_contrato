@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
 
 
 class PerfilUsuario(models.Model):
@@ -16,7 +17,10 @@ class PerfilUsuario(models.Model):
     # Documentos
     rg = models.CharField(max_length=20, blank=True)
     orgao_expedidor = models.CharField(max_length=20, blank=True)
-    cpf = models.CharField(max_length=20)
+    cpf = models.CharField(
+        max_length=11,
+        validators=[RegexValidator(r'^\d{11}$', 'CPF deve conter exatamente 11 dígitos.')]
+    )
     
     # Contato
     telefone = models.CharField(max_length=20, blank=True)
@@ -47,7 +51,10 @@ class Cliente(models.Model):
     estado_civil = models.CharField(max_length=20, blank=True)
     rg = models.CharField(max_length=20, blank=True)
     orgao_expedidor = models.CharField(max_length=20, blank=True)
-    cpf = models.CharField(max_length=20)
+    cpf = models.CharField(
+        max_length=11,
+        validators=[RegexValidator(r'^\d{11}$', 'CPF deve conter exatamente 11 dígitos.')]
+    )
     telefone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
     rua = models.CharField(max_length=255, blank=True)
