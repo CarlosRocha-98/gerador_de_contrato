@@ -57,7 +57,13 @@ document.getElementById('propertyForm').addEventListener('submit', function(e) {
             body: JSON.stringify(payload)
         })
         .then(res => {
-            if (!res.ok) return res.text().then(t => { throw new Error(t); });
+            if (!res.ok) { 
+                return res.text().then(t => { 
+                    console.error('Resposta do backend:', t);
+                    alert('Erro real do backend:\n ' + t);
+                    throw new Error(t); 
+                });
+            }
             return res.json();
         })
         .then(saved => {
@@ -77,7 +83,7 @@ document.getElementById('propertyForm').addEventListener('submit', function(e) {
                 localStorage.setItem(IMOVEIS_KEY, JSON.stringify(lista));
             }
 
-            alert('Imóvel salvo localmente. O backend retornou erro ao salvar no servidor.');
+            alert('Imóvel salvo localmente. Veja o erro real no Console');
             window.location.href = '../Home/index.html';
         });
         return; // aguarda o fetch acima
