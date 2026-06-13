@@ -13,7 +13,7 @@ class PerfilUsuarioAdmin(admin.ModelAdmin):
             'fields': ('nome', 'nacionalidade', 'profissao', 'estado_civil')
         }),
         ('Documentos', {
-            'fields': ('cpf', 'rg', 'orgao_expedidor')
+            'fields': ('cpf', 'orgao_expedidor')
         }),
         ('Contato', {
             'fields': ('telefone',)
@@ -38,7 +38,7 @@ class ClienteAdmin(admin.ModelAdmin):
             'fields': ('nome', 'nacionalidade', 'profissao', 'estado_civil')
         }),
         ('Documentos', {
-            'fields': ('cpf', 'rg', 'orgao_expedidor')
+            'fields': ('cpf', 'orgao_expedidor')
         }),
         ('Contato', {
             'fields': ('email', 'telefone')

@@ -15,7 +15,6 @@ class PerfilUsuario(models.Model):
     estado_civil = models.CharField(max_length=20, blank=True)
     
     # Documentos
-    rg = models.CharField(max_length=20, blank=True)
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=11,
@@ -49,7 +48,6 @@ class Cliente(models.Model):
     nacionalidade = models.CharField(max_length=100, blank=True)
     profissao = models.CharField(max_length=100, blank=True)
     estado_civil = models.CharField(max_length=20, blank=True)
-    rg = models.CharField(max_length=20, blank=True)
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=11,

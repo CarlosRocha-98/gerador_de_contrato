@@ -29,7 +29,6 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const nacionalidade   = document.getElementById('nacionalidade').value.trim();
   const profissao       = document.getElementById('profissao').value.trim();
   const estado_civil    = document.getElementById('estado_civil').value.trim();
-  const rg              = document.getElementById('rg').value.trim();
   const orgao_expedidor = document.getElementById('orgao_expedidor').value.trim();
   const rua             = document.getElementById('rua').value.trim();
   const numero          = document.getElementById('numero').value.trim();
@@ -58,7 +57,6 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         nacionalidade: document.getElementById('nacionalidade').value.trim(),
         profissao: document.getElementById('profissao').value.trim(),
         estado_civil: document.getElementById('estado_civil').value.trim(),
-        rg: document.getElementById('rg').value.trim(),
         orgao_expedidor: document.getElementById('orgao_expedidor').value.trim(),
         rua: document.getElementById('rua').value.trim(),
         numero: document.getElementById('numero').value.trim(),

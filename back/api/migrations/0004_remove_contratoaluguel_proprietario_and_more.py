@@ -29,7 +29,6 @@ class Migration(migrations.Migration):
                 ('nacionalidade', models.CharField(blank=True, max_length=100)),
                 ('profissao', models.CharField(blank=True, max_length=100)),
                 ('estado_civil', models.CharField(blank=True, max_length=20)),
-                ('rg', models.CharField(blank=True, max_length=20)),
                 ('orgao_expedidor', models.CharField(blank=True, max_length=20)),
                 ('cpf', models.CharField(max_length=20)),
                 ('telefone', models.CharField(blank=True, max_length=20)),

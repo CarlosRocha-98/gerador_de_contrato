@@ -15,7 +15,7 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
         fields = [
             'usuario_id', 'username', 'email',
             'nome', 'nacionalidade', 'profissao', 'estado_civil',
-            'rg', 'orgao_expedidor', 'cpf', 'telefone',
+            'orgao_expedidor', 'cpf', 'telefone',
             'rua', 'numero', 'bairro', 'cep', 'cidade', 'estado',
             'criado_em'
         ]
@@ -33,7 +33,6 @@ class RegisterSerializer(serializers.ModelSerializer):
     nacionalidade = serializers.CharField(required=False, allow_blank=True, write_only=True)
     profissao = serializers.CharField(required=False, allow_blank=True, write_only=True)
     estado_civil = serializers.CharField(required=False, allow_blank=True, write_only=True)
-    rg = serializers.CharField(required=False, allow_blank=True, write_only=True)
     orgao_expedidor = serializers.CharField(required=False, allow_blank=True, write_only=True)
     
     # Endereço
@@ -49,7 +48,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'username', 'email', 'password',
             'nome', 'cpf', 'telefone', 'nacionalidade', 'profissao', 'estado_civil',
-            'rg', 'orgao_expedidor', 'rua', 'numero', 'bairro', 'cep', 'cidade', 'estado'
+            'orgao_expedidor', 'rua', 'numero', 'bairro', 'cep', 'cidade', 'estado'
         ]
         read_only_fields = ['id']
 
@@ -61,7 +60,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         nacionalidade = validated_data.pop('nacionalidade', '')
         profissao = validated_data.pop('profissao', '')
         estado_civil = validated_data.pop('estado_civil', '')
-        rg = validated_data.pop('rg', '')
         orgao_expedidor = validated_data.pop('orgao_expedidor', '')
         rua = validated_data.pop('rua', '')
         numero = validated_data.pop('numero', '')
@@ -86,7 +84,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             nacionalidade=nacionalidade,
             profissao=profissao,
             estado_civil=estado_civil,
-            rg=rg,
             orgao_expedidor=orgao_expedidor,
             rua=rua,
             numero=numero,
