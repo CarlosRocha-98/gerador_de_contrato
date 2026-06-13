@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>window.API_HOST = 'https://gerador-de-contrato-6uck.onrender.com';</script>
     <title>Meu Perfil - Contrato S.A.</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -75,10 +76,6 @@
               </div>
             </div>
             <div class="form-row cols-2">
-              <div class="form-group">
-                <label for="field-rg">RG</label>
-                <input type="text" id="field-rg" placeholder="00.000.000-0" />
-              </div>
               <div class="form-group">
                 <label for="field-orgao-expedidor">Órgão Expedidor</label>
                 <input type="text" id="field-orgao-expedidor" placeholder="SSP" />
@@ -218,19 +215,18 @@
           <form id="form-edit-cliente" onsubmit="return false">
             <input type="hidden" id="edit-cli-id">
             <div class="form-row">
-              <div class="form-group"><label>Nome</label><input id="edit-cli-nome" type="text"></div>
-              <div class="form-group"><label>CPF</label><input id="edit-cli-cpf" type="text"></div>
+              <div class="form-group"><label for="edit-cli-nome">Nome</label><input id="edit-cli-nome" type="text"></div>
+              <div class="form-group"><label for="edit-cli-cpf">CPF</label><input id="edit-cli-cpf" type="text"></div>
             </div>
             <div class="form-row cols-3">
-              <div class="form-group"><label>RG</label><input id="edit-cli-rg" type="text"></div>
-              <div class="form-group"><label>Órgão Expedidor</label><input id="edit-cli-orgao" type="text"></div>
-              <div class="form-group"><label>Telefone</label><input id="edit-cli-telefone" type="text"></div>
+              <div class="form-group"><label for="edit-cli-orgao">Órgão Expedidor</label><input id="edit-cli-orgao" type="text"></div>
+              <div class="form-group"><label for="edit-cli-telefone">Telefone</label><input id="edit-cli-telefone" type="text"></div>
             </div>
             <div class="form-row cols-3">
-              <div class="form-group"><label>Nacionalidade</label><input id="edit-cli-nacionalidade" type="text"></div>
-              <div class="form-group"><label>Profissão</label><input id="edit-cli-profissao" type="text"></div>
+              <div class="form-group"><label for="edit-cli-nacionalidade">Nacionalidade</label><input id="edit-cli-nacionalidade" type="text"></div>
+              <div class="form-group"><label for="edit-cli-profissao">Profissão</label><input id="edit-cli-profissao" type="text"></div>
               <div class="form-group">
-                <label>Estado Civil</label>
+                <label for="edit-cli-estado-civil">Estado Civil</label>
                 <select id="edit-cli-estado-civil">
                   <option value="">Selecione</option>
                   <option value="Solteiro(a)">Solteiro(a)</option>
@@ -240,16 +236,16 @@
                 </select>
               </div>
             </div>
-            <div class="form-group full"><label>E-mail</label><input id="edit-cli-email" type="email"></div>
+            <div class="form-group full"><label for="edit-cli-email">E-mail</label><input id="edit-cli-email" type="email"></div>
             <div class="form-row cols-3">
-              <div class="form-group"><label>Rua / Av</label><input id="edit-cli-rua" type="text"></div>
-              <div class="form-group"><label>Número</label><input id="edit-cli-numero" type="text"></div>
-              <div class="form-group"><label>Bairro</label><input id="edit-cli-bairro" type="text"></div>
+              <div class="form-group"><label for="edit-cli-rua">Rua / Av</label><input id="edit-cli-rua" type="text"></div>
+              <div class="form-group"><label for="edit-cli-numero">Número</label><input id="edit-cli-numero" type="text"></div>
+              <div class="form-group"><label for="edit-cli-bairro">Bairro</label><input id="edit-cli-bairro" type="text"></div>
             </div>
             <div class="form-row cols-3">
-              <div class="form-group"><label>CEP</label><input id="edit-cli-cep" type="text"></div>
-              <div class="form-group"><label>Cidade</label><input id="edit-cli-cidade" type="text"></div>
-              <div class="form-group"><label>Estado (UF)</label><input id="edit-cli-estado" type="text" maxlength="2"></div>
+              <div class="form-group"><label for="edit-cli-cep">CEP</label><input id="edit-cli-cep" type="text"></div>
+              <div class="form-group"><label for="edit-cli-cidade">Cidade</label><input id="edit-cli-cidade" type="text"></div>
+              <div class="form-group"><label for="edit-cli-estado">Estado (UF)</label><input id="edit-cli-estado" type="text" maxlength="2"></div>
             </div>
           </form>
           <div class="modal-edit-actions">
@@ -270,14 +266,14 @@
           <form id="form-edit-imovel" onsubmit="return false">
             <input type="hidden" id="edit-imo-id">
             <div class="form-row">
-              <div class="form-group"><label>Endereço</label><input id="edit-imo-endereco" type="text"></div>
-              <div class="form-group"><label>Número</label><input id="edit-imo-numero" type="text"></div>
+              <div class="form-group"><label for="edit-imo-endereco">Endereço</label><input id="edit-imo-endereco" type="text"></div>
+              <div class="form-group"><label for="edit-imo-numero">Número</label><input id="edit-imo-numero" type="text"></div>
             </div>
             <div class="form-row cols-3">
-              <div class="form-group"><label>Bairro</label><input id="edit-imo-bairro" type="text"></div>
-              <div class="form-group"><label>Cidade / UF</label><input id="edit-imo-cidade-uf" type="text" placeholder="São Paulo/SP"></div>
+              <div class="form-group"><label for="edit-imo-bairro">Bairro</label><input id="edit-imo-bairro" type="text"></div>
+              <div class="form-group"><label for="edit-imo-cidade-uf">Cidade / UF</label><input id="edit-imo-cidade-uf" type="text" placeholder="São Paulo/SP"></div>
               <div class="form-group">
-                <label>Tipo</label>
+                <label for="edit-imo-tipo">Tipo</label>
                 <select id="edit-imo-tipo">
                   <option value="apartamento">Apartamento</option>
                   <option value="casa">Casa</option>
@@ -286,7 +282,7 @@
               </div>
             </div>
             <div class="form-group full">
-              <label>Características</label>
+              <label for="edit-imo-caracteristicas">Características</label>
               <textarea id="edit-imo-caracteristicas" rows="3"></textarea>
             </div>
           </form>

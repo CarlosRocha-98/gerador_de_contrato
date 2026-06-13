@@ -1,4 +1,4 @@
-const BACKEND = window.API_HOST || 'http://localhost:8000';
+window.API_BASE = 'https://gerador-de-contrato-6uck.onrender.com';
 const jwtToken = localStorage.getItem('access_token') || localStorage.getItem('access');
 const sessao   = JSON.parse(sessionStorage.getItem('session') || 'null');
 const LOCAL_PROFILE_KEY = 'localProfile';
@@ -48,7 +48,6 @@ function carregarPerfil() {
             setField('field-username',      p.email || sessao?.username || '');
             setField('field-cpf',           p.cpf);
             setField('field-nome',          p.nome);
-                    setField('field-rg',            p.rg);
                     setField('field-orgao-expedidor', p.orgao_expedidor);
             setField('field-nacionalidade', p.nacionalidade);
             setField('field-profissao',     p.profissao);
@@ -103,7 +102,6 @@ document.getElementById('profileForm').addEventListener('submit', function (e) {
         nacionalidade:   document.getElementById('field-nacionalidade').value.trim(),
         profissao:       document.getElementById('field-profissao').value.trim(),
         estado_civil:    document.getElementById('field-estado-civil').value,
-        rg:              document.getElementById('field-rg').value.trim(),
         orgao_expedidor: document.getElementById('field-orgao-expedidor').value.trim(),
 
         telefone:        document.getElementById('field-telefone').value.trim(),
@@ -252,7 +250,6 @@ function abrirModalEditCliente(c) {
     document.getElementById('edit-cli-id').value            = c.id         || '';
     document.getElementById('edit-cli-nome').value          = c.nome       || '';
     document.getElementById('edit-cli-cpf').value           = c.cpf        || '';
-    document.getElementById('edit-cli-rg').value            = c.rg         || '';
     document.getElementById('edit-cli-orgao').value         = c.orgao_expedidor || '';
     document.getElementById('edit-cli-telefone').value      = c.telefone   || '';
     document.getElementById('edit-cli-nacionalidade').value = c.nacionalidade || '';
@@ -280,7 +277,6 @@ async function salvarEdicaoCliente() {
     const dados = {
         nome:            document.getElementById('edit-cli-nome').value.trim(),
         cpf:             document.getElementById('edit-cli-cpf').value.trim(),
-        rg:              document.getElementById('edit-cli-rg').value.trim(),
         orgao_expedidor: document.getElementById('edit-cli-orgao').value.trim(),
         telefone:        document.getElementById('edit-cli-telefone').value.trim(),
         nacionalidade:   document.getElementById('edit-cli-nacionalidade').value.trim(),

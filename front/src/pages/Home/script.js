@@ -12,7 +12,7 @@ if (session || jwtToken) {
     const localProfile = JSON.parse(localStorage.getItem('localProfile') || 'null');
 
     if (jwtToken) {
-        const API_BASE = window.API_HOST || 'http://localhost:8000';
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
         fetch(`${API_BASE}/api/perfil/`, {
             headers: { 'Authorization': 'Bearer ' + jwtToken }
         })
@@ -26,7 +26,7 @@ if (session || jwtToken) {
     }
     } else {
         // 2. Tenta verificar backend OAuth apenas quando mesmo host (evita CORS)
-        const BACKEND = window.API_HOST || 'http://localhost:8000';
+        const BACKEND = API_BASE;
         try {
             if (window.location.origin === (new URL(BACKEND)).origin) {
                 fetch(BACKEND + '/profile', { credentials: 'include' })

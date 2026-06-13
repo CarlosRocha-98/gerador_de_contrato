@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>window.API_HOST = 'https://gerador-de-contrato-6uck.onrender.com';</script>
     <title>Registrar Imóvel - Gerador de Contrato</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -33,8 +34,42 @@
                         <input type="text" id="bairro" placeholder="Vila Nova" required>
                     </div>
                     <div class="input-group">
-                        <label for="cidade_uf">Cidade/UF</label>
-                        <input type="text" id="cidade_uf" placeholder="São Paulo/SP" required>
+                        <label for="cidade">Cidade</label>
+                        <input type="text" id="cidade" placeholder="São Paulo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="estado">Estado (UF)</label>
+                        <select id="estado" class="input-field" required>
+                            <option value="">Selecione</option>
+                            <option value="AC">AC</option>
+                            <option value="AL">AL</option>
+                            <option value="AP">AP</option>
+                            <option value="AM">AM</option>
+                            <option value="BA">BA</option>
+                            <option value="CE">CE</option>
+                            <option value="DF">DF</option>
+                            <option value="ES">ES</option>
+                            <option value="GO">GO</option>
+                            <option value="MA">MA</option>
+                            <option value="MT">MT</option>
+                            <option value="MS">MS</option>
+                            <option value="MG">MG</option>
+                            <option value="PA">PA</option>
+                            <option value="PB">PB</option>
+                            <option value="PR">PR</option>
+                            <option value="PE">PE</option>
+                            <option value="PI">PI</option>
+                            <option value="RJ">RJ</option>
+                            <option value="RN">RN</option>
+                            <option value="RS">RS</option>
+                            <option value="RO">RO</option>
+                            <option value="RR">RR</option>
+                            <option value="SC">SC</option>
+                            <option value="SP">SP</option>
+                            <option value="SE">SE</option>
+                            <option value="TO">TO</option>
+                        </select>
                     </div>
                 </div>
 
