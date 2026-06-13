@@ -1,4 +1,4 @@
-window.API_BASE = window.API_BASE || 'http://localhost:8000';
+window.API_BASE = 'https://gerador-de-contrato-6uck.onrender.com';
 
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -95,37 +95,37 @@ async function resetPassword() {
     }
 }
 
-async function gerarContratoPDF(html, titulo = "contrato") {
-    try {
-        const res = await apiFetch('/gerar-pdf', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ html, titulo })
-        });
+// async function gerarContratoPDF(html, titulo = "contrato") {
+//     try {
+//         const res = await apiFetch('/gerar-pdf', {
+//             method: 'POST',
+//             headers: { 'Content-Type': 'application/json' },
+//             body: JSON.stringify({ html, titulo })
+//         });
 
-        if (!res.ok) throw new Error('Erro ao gerar PDF');
+//         if (!res.ok) throw new Error('Erro ao gerar PDF');
 
-        // Recebe o PDF como blob
-        const blob = await res.blob();
-        const url = window.URL.createObjectURL(blob);
+//         // Recebe o PDF como blob
+//         const blob = await res.blob();
+//         const url = window.URL.createObjectURL(blob);
 
-        // Cria link para download
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${titulo}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
+//         // Cria link para download
+//         const a = document.createElement('a');
+//         a.href = url;
+//         a.download = `${titulo}.pdf`;
+//         document.body.appendChild(a);
+//         a.click();
+//         a.remove();
 
-        showMessage('📄 PDF gerado com sucesso!', 'success');
-    } catch (err) {
-        showMessage('Erro ao gerar PDF: ' + err.message, 'error');
-    }
-}
+//         showMessage('📄 PDF gerado com sucesso!', 'success');
+//     } catch (err) {
+//         showMessage('Erro ao gerar PDF: ' + err.message, 'error');
+//     }
+// }
 
-const contratoHTML = "<h2>Contrato de Aluguel</h2><p>Este contrato é válido por 12 meses...</p>";
-gerarContratoPDF(contratoHTML, "Contrato_Aluguel");
+// const contratoHTML = "<h2>Contrato de Aluguel</h2><p>Este contrato é válido por 12 meses...</p>";
+// gerarContratoPDF(contratoHTML, "Contrato_Aluguel");
 
-const contratoServicoHTML = "<h2>Contrato de Servico</h2><p>Este contrato é válido por 12 meses...</p>";
-gerarContratoPDF(contratoServicoHTML, "Contrato_Servico");
+// const contratoServicoHTML = "<h2>Contrato de Servico</h2><p>Este contrato é válido por 12 meses...</p>";
+// gerarContratoPDF(contratoServicoHTML, "Contrato_Servico");
 
