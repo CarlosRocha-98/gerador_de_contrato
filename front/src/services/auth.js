@@ -112,26 +112,10 @@ async function login(username, password) {
 
 function logout() {
   clearSession();
-  // Also remove any legacy token keys
   clearLocal('access');
   clearLocal('refresh');
 
-  // Compute relative path to front/index.html and redirect there
-  try {
-    const parts = location.pathname.split('/').filter(Boolean);
-    const frontIdx = parts.lastIndexOf('front');
-    let redirectTo = 'index.html';
-    if (frontIdx !== -1) {
-      const ups = parts.length - frontIdx - 1; // segments after 'front'
-      redirectTo = '../'.repeat(ups) + 'index.html';
-    }
-    window.location.href = redirectTo;
-    return;
-  } catch (e) {
-    // fallback
-    window.location.href = 'index.html';
-    return;
-  }
+  window.location.href = '/index.html';
 }
 
 function getAccessToken() {

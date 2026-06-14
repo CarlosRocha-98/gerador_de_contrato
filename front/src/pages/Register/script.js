@@ -1,4 +1,4 @@
-window.API_HOST = window.API_HOST || 'http://localhost:8000';
+window.API_HOST = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
 console.log('[Register] script loaded');
 

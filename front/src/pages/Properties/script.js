@@ -83,7 +83,7 @@ document.getElementById('propertyForm').addEventListener('submit', function(e) {
                 localStorage.setItem(IMOVEIS_KEY, JSON.stringify(lista));
             }
 
-            alert('Imóvel salvo localmente. Veja o erro real no Console');
+            alert('Erro ao salvar imóvel no servidor. Verificar o Console');
             window.location.href = '../Home/index.html';
         });
         return; // aguarda o fetch acima

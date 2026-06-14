@@ -1,4 +1,4 @@
-window.API_BASE = 'https://gerador-de-contrato-6uck.onrender.com';
+const BACKEND = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 const jwtToken = localStorage.getItem('access_token') || localStorage.getItem('access');
 const sessao   = JSON.parse(sessionStorage.getItem('session') || 'null');
 const LOCAL_PROFILE_KEY = 'localProfile';
@@ -366,7 +366,7 @@ function renderizarImoveis(lista) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${i.endereco || '—'}${i.numero ? ', ' + i.numero : ''}</td>
-            <td>${i.cidade || i.cidade || '—'}</td>
+            <td>${i.cidade || '—'}${i.estado ? '/' + i.estado : ''}</td>
             <td>${i.tipo || '—'}</td>
             <td>
                 <button class="btn-edit"   onclick='abrirModalEditImovel(${JSON.stringify(i)})'>✏️ Editar</button>
@@ -403,7 +403,8 @@ function abrirModalEditImovel(i) {
     document.getElementById('edit-imo-endereco').value      = i.endereco         || '';
     document.getElementById('edit-imo-numero').value        = i.numero           || '';
     document.getElementById('edit-imo-bairro').value        = i.bairro           || '';
-    document.getElementById('edit-imo-cidade-uf').value     = i.cidade || i.cidade || '';
+    document.getElementById('edit-imo-cidade').value     = i.cidade || '';
+    document.getElementById('edit-imo-estado').value = i.estado || '';
     document.getElementById('edit-imo-tipo').value          = i.tipo             || 'casa';
     document.getElementById('edit-imo-caracteristicas').value = i.caracteristicas || '';
     const msgEl = document.getElementById('modal-edit-imovel-msg');
@@ -423,6 +424,7 @@ async function salvarEdicaoImovel() {
         numero:          document.getElementById('edit-imo-numero').value.trim(),
         bairro:          document.getElementById('edit-imo-bairro').value.trim(),
         cidade:          document.getElementById('edit-imo-cidade').value.trim(),
+        estado:          document.getElementById('edit-imo-estado').value.trim().toUpperCase(),
         tipo:            document.getElementById('edit-imo-tipo').value,
         caracteristicas: document.getElementById('edit-imo-caracteristicas').value.trim(),
     };
