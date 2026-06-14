@@ -259,10 +259,10 @@ function preencherPrestador(p) {
 }
 
 // ── Carregamento do perfil ────────────────────────────────────────────────────
-const jwtToken = localStorage.getItem('access') || localStorage.getItem('access');
+const jwtToken = localStorage.getItem('access_token') || localStorage.getItem('access');
 
 if (jwtToken) {
-    const API_BASE = window.API_HOST || 'http://localhost:8000';
+    const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     fetch(`${API_BASE}/api/perfil/`, { headers: { 'Authorization': 'Bearer ' + jwtToken } })
         .then(res => res.ok ? res.json() : Promise.reject())
         .then(p => preencherPrestador(p))
@@ -307,10 +307,10 @@ function clienteSimilarExiste(lista, novo) {
 
 async function adicionarCliente(dados) {
     const lista = carregarClientes();
-    const jwt   = localStorage.getItem('access') || localStorage.getItem('access');
+    const jwt   = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (jwt) {
         try {
-            const API_BASE = window.API_HOST || 'http://localhost:8000';
+            const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
             const payload = {
                 nome: dados.nome, cpf: dados.cpf, telefone: dados.telefone || '',
                 email: dados.email || '', rua: dados.endereco || dados.rua || '',
@@ -342,10 +342,10 @@ async function adicionarCliente(dados) {
 }
 
 async function sincronizarClientesDoBackend() {
-    const jwt = localStorage.getItem('access') || localStorage.getItem('access');
+    const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (!jwt) return;
     try {
-        const API_BASE = window.API_HOST || 'http://localhost:8000';
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
         const res = await fetch(`${API_BASE}/api/clientes/`, {
             headers: { 'Authorization': 'Bearer ' + jwt }
         });
@@ -455,7 +455,7 @@ function toggleNovoContratante() {
     form.classList.toggle('hidden', aberto);
     if (btn) btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
     if (!aberto) {
-        ['nc-nome','nc-nacionalidade','nc-profissao','nc-cpf','nc-rg','nc-orgao-expedidor',
+        ['nc-nome','nc-nacionalidade','nc-profissao','nc-cpf','nc-orgao-expedidor',
          'nc-telefone','nc-email','nc-rua','nc-numero','nc-bairro','nc-cep','nc-cidade','nc-estado']
             .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         const ecEl = document.getElementById('nc-estado-civil');
@@ -479,7 +479,6 @@ async function salvarNovoContratanteModal() {
         nacionalidade:   document.getElementById('nc-nacionalidade')?.value.trim()    || '',
         profissao:       document.getElementById('nc-profissao')?.value.trim()        || '',
         estado_civil:    document.getElementById('nc-estado-civil')?.value            || '',
-        rg:              document.getElementById('nc-rg')?.value.trim()               || '',
         orgao_expedidor: document.getElementById('nc-orgao-expedidor')?.value.trim()  || '',
         telefone:        document.getElementById('nc-telefone')?.value.trim()         || '',
         email:           document.getElementById('nc-email')?.value.trim()            || '',
@@ -640,34 +639,38 @@ function validarFormulario() {
         { id: 'assinatura-estado', label: 'Estado de assinatura' },
     ];
     const faltando = campos
-        .filter(c => { const el = document.getElementById(c.id); return !el || !el.value.trim(); })
+        .filter(c => { 
+            const el = document.getElementById(c.id); 
+            return !el || !el.value.trim(); 
+        })
         .map(c => c.label);
-    return true;
-}
 
-if (faltando.length > 0) {
     campos.forEach(c => {
         const el = document.getElementById(c.id);
-        if (el && (!el.value.trim())) {
+        if (el && !el.value.trim()) {
             el.classList.add('campo-erro');
         } else if (el) {
             el.classList.remove('campo-erro');
         }
     });
-    alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
-    return false;
+
+    if (faltando.length > 0) {
+        alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
+        return false;
+    }
+
+    return true;
+    
 }
-
-
 // ── Geração de PDF ────────────────────────────────────────────────────────────
 async function gerarPDF() {
     if (!validarFormulario()) return;
     const preview = document.getElementById('contract-preview');
     const html    = preview ? preview.innerHTML : '';
-    const jwt     = localStorage.getItem('access') || localStorage.getItem('access');
+    const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
 
     if (jwt) {
-        const API_BASE      = window.API_HOST || 'http://localhost:8000';
+        const API_BASE      = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
         const btnPDF        = document.getElementById('btn-gerar-pdf');
         const textoOriginal = btnPDF ? btnPDF.textContent : '';
         if (btnPDF) { btnPDF.disabled = true; btnPDF.textContent = 'Gerando PDF…'; }
@@ -722,9 +725,9 @@ document.getElementById('btn-gerar-pdf')?.addEventListener('click', () => {
 
 // ── Salvar contrato no banco ──────────────────────────────────────────────────
 async function resolverIdContratante(dados) {
-    const jwt = localStorage.getItem('access') || localStorage.getItem('access');
+    const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (!jwt) return null;
-    const API_BASE = window.API_HOST || 'http://localhost:8000';
+    const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     const cpf = (dados.cpf || '').trim();
 
     if (_selectedContratanteId) return _selectedContratanteId;
@@ -754,8 +757,8 @@ async function resolverIdContratante(dados) {
 async function salvarContratoNoSistema(silent = false) {
     if (!silent && !validarFormulario()) return;
     try {
-        const jwt      = localStorage.getItem('access') || localStorage.getItem('access');
-        const API_BASE = window.API_HOST || 'http://localhost:8000';
+        const jwt      = localStorage.getItem('access_token') || localStorage.getItem('access');
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
         const contratanteData = {
             nome:     document.getElementById('cont-nome')?.value.trim() || '',

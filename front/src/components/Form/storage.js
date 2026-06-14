@@ -37,12 +37,11 @@ async function adicionarCliente(dados) {
 
     if (jwt) {
         try {
-            const API_BASE = window.API_HOST || 'http://localhost:8000';
+            const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
             const payload = {
                 nome: dados.nome,
                 cpf: dados.cpf,
-                rg: dados.rg,
                 orgao_expedidor: dados.orgao_expedidor,
                 nacionalidade: dados.nacionalidade,
                 profissao: dados.profissao,
@@ -90,7 +89,7 @@ async function sincronizarClientesDoBackend() {
     if (!jwt) return;
 
     try {
-        const API_BASE = window.API_HOST || 'http://localhost:8000';
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
         const res = await fetch(`${API_BASE}/api/clientes/`, {
             headers: { 'Authorization': 'Bearer ' + jwt }
@@ -122,7 +121,7 @@ async function adicionarImovel(imovel) {
 
     if (jwt) {
         try {
-            const API_BASE = window.API_HOST || 'http://localhost:8000';
+            const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
             const payload = {
                 endereco: imovel.endereco,
@@ -167,7 +166,7 @@ async function sincronizarImoveisDoBackend() {
     if (!jwt) return;
 
     try {
-        const API_BASE = window.API_HOST || 'http://localhost:8000';
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
         const res = await fetch(`${API_BASE}/api/imoveis/`, {
             headers: { 'Authorization': 'Bearer ' + jwt }

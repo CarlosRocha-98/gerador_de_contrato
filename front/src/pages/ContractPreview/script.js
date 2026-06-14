@@ -1,7 +1,7 @@
 const contractContent = document.getElementById('contractContent');
 const btnPrint = document.getElementById('btnPrint');
 
-const API_BASE = window.API_HOST || 'http://localhost:8000';
+const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
 async function buscarPerfilLocador() {
     const token = localStorage.getItem('access_token') || localStorage.getItem('access');
@@ -88,7 +88,7 @@ function montarEnderecoPessoa(pessoa) {
 function montarEnderecoImovel(imovel) {
     if (!imovel) return '______________';
 
-    return `${texto(imovel.endereco)}, nº ${texto(imovel.numero)}, ${texto(imovel.bairro)}, ${texto(imovel.cidade_uf || imovel.cidadeUf)}`;
+    return `${texto(imovel.endereco)}, nº ${texto(imovel.numero)}, ${texto(imovel.bairro)}, ${texto(imovel.cidade)}/${texto(imovel.estado)}`;
 }
 
 function contratoAluguelHTML(dados) {

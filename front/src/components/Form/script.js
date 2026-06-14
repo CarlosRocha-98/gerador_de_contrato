@@ -113,7 +113,7 @@ document.getElementById('btn-limpar')?.addEventListener('click', limparFormulari
 const jwtToken = localStorage.getItem('access_token') || localStorage.getItem('access');
 
 if (jwtToken) {
-    const API_BASE = window.API_HOST || 'http://localhost:8000';
+    const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     fetch(`${API_BASE}/api/perfil/`, { headers: { 'Authorization': 'Bearer ' + jwtToken } })
         .then(res => res.ok ? res.json() : Promise.reject())
         .then(perfil => { preencherProprietario(perfil, true); sincronizarTodosPreview(); })
@@ -127,7 +127,7 @@ const sessaoLocal = JSON.parse(sessionStorage.getItem('session') || 'null');
 if (sessaoLocal?.username) preencherProprietario({ nome: sessaoLocal.username });
 
 try {
-    const BACKEND = window.API_HOST || 'http://localhost:8000';
+    const BACKEND = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     if (window.location.origin === (new URL(BACKEND)).origin) {
         fetch(BACKEND + '/profile', { credentials: 'include' })
             .then(res => res.ok ? res.json() : Promise.reject())
@@ -187,7 +187,7 @@ async function gerarPDF() {
     const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
 
     if (jwt) {
-        const API_BASE     = window.API_HOST || 'http://localhost:8000';
+        const API_BASE     = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
         const btnPDF       = document.getElementById('btn-gerar-pdf');
         const textoOriginal = btnPDF ? btnPDF.textContent : '';
         if (btnPDF) { btnPDF.disabled = true; btnPDF.textContent = 'Gerando PDF…'; }
@@ -243,7 +243,7 @@ document.getElementById('btn-gerar-pdf')?.addEventListener('click', () => {
 async function resolverIdCliente(dados) {
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (!jwt) return null;
-    const API_BASE = window.API_HOST || 'http://localhost:8000';
+    const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     const cpf = (dados.cpf || '').trim();
 
     if (_selectedClienteId) return _selectedClienteId;
@@ -273,7 +273,7 @@ async function resolverIdCliente(dados) {
 async function resolverIdImovel(dados) {
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (!jwt) return null;
-    const API_BASE = window.API_HOST || 'http://localhost:8000';
+    const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     const end = (dados.endereco || '').trim();
     const num = (dados.numero   || '').trim();
 
@@ -303,7 +303,7 @@ async function salvarContratoNoSistema(silent = false) {
     if (!silent && !validarFormulario()) return;
     try {
         const jwt      = localStorage.getItem('access_token') || localStorage.getItem('access');
-        const API_BASE = window.API_HOST || 'http://localhost:8000';
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
         const inquilinoData = capturarDadosInquilino();
         const imovelData    = {

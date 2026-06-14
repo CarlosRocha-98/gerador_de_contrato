@@ -12,7 +12,6 @@ function clienteJaExiste(lista, novo) {
     return lista.some(c =>
         c.nome === novo.nome &&
         c.cpf === novo.cpf &&
-        c.rg === novo.rg &&
         (c.rua || c.endereco || '') === (novo.rua || novo.endereco || '') &&
         c.numero === novo.numero &&
         c.cidade === novo.cidade &&
@@ -35,7 +34,6 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
     const formData = {
         nome,
         cpf,
-        rg:             getVal('rg'),
         orgao_expedidor:getVal('orgao_expedidor'),
         nacionalidade:  getVal('nacionalidade'),
         profissao:      getVal('profissao'),
@@ -67,11 +65,10 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
     if (jwt) {
         (async () => {
             try {
-                const API_BASE = window.API_HOST || 'http://localhost:8000';
+                const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
                 const payload = {
                     nome: formData.nome,
                     cpf: formData.cpf,
-                    rg: formData.rg,
                     orgao_expedidor: formData.orgao_expedidor,
                     nacionalidade: formData.nacionalidade,
                     profissao: formData.profissao,

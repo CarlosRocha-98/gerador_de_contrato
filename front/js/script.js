@@ -1,10 +1,14 @@
 // ── Redireciona usuário logado para o dashboard ───────────────────────────────
 const DASHBOARD = 'src/pages/Home/index.html';
-const BACKEND = 'https://gerador-de-contrato-6uck.onrender.com/api';
+const BACKEND = 'https://gerador-de-contrato-6uck.onrender.com';
 
 
 // Redireciona usuário logado
-if (sessionStorage.getItem('session') || localStorage.getItem('access')) {
+if (
+    sessionStorage.getItem('session') || 
+    localStorage.getItem('access_token') ||
+    localStorage.getItem('access') 
+) {
     window.location.replace(DASHBOARD);
 }
 
@@ -46,6 +50,9 @@ function logout() {
     sessionStorage.clear();
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+
     window.location.href = 'src/pages/Home/index.html';
 }
 
@@ -56,7 +63,7 @@ if (sessionStorage.getItem('session')) {
 // 2) Verifica sessão OAuth (Google/Facebook) — only when frontend and backend share origin
 async function checkOAuthSession() {
     try {
-        const res = await fetch(BACKEND + '/auth/jwt/', {
+        const res = await fetch(BACKEND + '/api/auth/jwt/', {
             credentials: 'include' // importante se backend usa cookies HttpOnly
         });
 
@@ -82,11 +89,13 @@ checkOAuthSession();
 
 // Função para renovar token
 async function refreshToken() {
-    const refresh = localStorage.getItem('refresh');
+    const refresh = 
+        localStorage.getItem('refresh_token') ||
+        localStorage.getItem('refresh');
     if (!refresh) return null;
 
     try {
-        const res = await fetch(BACKEND + '/auth/token/refresh/', {
+        const res = await fetch(BACKEND + '/api/token/refresh/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ refresh })
@@ -95,7 +104,8 @@ async function refreshToken() {
         if (!res.ok) throw new Error('Refresh token inválido');
 
         const data = await res.json();
-        localStorage.setItem('access', data.access); // atualiza o access
+        localStorage.setItem('access', data.access);
+        localStorage.setItem('access_token', data.access); // atualiza o access
         return data.access;
     } catch (err) {
         console.error('Erro ao renovar token:', err);
@@ -105,7 +115,9 @@ async function refreshToken() {
 
 // Wrapper para chamadas autenticadas
 async function apiFetch(url, options = {}) {
-    let access = localStorage.getItem('access');
+    let access = 
+        localStorage.getItem('access_token') ||
+        localStorage.getItem('access');
     if (!access) return logout();
 
     try {
@@ -143,7 +155,9 @@ async function apiFetch(url, options = {}) {
 
 
 // Verifica perfil com JWT
-const access = localStorage.getItem('access');
+const access = 
+    localStorage.getItem('access_token') ||
+    localStorage.getItem('access');
 
 if (access) {
     (async () => {
