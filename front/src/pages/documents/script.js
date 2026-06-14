@@ -142,7 +142,7 @@ function obterInfoContrato(contrato) {
         const imovel = obterImovelPorId(contrato.imovel);
 
         const enderecoImovel = imovel
-            ? `${imovel.endereco || ''}${imovel.numero ? ', ' + imovel.numero : ''}${imovel.bairro ? ' - ' + imovel.bairro : ''}${imovel.cidade_uf ? ' - ' + imovel.cidade_uf : ''}`
+            ? `${imovel.endereco || ''}${imovel.numero ? ', ' + imovel.numero : ''}${imovel.bairro ? ' - ' + imovel.bairro : ''}${imovel.cidade ? ' - ' + imovel.cidade : ''}`
             : 'Imóvel não informado';
 
         return {

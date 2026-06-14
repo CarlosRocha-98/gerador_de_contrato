@@ -1,6 +1,6 @@
 // Frontend auth utilities — integrate with Django REST API (JWT)
 
-window.API_HOST = window.API_HOST || 'http://localhost:8000'; // adjust if backend runs elsewhere
+window.API_HOST = 'https://gerador-de-contrato-6uck.onrender.com'; // adjust if backend runs elsewhere
 
 function saveLocal(key, value) {
   // Store strings raw (useful for tokens); JSON.stringify for objects

@@ -366,7 +366,7 @@ function renderizarImoveis(lista) {
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${i.endereco || '—'}${i.numero ? ', ' + i.numero : ''}</td>
-            <td>${i.cidade_uf || i.cidadeUf || '—'}</td>
+            <td>${i.cidade || i.cidade || '—'}</td>
             <td>${i.tipo || '—'}</td>
             <td>
                 <button class="btn-edit"   onclick='abrirModalEditImovel(${JSON.stringify(i)})'>✏️ Editar</button>
@@ -403,7 +403,7 @@ function abrirModalEditImovel(i) {
     document.getElementById('edit-imo-endereco').value      = i.endereco         || '';
     document.getElementById('edit-imo-numero').value        = i.numero           || '';
     document.getElementById('edit-imo-bairro').value        = i.bairro           || '';
-    document.getElementById('edit-imo-cidade-uf').value     = i.cidade_uf || i.cidadeUf || '';
+    document.getElementById('edit-imo-cidade-uf').value     = i.cidade || i.cidade || '';
     document.getElementById('edit-imo-tipo').value          = i.tipo             || 'casa';
     document.getElementById('edit-imo-caracteristicas').value = i.caracteristicas || '';
     const msgEl = document.getElementById('modal-edit-imovel-msg');
@@ -422,7 +422,7 @@ async function salvarEdicaoImovel() {
         endereco:        document.getElementById('edit-imo-endereco').value.trim(),
         numero:          document.getElementById('edit-imo-numero').value.trim(),
         bairro:          document.getElementById('edit-imo-bairro').value.trim(),
-        cidade_uf:       document.getElementById('edit-imo-cidade-uf').value.trim(),
+        cidade:          document.getElementById('edit-imo-cidade').value.trim(),
         tipo:            document.getElementById('edit-imo-tipo').value,
         caracteristicas: document.getElementById('edit-imo-caracteristicas').value.trim(),
     };
