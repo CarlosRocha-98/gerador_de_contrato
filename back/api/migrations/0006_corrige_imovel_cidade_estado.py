@@ -20,8 +20,8 @@ class Migration(migrations.Migration):
             name='estado',
             field=models.CharField(max_length=2, default=''),
         ),
-        migrations.RemoveField(
-            model_name='imovel',
-            name='cidade_uf',
-        )
+        migrations.RunSQL(
+            sql="ALTER TABLE api_imovel DROP COLUMN IF EXISTS cidade_uf;",
+            reverse_sql="ALTER TABLE api_imovel ADD COLUMN cidade_uf varchar(100);",
+        ),
     ]
