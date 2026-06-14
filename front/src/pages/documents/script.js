@@ -1,4 +1,4 @@
-const API_BASE = window.API_HOST || 'http://localhost:8000';
+const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
 const documentsList = document.getElementById('documentsList');
 const statusMessage = document.getElementById('statusMessage');
@@ -125,13 +125,13 @@ function obterNomeContrato(contrato) {
         return `Contrato_Locacao_${limparNomeArquivo(nomeCliente)}.pdf`;
     }
 
-    const contratante = obterClientePorId(contrato.prestador);
+    const prestador = obterClientePorId(contrato.prestador);
 
-    const nomeContratante =
-        contratante?.nome ||
+    const nomePrestador =
+        prestador?.nome ||
         `Cliente_${contrato.prestador || contrato.id}`;
 
-    return `Contrato_Servico_${limparNomeArquivo(nomeContratante)}.pdf`;
+    return `Contrato_Servico_${limparNomeArquivo(nomePrestador)}.pdf`;
 }
 
 function obterInfoContrato(contrato) {
@@ -157,10 +157,10 @@ function obterInfoContrato(contrato) {
         };
     }
 
-    const contratante = obterClientePorId(contrato.prestador);
+    const prestador = obterClientePorId(contrato.prestador);
 
     return {
-        subtitulo1: `Contratante: ${contratante?.nome || 'Contratante não informado'}`,
+        subtitulo1: `Prestador: ${prestador?.nome || 'Prestador não informado'}`,
         subtitulo2: `Serviço: ${contrato.tipo_servico || contrato.especificacao_servico || 'Serviço não informado'}`,
         subtitulo3: `Valor: ${formatarMoeda(contrato.valor_mensal || contrato.valor_total)}`,
         data: formatarData(
@@ -175,7 +175,7 @@ function montarContratoCompleto(contrato) {
 
     const inquilino = obterClientePorId(contrato.inquilino);
     const imovel = obterImovelPorId(contrato.imovel);
-    const contratante = obterClientePorId(contrato.prestador);
+    const prestador = obterClientePorId(contrato.prestador);
 
     return {
         contrato,
@@ -184,7 +184,7 @@ function montarContratoCompleto(contrato) {
 
         inquilino,
         imovel,
-        contratante
+        prestador
     };
 }
 
