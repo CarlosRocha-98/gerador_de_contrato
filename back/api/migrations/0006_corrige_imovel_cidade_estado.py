@@ -20,4 +20,8 @@ class Migration(migrations.Migration):
             name='estado',
             field=models.CharField(max_length=2, default=''),
         ),
+        migrations.RemoveField(
+            model_name='imovel',
+            name='cidade_uf',
+        )
     ]
