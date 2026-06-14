@@ -10,18 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='imovel',
-            name='cidade',
-            field=models.CharField(max_length=100, default=''),
-        ),
-        migrations.AddField(
-            model_name='imovel',
-            name='estado',
-            field=models.CharField(max_length=2, default=''),
-        ),
         migrations.RunSQL(
-            sql="ALTER TABLE api_imovel DROP COLUMN IF EXISTS cidade_uf;",
-            reverse_sql="ALTER TABLE api_imovel ADD COLUMN cidade_uf varchar(100);",
+            sql="""
+            ALTER TABLE api_imovel 
+            DROP COLUMN IF EXISTS cidade_uf;
+            """,
+            reverse_sql="""
+            ALTER TABLE api_imovel 
+            ADD COLUMN cidade_uf varchar(100);
+            """,
         ),
     ]
