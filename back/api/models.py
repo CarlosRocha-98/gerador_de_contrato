@@ -17,8 +17,8 @@ class PerfilUsuario(models.Model):
     # Documentos
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
-        max_length=11,
-        validators=[RegexValidator(r'^\d{11}$', 'CPF deve conter exatamente 11 dígitos.')]
+        max_length=14,
+        validators=[RegexValidator(r'^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$', 'CPF inválido.')]
     )
     
     # Contato
@@ -50,8 +50,8 @@ class Cliente(models.Model):
     estado_civil = models.CharField(max_length=20, blank=True)
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
-        max_length=11,
-        validators=[RegexValidator(r'^\d{11}$', 'CPF deve conter exatamente 11 dígitos.')]
+        max_length=14,
+        validators=[RegexValidator(r'^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$', 'CPF inválido.')]
     )
     telefone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
