@@ -14,11 +14,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='cliente',
             name='cpf',
-            field=models.CharField(max_length=11, validators=[django.core.validators.RegexValidator('^\\d{11}$', 'CPF deve conter exatamente 11 dígitos.')]),
+            field=models.CharField(max_length=14, validators=[django.core.validators.RegexValidator(
+                r'^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$',
+                'CPF inválido.'
+            )]),
         ),
         migrations.AlterField(
             model_name='perfilusuario',
             name='cpf',
-            field=models.CharField(max_length=11, validators=[django.core.validators.RegexValidator('^\\d{11}$', 'CPF deve conter exatamente 11 dígitos.')]),
+            field=models.CharField(max_length=14, validators=[django.core.validators.RegexValidator(
+                r'^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$',
+                'CPF inválido.'
+            )]),
         ),
     ]
