@@ -240,7 +240,21 @@ document.getElementById('btn-gerar-pdf')?.addEventListener('click', () => {
 });
 
 // ── Salvar contrato no banco ──────────────────────────────────────────────────
-async function resolverIdCliente(dados) {
+function formatarErroBackend(erro) {
+    const texto = String(erro?.message || erro || '').trim();
+    if (!texto) return 'Erro desconhecido.';
+
+    try {
+        const json = JSON.parse(texto);
+        return Object.entries(json)
+            .map(([campo, mensagens]) => `${campo}: ${Array.isArray(mensagens) ? mensagens.join(', ') : mensagens}`)
+            .join('\n');
+    } catch (e) {
+        return texto;
+    }
+}
+
+async function resolverIdCliente(dados, opcoes = {}) {
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (!jwt) return null;
     const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
@@ -252,12 +266,12 @@ async function resolverIdCliente(dados) {
         const local = carregarClientes().find(c => normalizarCPF(c.cpf) === cpf);
         if (local?.id && local.id < 1e9) return local.id;
         if (local) {
-            const savedLocal = await adicionarCliente({ ...local, ...dados });
+            const savedLocal = await adicionarCliente({ ...local, ...dados }, opcoes);
             if (savedLocal?.id) return savedLocal.id;
         }
     }
 
-    const saved = await adicionarCliente(dados);
+    const saved = await adicionarCliente(dados, opcoes);
     if (saved?.id) return saved.id;
 
     try {
@@ -274,7 +288,7 @@ async function resolverIdCliente(dados) {
     return null;
 }
 
-async function resolverIdImovel(dados) {
+async function resolverIdImovel(dados, opcoes = {}) {
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (!jwt) return null;
     const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
@@ -287,13 +301,13 @@ async function resolverIdImovel(dados) {
         const local = carregarImoveis().find(i => i.endereco === end && i.numero === num);
         if (local?.id && local.id < 1e9) return local.id;
         if (local) {
-            const savedLocal = await adicionarImovel({ ...local, ...dados, tipo: local.tipo || dados.tipo || 'casa' });
+            const savedLocal = await adicionarImovel({ ...local, ...dados, tipo: local.tipo || dados.tipo || 'casa' }, opcoes);
             if (savedLocal?.id) return savedLocal.id;
         }
     }
 
     const imovelPayload = { ...dados, cidade: dados.cidade || '', estado: dados.estado || '', tipo: dados.tipo || 'casa' };
-    const saved = await adicionarImovel(imovelPayload);
+    const saved = await adicionarImovel(imovelPayload, opcoes);
     if (saved?.id) return saved.id;
 
     try {
@@ -345,21 +359,38 @@ async function salvarContratoNoSistema(silent = false) {
             return;
         }
 
-        const inquilinoId = await resolverIdCliente(inquilinoData);
-        const imovelId    = await resolverIdImovel(imovelData);
+        const exigirBackend = !silent;
+        if (exigirBackend && normalizarCPF(inquilinoData.cpf).length !== 11) {
+            alert('Para salvar no sistema, informe um CPF válido do inquilino com 11 dígitos.');
+            return;
+        }
+
+        let inquilinoId = null;
+        let imovelId = null;
+        try {
+            inquilinoId = await resolverIdCliente(inquilinoData, { exigirBackend });
+            imovelId    = await resolverIdImovel(imovelData, { exigirBackend });
+        } catch (erro) {
+            if (!silent) {
+                alert('Não foi possível cadastrar/vincular no backend:\n\n' + formatarErroBackend(erro));
+                return;
+            }
+            console.warn('Falha ao cadastrar/vincular no backend. Salvando localmente.', erro);
+        }
+
         const idsBackend  = { inquilinoId, imovelId };
 
         if (!inquilinoId) {
             salvarContratoLocal(idsBackend);
             console.warn('Inquilino sem ID no backend. Contrato salvo localmente.');
-            if (!silent) alert('Contrato salvo localmente com sucesso. Não foi possível vincular o inquilino ao backend agora.');
+            if (!silent) alert('Não foi possível vincular o inquilino ao backend. Verifique os dados do inquilino e tente novamente.');
             limparFormulario();
             return;
         }
         if (!imovelId) {
             salvarContratoLocal(idsBackend);
             console.warn('Imóvel sem ID no backend. Contrato salvo localmente.');
-            if (!silent) alert('Contrato salvo localmente com sucesso. Não foi possível vincular o imóvel ao backend agora.');
+            if (!silent) alert('Não foi possível vincular o imóvel ao backend. Verifique os dados do imóvel e tente novamente.');
             limparFormulario();
             return;
         }
