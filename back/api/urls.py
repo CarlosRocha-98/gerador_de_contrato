@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import logout_view, profile_view
+from .views import reset_password_view
 from .views import (
     RegisterView,
     PerfilUsuarioView,
@@ -26,6 +27,7 @@ urlpatterns = [
     # path('auth/social/', include('social_django.urls', namespace='social')), # URLs do social auth
 
     path('register/', RegisterView.as_view(), name='register'),
+    path('reset-password/', reset_password_view, name='reset-password'),
     path('perfil/', PerfilUsuarioView.as_view(), name='perfil'),
     path('logout/', logout_view, name='logout'),
     path('profile/', profile_view, name='profile'),

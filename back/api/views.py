@@ -46,6 +46,37 @@ class RegisterView(generics.CreateAPIView):
 
 
 # ── Perfil de Usuário 
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def reset_password_view(request):
+    email = (request.data.get("email") or "").strip()
+    new_password = request.data.get("new_password") or ""
+
+    if not email or not new_password:
+        return Response(
+            {"detail": "Email e nova senha sao obrigatorios."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    if len(new_password) < 6:
+        return Response(
+            {"detail": "A senha deve ter pelo menos 6 caracteres."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    user = User.objects.filter(email__iexact=email).first()
+    if not user:
+        return Response(
+            {"detail": "Usuario nao encontrado para este email."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+
+    user.set_password(new_password)
+    user.save(update_fields=["password"])
+
+    return Response({"detail": "Senha redefinida com sucesso."})
+
+
 class PerfilUsuarioView(generics.RetrieveUpdateAPIView):
     serializer_class = PerfilUsuarioSerializer
 

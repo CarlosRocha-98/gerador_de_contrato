@@ -66,6 +66,34 @@ function showMessage(msg, type) {
     }
 }
 
+function openForgot(event) {
+    event?.preventDefault();
+
+    const modal = document.getElementById('forgotModal');
+    const emailInput = document.getElementById('forgotEmail');
+    const loginEmail = document.getElementById('email')?.value.trim();
+
+    if (emailInput && loginEmail) {
+        emailInput.value = loginEmail;
+    }
+
+    showForgotMessage('', 'hidden');
+    modal?.classList.remove('hidden');
+    emailInput?.focus();
+}
+
+function closeForgot() {
+    document.getElementById('forgotModal')?.classList.add('hidden');
+}
+
+function showForgotMessage(msg, type) {
+    const el = document.getElementById('forgotMessage');
+    if (!el) return;
+
+    el.textContent = msg;
+    el.className = msg ? `message ${type}` : 'message hidden';
+}
+
 async function resetPassword() {
     const email    = document.getElementById('forgotEmail').value.trim();
     const newPass  = document.getElementById('forgotNewPass').value;
