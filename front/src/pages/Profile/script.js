@@ -186,6 +186,10 @@ function mesclarClientes(backendLista, localLista) {
     return resultado;
 }
 
+function isBackendId(id) {
+    return Number(id) > 0 && Number(id) < 1e9;
+}
+
 function abrirTab(tipo) {
     _tabAtual = tipo;
     document.getElementById('tab-clientes').classList.toggle('hidden', tipo !== 'clientes');
@@ -311,11 +315,11 @@ async function salvarEdicaoCliente() {
         bairro:          document.getElementById('edit-cli-bairro').value.trim(),
         cep:             document.getElementById('edit-cli-cep').value.trim(),
         cidade:          document.getElementById('edit-cli-cidade').value.trim(),
-        estado:          document.getElementById('edit-cli-estado').value.trim().toUpperCase(),
+        estado:          document.getElementById('edit-cli-estado').value.toUpperCase(),
     };
     const msgEl = document.getElementById('modal-edit-cliente-msg');
 
-    if (jwtToken && id) {
+    if (jwtToken && id && isBackendId(id)) {
         try {
             const res = await fetch(`${BACKEND}/api/clientes/${id}/`, {
                 method: 'PATCH',
@@ -334,9 +338,7 @@ async function salvarEdicaoCliente() {
             setTimeout(() => { fecharModalEditCliente(); carregarListaClientes(); }, 800);
             return;
         } catch (e) {
-            msgEl.textContent = 'Erro ao salvar no servidor: ' + e.message;
-            msgEl.className = 'msg-area error';
-            return;
+            console.warn('Falha ao salvar cliente no backend. Salvando localmente.', e);
         }
     }
     // Fallback local
@@ -344,8 +346,9 @@ async function salvarEdicaoCliente() {
         String(c.id) === String(id) ? { ...c, ...dados } : c
     );
     salvarClientesLocais(lista);
-    fecharModalEditCliente();
-    carregarListaClientes();
+    msgEl.textContent = '✅ Salvo localmente com sucesso!';
+    msgEl.className = 'msg-area success';
+    setTimeout(() => { fecharModalEditCliente(); carregarListaClientes(); }, 600);
 }
 
 // ──────────── IMÓVEIS ────────────
