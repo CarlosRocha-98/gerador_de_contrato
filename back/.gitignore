@@ -1,2 +1,22 @@
+# Dependências Node.js (npm install)
 node_modules/
+
+# Cache gerado pelo Python
+__pycache__/
+*.pyc
+
+# Ambientes virtuais Python
+venv/
+.venv/
+
+# Variáveis de ambiente (senhas, chaves e configurações)
 .env
+
+# Arquivos estáticos gerados pelo Django (collectstatic)
+staticfiles/
+
+# Arquivos enviados pelos usuários (uploads)
+media/
+
+# Banco SQLite padrão do Django (não usado se estiver usando MySQL/PostgreSQL)
+db.sqlite3
