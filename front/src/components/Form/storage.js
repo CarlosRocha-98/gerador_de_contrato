@@ -35,7 +35,7 @@ function clienteJaExiste(lista, novo) {
     );
 }
 
-async function adicionarCliente(dados, opcoes = {}) {
+async function adicionarCliente(dados) {
     const lista = carregarClientes();
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
 
@@ -81,15 +81,11 @@ async function adicionarCliente(dados, opcoes = {}) {
             }
 
             const erro = await res.text();
-            if (opcoes.exigirBackend) throw new Error(erro || 'Backend recusou o cliente.');
             console.warn('Backend recusou cliente:', erro);
         } catch (err) {
-            if (opcoes.exigirBackend) throw err;
             console.warn('Falha backend cliente:', err);
         }
     }
-
-    if (opcoes.exigirBackend) return null;
 
     if (!clienteJaExiste(lista, dados)) {
         lista.push({ id: Date.now(), ...dados });
@@ -130,7 +126,7 @@ function carregarImoveis() {
     return JSON.parse(localStorage.getItem(IMOVEIS_KEY) || '[]');
 }
 
-async function adicionarImovel(imovel, opcoes = {}) {
+async function adicionarImovel(imovel) {
     const lista = carregarImoveis();
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
 
@@ -168,15 +164,11 @@ async function adicionarImovel(imovel, opcoes = {}) {
                 return saved;
             }
             const erro = await res.text();
-            if (opcoes.exigirBackend) throw new Error(erro || 'Backend recusou o imóvel.');
             console.warn('Backend recusou imóvel:', erro);
         } catch (err) {
-            if (opcoes.exigirBackend) throw err;
             console.warn('Falha backend imóvel:', err);
         }
     }
-
-    if (opcoes.exigirBackend) return null;
 
     if (!lista.some(i => i.endereco === imovel.endereco && i.numero === imovel.numero)) {
         lista.push({ id: Date.now(), ...imovel });
