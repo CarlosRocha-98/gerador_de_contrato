@@ -253,7 +253,7 @@ function renderizarClientes(lista) {
 async function excluirCliente(id, nome) {
     if (!confirm(`Excluir o cliente "${nome}"? Esta ação não pode ser desfeita.`)) return;
 
-    if (jwtToken) {
+    if (jwtToken && isBackendId(id)) {
         try {
             const res = await fetch(`${BACKEND}/api/clientes/${id}/`, {
                 method: 'DELETE',
@@ -261,7 +261,7 @@ async function excluirCliente(id, nome) {
             });
             if (!res.ok && res.status !== 204) throw new Error();
         } catch (e) {
-            alert('Erro ao excluir no servidor. Removendo localmente.');
+            console.warn('Falha ao excluir cliente no backend. Removendo localmente.', e);
         }
     }
     // Remove do localStorage também
