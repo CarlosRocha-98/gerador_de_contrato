@@ -47,6 +47,10 @@ if (btnCollapseForm && btnCollapsePreview && contractPage) {
 }
 
 // ── DOMContentLoaded ──────────────────────────────────────────────────────────
+let _editingContratoId = null;
+let _editingInquilinoId = null;
+let _editingImovelId = null;
+
 document.addEventListener('DOMContentLoaded', () => {
     Object.keys(fieldMap).forEach(id => {
         const el = document.getElementById(id);
@@ -64,6 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el && !el.value) { el.value = hoje; atualizarPreviewData(id); }
         el?.addEventListener('change', () => atualizarPreviewData(id));
     });
+
+    carregarContratoAluguelParaEdicao();
 });
 
 // ── Campos opcionais ──────────────────────────────────────────────────────────
@@ -100,6 +106,10 @@ function limparFormulario() {
     });
     _selectedClienteId = null;
     _selectedImovelId  = null;
+    _editingContratoId = null;
+    _editingInquilinoId = null;
+    _editingImovelId = null;
+    sessionStorage.removeItem('contratoEdicao');
     const hoje = new Date().toISOString().slice(0, 10);
     ['data-inicio', 'data-assinatura'].forEach(id => {
         const el = document.getElementById(id);
@@ -176,6 +186,15 @@ function validarFormulario() {
         alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
         return false;
     }
+    const cpfsInvalidos = [
+        { id: 'prop-cpf', label: 'CPF do proprietário' },
+        { id: 'inq-cpf', label: 'CPF do inquilino' },
+    ].filter(c => !cpfTemTamanhoValido(document.getElementById(c.id)?.value || ''));
+
+    if (cpfsInvalidos.length > 0) {
+        alert('Informe um CPF válido com 11 dígitos:\n\n• ' + cpfsInvalidos.map(c => c.label).join('\n• '));
+        return false;
+    }
     return true;
 }
 
@@ -246,19 +265,23 @@ async function resolverIdCliente(dados) {
     const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     const cpf = normalizarCPF(dados.cpf);
 
-    if (_selectedClienteId) return _selectedClienteId;
+    if (!cpfTemTamanhoValido(dados.cpf)) {
+        return { id: null, erro: 'CPF do inquilino inválido. Informe um CPF com 11 dígitos.' };
+    }
+
+    if (_selectedClienteId) return { id: _selectedClienteId };
 
     if (cpf) {
         const local = carregarClientes().find(c => normalizarCPF(c.cpf) === cpf);
-        if (local?.id && local.id < 1e9) return local.id;
+        if (local?.id && local.id < 1e9) return { id: local.id };
         if (local) {
             const savedLocal = await adicionarCliente({ ...local, ...dados });
-            if (savedLocal?.id) return savedLocal.id;
+            if (savedLocal?.id) return { id: savedLocal.id };
         }
     }
 
     const saved = await adicionarCliente(dados);
-    if (saved?.id) return saved.id;
+    if (saved?.id) return { id: saved.id };
 
     try {
         const res = await fetch(`${API_BASE}/api/clientes/`, { headers: { 'Authorization': 'Bearer ' + jwt } });
@@ -267,11 +290,14 @@ async function resolverIdCliente(dados) {
             const found = cpf ? lista.find(c => normalizarCPF(c.cpf) === cpf) : null;
             if (found) {
                 salvarClientes([...carregarClientes().filter(c => normalizarCPF(c.cpf) !== cpf), found]);
-                return found.id;
+                return { id: found.id };
             }
         }
     } catch (e) { /* ignora */ }
-    return null;
+    return {
+        id: null,
+        erro: saved?.erroBackend || 'Não foi possível salvar ou localizar o inquilino no backend.'
+    };
 }
 
 async function resolverIdImovel(dados) {
@@ -281,30 +307,33 @@ async function resolverIdImovel(dados) {
     const end = (dados.endereco || '').trim();
     const num = (dados.numero   || '').trim();
 
-    if (_selectedImovelId) return _selectedImovelId;
+    if (_selectedImovelId) return { id: _selectedImovelId };
 
     if (end) {
         const local = carregarImoveis().find(i => i.endereco === end && i.numero === num);
-        if (local?.id && local.id < 1e9) return local.id;
+        if (local?.id && local.id < 1e9) return { id: local.id };
         if (local) {
             const savedLocal = await adicionarImovel({ ...local, ...dados, tipo: local.tipo || dados.tipo || 'casa' });
-            if (savedLocal?.id) return savedLocal.id;
+            if (savedLocal?.id) return { id: savedLocal.id };
         }
     }
 
     const imovelPayload = { ...dados, cidade: dados.cidade || '', estado: dados.estado || '', tipo: dados.tipo || 'casa' };
     const saved = await adicionarImovel(imovelPayload);
-    if (saved?.id) return saved.id;
+    if (saved?.id) return { id: saved.id };
 
     try {
         const res = await fetch(`${API_BASE}/api/imoveis/`, { headers: { 'Authorization': 'Bearer ' + jwt } });
         if (res.ok) {
             const lista = await res.json();
             const found = end ? lista.find(i => i.endereco === end && i.numero === num) : null;
-            if (found) return found.id;
+            if (found) return { id: found.id };
         }
     } catch (e) { /* ignora */ }
-    return null;
+    return {
+        id: null,
+        erro: saved?.erroBackend || 'Não foi possível salvar ou localizar o imóvel no backend.'
+    };
 }
 
 async function salvarContratoNoSistema(silent = false) {
@@ -345,23 +374,39 @@ async function salvarContratoNoSistema(silent = false) {
             return;
         }
 
-        const inquilinoId = await resolverIdCliente(inquilinoData);
-        const imovelId    = await resolverIdImovel(imovelData);
+        const inquilinoResultado = _editingInquilinoId
+            ? { id: _editingInquilinoId }
+            : await resolverIdCliente(inquilinoData);
+        const imovelResultado = _editingImovelId
+            ? { id: _editingImovelId }
+            : await resolverIdImovel(imovelData);
+        const inquilinoId = inquilinoResultado.id;
+        const imovelId    = imovelResultado.id;
         const idsBackend  = { inquilinoId, imovelId };
 
         if (!inquilinoId) {
-            salvarContratoLocal(idsBackend);
-            console.warn('Inquilino sem ID no backend. Contrato salvo localmente.');
-            if (!silent) alert('Não foi possível vincular o inquilino ao backend. Verifique os dados do inquilino e tente novamente.');
-            limparFormulario();
+            console.warn('Inquilino sem ID no backend.');
+            if (!silent) alert('Não foi possível vincular o inquilino ao backend.\n\n' + (inquilinoResultado.erro || 'Verifique os dados do inquilino e tente novamente.'));
             return;
         }
         if (!imovelId) {
-            salvarContratoLocal(idsBackend);
-            console.warn('Imóvel sem ID no backend. Contrato salvo localmente.');
-            if (!silent) alert('Não foi possível vincular o imóvel ao backend. Verifique os dados do imóvel e tente novamente.');
-            limparFormulario();
+            console.warn('Imóvel sem ID no backend.');
+            if (!silent) alert('Não foi possível vincular o imóvel ao backend.\n\n' + (imovelResultado.erro || 'Verifique os dados do imóvel e tente novamente.'));
             return;
+        }
+
+        if (_editingContratoId) {
+            const inquilinoAtualizado = await atualizarClienteBackend(inquilinoId, inquilinoData);
+            if (!inquilinoAtualizado.ok) {
+                alert('Não foi possível atualizar os dados do inquilino:\n\n' + inquilinoAtualizado.erro);
+                return;
+            }
+
+            const imovelAtualizado = await atualizarImovelBackend(imovelId, { ...imovelData, tipo: 'casa' });
+            if (!imovelAtualizado.ok) {
+                alert('Não foi possível atualizar os dados do imóvel:\n\n' + imovelAtualizado.erro);
+                return;
+            }
         }
 
         const payload = {
@@ -382,21 +427,24 @@ async function salvarContratoNoSistema(silent = false) {
             sem_multa_rescisao: document.getElementById('sem-multa-rescisao')?.checked || false,
         };
 
-        const res = await fetch(`${API_BASE}/api/contratoaluguel/`, {
-            method: 'POST',
+        const url = _editingContratoId
+            ? `${API_BASE}/api/contratoaluguel/${_editingContratoId}/`
+            : `${API_BASE}/api/contratoaluguel/`;
+
+        const res = await fetch(url, {
+            method: _editingContratoId ? 'PATCH' : 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + jwt },
             body: JSON.stringify(payload)
         });
 
         if (res.ok) {
             const savedContrato = await res.json();
-            salvarContratoLocal({ ...idsBackend, backendId: savedContrato.id });
-            if (!silent) alert('Contrato salvo com sucesso!');
+            if (!_editingContratoId) salvarContratoLocal({ ...idsBackend, backendId: savedContrato.id });
+            if (!silent) alert(_editingContratoId ? 'Contrato atualizado com sucesso!' : 'Contrato salvo com sucesso!');
             limparFormulario();
         } else {
             const erro = await res.json().catch(() => ({}));
             console.error('Erro ao salvar contrato no backend:', erro);
-            salvarContratoLocal(idsBackend);
             if (!silent) alert('Erro ao salvar no servidor: ' + JSON.stringify(erro));
         }
     } catch (err) {
@@ -406,3 +454,67 @@ async function salvarContratoNoSistema(silent = false) {
 }
 
 window.salvarContratoNoSistema = salvarContratoNoSistema;
+
+function carregarContratoAluguelParaEdicao() {
+    const raw = sessionStorage.getItem('contratoEdicao');
+    if (!raw) return;
+
+    let dados;
+    try {
+        dados = JSON.parse(raw);
+    } catch (e) {
+        sessionStorage.removeItem('contratoEdicao');
+        return;
+    }
+
+    if (dados.tipoContrato !== 'aluguel' || !dados.contrato?.id) return;
+
+    const contrato = dados.contrato;
+    _editingContratoId = contrato.id;
+    _editingInquilinoId = contrato.inquilino;
+    _editingImovelId = contrato.imovel;
+
+    if (dados.inquilino) preencherInquilino(dados.inquilino);
+    if (dados.imovel) preencherImovel(dados.imovel);
+    [...INQ_FIELD_IDS, ...IMOVEL_FIELD_IDS].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.removeAttribute('readonly');
+        el.removeAttribute('disabled');
+        el.classList.remove('prefilled');
+    });
+
+    const valores = {
+        'prazo': contrato.prazo_meses,
+        'valor-aluguel': contrato.valor_aluguel,
+        'dia-vencimento': contrato.dia_vencimento,
+        'valor-caucao': contrato.valor_caucao,
+        'multa-infracao': contrato.multa_infracao,
+        'multa-rescisao': contrato.multa_rescisao,
+        'assinatura-cidade': contrato.cidade_assinatura,
+        'assinatura-estado': contrato.estado_assinatura,
+        'data-inicio': contrato.data_inicio,
+        'data-assinatura': contrato.data_assinatura,
+    };
+
+    Object.entries(valores).forEach(([id, valor]) => {
+        const el = document.getElementById(id);
+        if (!el || valor === null || valor === undefined) return;
+        el.value = valor;
+        el.dispatchEvent(new Event('input'));
+        el.dispatchEvent(new Event('change'));
+    });
+
+    [
+        ['sem-caucao', 'sem_caucao'],
+        ['sem-multa-infracao', 'sem_multa_infracao'],
+        ['sem-multa-rescisao', 'sem_multa_rescisao'],
+    ].forEach(([id, campo]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.checked = Boolean(contrato[campo]);
+        el.dispatchEvent(new Event('change'));
+    });
+
+    sincronizarTodosPreview();
+}

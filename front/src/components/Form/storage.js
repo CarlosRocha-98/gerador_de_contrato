@@ -5,6 +5,29 @@ function normalizarCPF(valor) {
     return String(valor || '').replace(/\D/g, '');
 }
 
+function cpfTemTamanhoValido(valor) {
+    return normalizarCPF(valor).length === 11;
+}
+
+function montarPayloadCliente(dados) {
+    return {
+        nome: dados.nome,
+        cpf: normalizarCPF(dados.cpf),
+        orgao_expedidor: dados.orgao_expedidor,
+        nacionalidade: dados.nacionalidade,
+        profissao: dados.profissao,
+        estado_civil: dados.estado_civil || dados.estadoCivil || '',
+        telefone: dados.telefone,
+        email: dados.email,
+        rua: dados.endereco || dados.rua,
+        numero: dados.numero,
+        bairro: dados.bairro,
+        cep: dados.cep,
+        cidade: dados.cidade,
+        estado: dados.estado,
+    };
+}
+
 function carregarClientes() {
     return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]');
 }
@@ -82,8 +105,10 @@ async function adicionarCliente(dados) {
 
             const erro = await res.text();
             console.warn('Backend recusou cliente:', erro);
+            return { erroBackend: erro || `Erro ${res.status} ao salvar cliente.` };
         } catch (err) {
             console.warn('Falha backend cliente:', err);
+            return { erroBackend: err?.message || 'Falha ao conectar ao backend de clientes.' };
         }
     }
 
@@ -126,6 +151,18 @@ function carregarImoveis() {
     return JSON.parse(localStorage.getItem(IMOVEIS_KEY) || '[]');
 }
 
+function montarPayloadImovel(imovel) {
+    return {
+        endereco: imovel.endereco,
+        numero: imovel.numero,
+        bairro: imovel.bairro,
+        cidade: imovel.cidade,
+        estado: imovel.estado,
+        tipo: imovel.tipo || 'casa',
+        caracteristicas: imovel.caracteristicas || ''
+    };
+}
+
 async function adicionarImovel(imovel) {
     const lista = carregarImoveis();
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
@@ -165,8 +202,10 @@ async function adicionarImovel(imovel) {
             }
             const erro = await res.text();
             console.warn('Backend recusou imóvel:', erro);
+            return { erroBackend: erro || `Erro ${res.status} ao salvar imóvel.` };
         } catch (err) {
             console.warn('Falha backend imóvel:', err);
+            return { erroBackend: err?.message || 'Falha ao conectar ao backend de imóveis.' };
         }
     }
 
@@ -199,4 +238,55 @@ async function sincronizarImoveisDoBackend() {
 
         localStorage.setItem(IMOVEIS_KEY, JSON.stringify([...lista, ...locais]));
     } catch (e) {}
+}
+
+async function atualizarImovelBackend(id, imovel) {
+    const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
+    if (!jwt || !id) return { ok: false, erro: 'Imóvel sem ID no backend.' };
+
+    try {
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
+        const res = await fetch(`${API_BASE}/api/imoveis/${id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwt
+            },
+            body: JSON.stringify(montarPayloadImovel(imovel))
+        });
+
+        if (!res.ok) return { ok: false, erro: await res.text() };
+
+        const saved = await res.json();
+        const lista = carregarImoveis().map(i => String(i.id) === String(id) ? saved : i);
+        localStorage.setItem(IMOVEIS_KEY, JSON.stringify(lista));
+        return { ok: true, data: saved };
+    } catch (err) {
+        return { ok: false, erro: err?.message || 'Falha ao atualizar imóvel.' };
+    }
+}
+
+async function atualizarClienteBackend(id, dados) {
+    const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
+    if (!jwt || !id) return { ok: false, erro: 'Cliente sem ID no backend.' };
+
+    try {
+        const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
+        const res = await fetch(`${API_BASE}/api/clientes/${id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwt
+            },
+            body: JSON.stringify(montarPayloadCliente(dados))
+        });
+
+        if (!res.ok) return { ok: false, erro: await res.text() };
+
+        const saved = await res.json();
+        salvarClientes(carregarClientes().map(c => String(c.id) === String(id) ? saved : c));
+        return { ok: true, data: saved };
+    } catch (err) {
+        return { ok: false, erro: err?.message || 'Falha ao atualizar cliente.' };
+    }
 }

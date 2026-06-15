@@ -318,6 +318,15 @@ function renderizarContratos(contratos) {
                     📥
                 </button>
 
+                ${contrato.tipoContrato === 'aluguel' ? `
+                <button
+                    class="btn-edit-contract"
+                    title="Editar contrato"
+                >
+                    ✏️
+                </button>
+                ` : ''}
+
                 <button
                     class="btn-delete"
                     title="Excluir contrato"
@@ -332,6 +341,12 @@ function renderizarContratos(contratos) {
             .querySelector('.btn-download')
             .addEventListener('click', () => {
                 abrirPreviewContrato(contrato);
+            });
+
+        item
+            .querySelector('.btn-edit-contract')
+            ?.addEventListener('click', () => {
+                editarContrato(contrato);
             });
 
         item
@@ -354,6 +369,20 @@ function abrirPreviewContrato(contrato) {
     );
 
     window.location.href = '../ContractPreview/index.html';
+}
+
+function editarContrato(contrato) {
+    if (contrato.tipoContrato !== 'aluguel') {
+        alert('Edição disponível apenas para contrato de aluguel neste momento.');
+        return;
+    }
+
+    sessionStorage.setItem(
+        'contratoEdicao',
+        JSON.stringify(montarContratoCompleto(contrato))
+    );
+
+    window.location.href = '../../components/Form/index.html';
 }
 
 async function excluirContrato(contrato) {
