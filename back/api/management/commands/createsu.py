@@ -1,13 +1,18 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+import os
 
 class Command(BaseCommand):
     help = "Cria um superusuário automaticamente se não existir"
 
     def handle(self, *args, **options):
-        username = "admin"
-        email = "admin@example.com"
-        password = "senha123"
+        username = os.getenv("DJANGO_SUPERUSER_USERNAME", "admin")
+        email = os.getenv("DJANGO_SUPERUSER_EMAIL", "admin@example.com")
+        password = os.getenv("DJANGO_SUPERUSER_PASSWORD")
+
+        if not password:
+            self.stdout.write(self.style.ERROR("Defina DJANGO_SUPERUSER_PASSWORD no ambiente"))
+            return
 
         if not User.objects.filter(username=username).exists():
             User.objects.create_superuser(username, email, password)
