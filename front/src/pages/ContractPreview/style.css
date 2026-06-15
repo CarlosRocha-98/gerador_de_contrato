@@ -119,7 +119,7 @@ body {
 @media (max-width: 700px) {
     .contract-paper {
         padding: 36px 24px;
-        min-height: auto;
+        min-height: 0;
     }
 
     .assinaturas {
@@ -147,7 +147,7 @@ body {
 
     .contract-paper {
         width: 100%;
-        min-height: auto;
+        min-height: 0;
         margin: 0;
         padding: 0;
         box-shadow: none;

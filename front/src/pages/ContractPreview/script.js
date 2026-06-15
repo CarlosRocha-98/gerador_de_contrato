@@ -69,6 +69,10 @@ function texto(valor, fallback = '______________') {
     return valor;
 }
 
+function campo(valor, fallback = '______________') {
+    return `<span class="contract-field">${texto(valor, fallback)}</span>`;
+}
+
 function valorOuIsento(valor, semCampo = false) {
     if (semCampo) return 'isento';
 
@@ -82,13 +86,13 @@ function valorOuIsento(valor, semCampo = false) {
 function montarEnderecoPessoa(pessoa) {
     if (!pessoa) return '______________';
 
-    return `${texto(pessoa.rua || pessoa.endereco)}, nº ${texto(pessoa.numero)}, bairro ${texto(pessoa.bairro)}, ${texto(pessoa.cidade)}/${texto(pessoa.estado)}, CEP: ${texto(pessoa.cep)}`;
+    return `${campo(pessoa.rua || pessoa.endereco)}, nº ${campo(pessoa.numero)}, bairro ${campo(pessoa.bairro)}, ${campo(pessoa.cidade)}/${campo(pessoa.estado)}, CEP: ${campo(pessoa.cep)}`;
 }
 
 function montarEnderecoImovel(imovel) {
     if (!imovel) return '______________';
 
-    return `${texto(imovel.endereco)}, nº ${texto(imovel.numero)}, ${texto(imovel.bairro)}, ${texto(imovel.cidade)}/${texto(imovel.estado)}`;
+    return `${campo(imovel.endereco)}, nº ${campo(imovel.numero)}, ${campo(imovel.bairro)}, ${campo(imovel.cidade)}/${campo(imovel.estado)}`;
 }
 
 function contratoAluguelHTML(dados) {
@@ -102,23 +106,23 @@ function contratoAluguelHTML(dados) {
 
         <h2>IDENTIFICAÇÃO DAS PARTES CONTRATANTES</h2>
 
-        <p>
+        <p class="contract-line">
             <strong>LOCADOR:</strong>
-            ${texto(proprietario.nome || proprietario.username)},
-            ${texto(proprietario.nacionalidade)},
-            ${texto(proprietario.profissao)},
-            ${texto(proprietario.estado_civil)},
-            C.P.F. nº ${texto(proprietario.cpf)},
+            ${campo(proprietario.nome || proprietario.username)},
+            ${campo(proprietario.nacionalidade)},
+            ${campo(proprietario.profissao)},
+            ${campo(proprietario.estado_civil)},
+            C.P.F. nº ${campo(proprietario.cpf)},
             residente na ${montarEnderecoPessoa(proprietario)}.
         </p>
 
-        <p>
+        <p class="contract-line">
             <strong>LOCATÁRIO:</strong>
-            ${texto(inquilino.nome)},
-            ${texto(inquilino.nacionalidade)},
-            ${texto(inquilino.profissao)},
-            ${texto(inquilino.estado_civil)},
-            C.P.F. nº ${texto(inquilino.cpf)},
+            ${campo(inquilino.nome)},
+            ${campo(inquilino.nacionalidade)},
+            ${campo(inquilino.profissao)},
+            ${campo(inquilino.estado_civil)},
+            C.P.F. nº ${campo(inquilino.cpf)},
             residente na ${montarEnderecoPessoa(inquilino)}.
         </p>
 
@@ -129,7 +133,7 @@ function contratoAluguelHTML(dados) {
 
         <h2>Cláusula 1ª – DO OBJETO DO CONTRATO</h2>
 
-        <p>
+        <p class="contract-line">
             O OBJETO deste contrato é o imóvel de propriedade do LOCADOR,
             situado na ${montarEnderecoImovel(imovel)}, com as características a seguir:
         </p>
@@ -146,9 +150,9 @@ function contratoAluguelHTML(dados) {
 
         <h2>Cláusula 2ª – DO PRAZO DE LOCAÇÃO</h2>
 
-        <p>
-            A duração da locação deste imóvel é de ${texto(contrato.prazo_meses)}
-            meses, iniciando-se em ${formatarData(contrato.data_inicio)}.
+        <p class="contract-line">
+            A duração da locação deste imóvel é de ${campo(contrato.prazo_meses)}
+            meses, iniciando-se em ${campo(formatarData(contrato.data_inicio))}.
         </p>
 
         <h2>Cláusula 3ª – DA FINALIDADE DO IMÓVEL</h2>
