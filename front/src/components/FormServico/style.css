@@ -957,7 +957,8 @@ select.prefilled:focus { outline: none; box-shadow: none; }
 }
 .quick-form-group { display: flex; flex-direction: column; gap: 4px; }
 .quick-form-group label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.03em; }
-.quick-form-group input {
+.quick-form-group input,
+.quick-form-group select {
     padding: 7px 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -968,7 +969,13 @@ select.prefilled:focus { outline: none; box-shadow: none; }
     box-sizing: border-box;
     width: 100%;
 }
-.quick-form-group input:focus { outline: none; border-color: #b9374c; }
+
+.quick-form-group select {
+    height: 33px;
+}
+
+.quick-form-group input:focus,
+.quick-form-group select:focus { outline: none; border-color: #b9374c; }
 .quick-form-msg {
     font-size: 13px;
     padding: 6px 10px;
@@ -978,7 +985,7 @@ select.prefilled:focus { outline: none; box-shadow: none; }
 .quick-form-msg.hidden  { display: none; }
 .quick-form-msg.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
 .quick-form-msg.error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-.quick-form-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.quick-form-actions { display: flex; justify-content: center; gap: 8px; }
 .btn-quick-cancel {
     padding: 7px 16px; background: transparent; border: 1px solid #ccc;
     border-radius: 6px; color: #666; font-size: 13px; cursor: pointer;
