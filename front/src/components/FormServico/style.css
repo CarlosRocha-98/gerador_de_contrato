@@ -316,10 +316,14 @@ body {
 .preview-field {
     color: #888;
     border-bottom: 1px solid #ccc;
-    display: inline-block;
+    display: inline;
     min-width: 6ch;
     padding-right: 6px;
-    white-space: pre-wrap;
+    white-space: nowrap;
+}
+
+.preview-line {
+    white-space: normal;
 }
 
 .preview-clause {
