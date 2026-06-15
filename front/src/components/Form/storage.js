@@ -14,6 +14,7 @@ async function lerErroResposta(res, contexto) {
 
     if (contentType.includes('application/json')) {
         const erro = await res.json().catch(() => ({}));
+        if (erro.detail && erro.error) return `${erro.detail}\n${erro.error}`;
         return erro.detail || erro.error || JSON.stringify(erro);
     }
 
