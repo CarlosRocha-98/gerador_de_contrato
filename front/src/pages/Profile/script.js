@@ -215,7 +215,7 @@ function renderizarClientes(lista) {
             <td>${c.nome || '—'}</td>
             <td>${c.cpf  || '—'}</td>
             <td>${c.cidade || '—'}${c.estado ? '/' + c.estado : ''}</td>
-            <td>
+            <td class="table-actions">
                 <button class="btn-edit"   onclick='abrirModalEditCliente(${JSON.stringify(c)})'>✏️ Editar</button>
                 <button class="btn-delete" onclick="excluirCliente(${c.id}, '${(c.nome||'').replace(/'/g,"\\'")}')">🗑 Excluir</button>
             </td>`;
@@ -368,7 +368,7 @@ function renderizarImoveis(lista) {
             <td>${i.endereco || '—'}${i.numero ? ', ' + i.numero : ''}</td>
             <td>${i.cidade || '—'}${i.estado ? '/' + i.estado : ''}</td>
             <td>${i.tipo || '—'}</td>
-            <td>
+            <td class="table-actions">
                 <button class="btn-edit"   onclick='abrirModalEditImovel(${JSON.stringify(i)})'>✏️ Editar</button>
                 <button class="btn-delete" onclick="excluirImovel(${i.id}, '${(i.endereco||'').replace(/'/g,"\\'")}')">🗑 Excluir</button>
             </td>`;

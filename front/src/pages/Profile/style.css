@@ -330,6 +330,14 @@ body {
 .listagem-table tr:last-child td { border-bottom: none; }
 .listagem-table tr:hover td { background: rgba(255,255,255,0.03); }
 
+.table-actions {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    min-width: 150px;
+}
+
 .btn-edit, .btn-delete {
     padding: 5px 12px;
     border-radius: 6px;
@@ -337,9 +345,10 @@ body {
     font-size: 0.8rem;
     cursor: pointer;
     transition: 0.2s;
+    white-space: nowrap;
 }
 
-.btn-edit   { background: rgba(52,152,219,0.2); color: #5dade2; border: 1px solid rgba(52,152,219,0.3); margin-right: 6px; }
+.btn-edit   { background: rgba(52,152,219,0.2); color: #5dade2; border: 1px solid rgba(52,152,219,0.3); }
 .btn-delete { background: rgba(231, 76,60,0.2);  color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }
 .btn-edit:hover   { background: rgba(52,152,219,0.35); }
 .btn-delete:hover { background: rgba(231,76,60,0.35); }
