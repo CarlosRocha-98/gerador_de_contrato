@@ -244,12 +244,12 @@ async function resolverIdCliente(dados) {
     const jwt = localStorage.getItem('access_token') || localStorage.getItem('access');
     if (!jwt) return null;
     const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
-    const cpf = (dados.cpf || '').trim();
+    const cpf = normalizarCPF(dados.cpf);
 
     if (_selectedClienteId) return _selectedClienteId;
 
     if (cpf) {
-        const local = carregarClientes().find(c => c.cpf === cpf);
+        const local = carregarClientes().find(c => normalizarCPF(c.cpf) === cpf);
         if (local?.id && local.id < 1e9) return local.id;
         if (local) {
             const savedLocal = await adicionarCliente({ ...local, ...dados });
@@ -264,9 +264,9 @@ async function resolverIdCliente(dados) {
         const res = await fetch(`${API_BASE}/api/clientes/`, { headers: { 'Authorization': 'Bearer ' + jwt } });
         if (res.ok) {
             const lista = await res.json();
-            const found = cpf ? lista.find(c => c.cpf === cpf) : null;
+            const found = cpf ? lista.find(c => normalizarCPF(c.cpf) === cpf) : null;
             if (found) {
-                salvarClientes([...carregarClientes().filter(c => c.cpf !== cpf), found]);
+                salvarClientes([...carregarClientes().filter(c => normalizarCPF(c.cpf) !== cpf), found]);
                 return found.id;
             }
         }

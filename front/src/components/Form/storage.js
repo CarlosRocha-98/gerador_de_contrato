@@ -1,6 +1,10 @@
 ﻿// ── Gestão de Clientes (localStorage + API) ───────────────────────────────────
 const CLIENTES_KEY = 'clientes';
 
+function normalizarCPF(valor) {
+    return String(valor || '').replace(/\D/g, '');
+}
+
 function carregarClientes() {
     return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]');
 }
@@ -11,11 +15,11 @@ function salvarClientes(lista) {
 
 function clienteSimilarExiste(lista, novo) {
     const nome = (novo?.nome || '').trim().toLowerCase();
-    const cpf  = (novo?.cpf || '').trim();
+    const cpf  = normalizarCPF(novo?.cpf);
 
     return lista.filter(c =>
         (nome && (c.nome || '').toLowerCase() === nome) ||
-        (cpf && c.cpf === cpf)
+        (cpf && normalizarCPF(c.cpf) === cpf)
     );
 }
 
@@ -23,11 +27,11 @@ function clienteJaExiste(lista, novo) {
     if (!novo) return false;
 
     const nome = (novo.nome || '').trim().toLowerCase();
-    const cpf  = (novo.cpf || '').trim();
+    const cpf  = normalizarCPF(novo.cpf);
 
     return lista.some(c =>
         (nome && (c.nome || '').toLowerCase() === nome) ||
-        (cpf && c.cpf === cpf)
+        (cpf && normalizarCPF(c.cpf) === cpf)
     );
 }
 
@@ -41,7 +45,7 @@ async function adicionarCliente(dados) {
 
             const payload = {
                 nome: dados.nome,
-                cpf: dados.cpf,
+                cpf: normalizarCPF(dados.cpf),
                 orgao_expedidor: dados.orgao_expedidor,
                 nacionalidade: dados.nacionalidade,
                 profissao: dados.profissao,
@@ -69,7 +73,7 @@ async function adicionarCliente(dados) {
                 const saved = await res.json();
                 const atualizada = lista.filter(c =>
                     String(c.id) !== String(dados.id) &&
-                    (!dados.cpf || c.cpf !== dados.cpf)
+                    (!dados.cpf || normalizarCPF(c.cpf) !== normalizarCPF(dados.cpf))
                 );
                 atualizada.push(saved);
                 salvarClientes(atualizada);

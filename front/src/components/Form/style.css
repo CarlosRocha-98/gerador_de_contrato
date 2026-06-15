@@ -311,18 +311,18 @@ body {
     text-align: justify;
 }
 
-.preview-field {
+/* .preview-field {
     color: #888;
     border-bottom: 1px solid #ccc;
     display: inline;
     min-width: 6ch;
     padding-right: 6px;
     white-space: nowrap;
-}
+} */
 
-.preview-line {
+/* .preview-line {
     white-space: normal;
-}
+} */
 
 .preview-clause {
     font-size: 14px;
