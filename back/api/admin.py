@@ -101,14 +101,14 @@ class ContratoAluguelAdmin(admin.ModelAdmin):
 
 @admin.register(ContratoServico)
 class ContratoServicoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'usuario', 'prestador', 'tipo_servico', 'valor_mensal', 'data_inicio', 'criado_em']
+    list_display = ['id', 'usuario', 'contratante', 'tipo_servico', 'valor_mensal', 'data_inicio', 'criado_em']
     list_filter = ['usuario', 'tipo_servico', 'data_inicio', 'criado_em']
-    search_fields = ['usuario__username', 'prestador__nome', 'tipo_servico', 'especificacao_servico']
+    search_fields = ['usuario__username', 'contratante__nome', 'tipo_servico', 'especificacao_servico']
     readonly_fields = ['criado_em']
     fieldsets = (
         ('Partes', {
-            'fields': ('prestador',),
-            'description': 'Você é automaticamente o contratante'
+            'fields': ('contratante',),
+            'description': 'Você é automaticamente o prestador/contratado'
         }),
         ('Serviço', {
             'fields': ('tipo_servico', 'especificacao_servico', 'atividades_contratadas', 'motivo_contratacao')

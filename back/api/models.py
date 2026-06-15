@@ -125,9 +125,9 @@ class ContratoAluguel(models.Model):
 
 class ContratoServico(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='contratos_servico')
-    # Contratante é sempre o usuário logado (via perfil)
-    # Prestador é sempre outra pessoa (Cliente)
-    prestador = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='contratos_como_prestador')
+    # Prestador/contratado é sempre o usuário logado (via perfil)
+    # Contratante é sempre outra pessoa (Cliente)
+    contratante = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='contratos_como_contratante')
     
     tipo_servico = models.CharField(max_length=100)  # Ex: Limpeza, Segurança, Manutenção
     especificacao_servico = models.TextField()  # Descrição detalhada
@@ -156,12 +156,12 @@ class ContratoServico(models.Model):
     criado_em = models.DateTimeField(auto_now_add=True)
 
     @property
-    def contratante(self):
-        """Retorna o perfil do usuário como contratante"""
+    def prestador(self):
+        """Retorna o perfil do usuário como prestador/contratado."""
         return self.usuario.perfil
 
     def __str__(self):
-        return f'Contrato Serviço {self.id} - {self.tipo_servico} (Você / {self.prestador})'
+        return f'Contrato Serviço {self.id} - {self.tipo_servico} (Você / {self.contratante})'
 
     class Meta:
         verbose_name = 'Contrato de Serviço'

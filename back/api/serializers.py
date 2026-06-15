@@ -123,8 +123,8 @@ class ContratoAluguelSerializer(serializers.ModelSerializer):
 
 class ContratoServicoSerializer(serializers.ModelSerializer):
     # Somente leitura: mostra os dados completos ao listar
-    contratante_detail = PerfilUsuarioSerializer(source='usuario.perfil', read_only=True)
-    prestador_detail = ClienteSerializer(source='prestador', read_only=True)
+    prestador_detail = PerfilUsuarioSerializer(source='usuario.perfil', read_only=True)
+    contratante_detail = ClienteSerializer(source='contratante', read_only=True)
     
     class Meta:
         model = ContratoServico

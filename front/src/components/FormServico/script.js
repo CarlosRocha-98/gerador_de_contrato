@@ -773,15 +773,14 @@ async function salvarContratoNoSistema(silent = false) {
             return;
         }
 
-        // O modelo espera o ID do "prestador" (= contratante do formulário, que é um Cliente)
-        const prestadorId = await resolverIdContratante(contratanteData);
-        if (!prestadorId) {
+        const contratanteId = await resolverIdContratante(contratanteData);
+        if (!contratanteId) {
             alert('Não foi possível identificar o contratante no banco.\nPreencha os dados do contratante ou selecione um cliente cadastrado.');
             return;
         }
 
         const payload = {
-            prestador:                  prestadorId,
+            contratante:                contratanteId,
             tipo_servico:               document.getElementById('tipo-servico')?.value.trim()            || '',
             especificacao_servico:      document.getElementById('especificacao-servico')?.value.trim()   || '',
             atividades_contratadas:     document.getElementById('atividades-contratadas')?.value.trim()  || '',

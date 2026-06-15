@@ -125,13 +125,13 @@ function obterNomeContrato(contrato) {
         return `Contrato_Locacao_${limparNomeArquivo(nomeCliente)}.pdf`;
     }
 
-    const prestador = obterClientePorId(contrato.prestador);
+    const contratante = obterClientePorId(contrato.contratante);
 
-    const nomePrestador =
-        prestador?.nome ||
-        `Cliente_${contrato.prestador || contrato.id}`;
+    const nomeContratante =
+        contratante?.nome ||
+        `Cliente_${contrato.contratante || contrato.id}`;
 
-    return `Contrato_Servico_${limparNomeArquivo(nomePrestador)}.pdf`;
+    return `Contrato_Servico_${limparNomeArquivo(nomeContratante)}.pdf`;
 }
 
 function obterInfoContrato(contrato) {
@@ -157,10 +157,10 @@ function obterInfoContrato(contrato) {
         };
     }
 
-    const prestador = obterClientePorId(contrato.prestador);
+    const contratante = obterClientePorId(contrato.contratante);
 
     return {
-        subtitulo1: `Prestador: ${prestador?.nome || 'Prestador não informado'}`,
+        subtitulo1: `Contratante: ${contratante?.nome || 'Contratante não informado'}`,
         subtitulo2: `Serviço: ${contrato.tipo_servico || contrato.especificacao_servico || 'Serviço não informado'}`,
         subtitulo3: `Valor: ${formatarMoeda(contrato.valor_mensal || contrato.valor_total)}`,
         data: formatarData(
@@ -175,7 +175,7 @@ function montarContratoCompleto(contrato) {
 
     const inquilino = obterClientePorId(contrato.inquilino);
     const imovel = obterImovelPorId(contrato.imovel);
-    const prestador = obterClientePorId(contrato.prestador);
+    const contratante = obterClientePorId(contrato.contratante);
 
     return {
         contrato,
@@ -184,7 +184,7 @@ function montarContratoCompleto(contrato) {
 
         inquilino,
         imovel,
-        prestador
+        contratante
     };
 }
 
