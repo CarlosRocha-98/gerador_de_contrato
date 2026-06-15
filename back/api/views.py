@@ -212,10 +212,10 @@ class GerarContratoPDFView(APIView):
                 h2 {{ text-align: center; font-size: 15px; text-decoration: underline; margin-bottom: 18px; }}
                 h3 {{ font-size: 13px; margin-top: 18px; margin-bottom: 8px; }}
                 p  {{ font-size: 12px; text-align: justify; margin-bottom: 8px; }}
-                .signature-lines {{ margin-top: 50px; }}
-                .signature-line  {{ margin-bottom: 30px; }}
-                .signature-line hr {{ border: none; border-top: 1px solid #000;
-                                      width: 60%; margin-bottom: 4px; }}
+                .signature-lines {{ width: 100%; border-collapse: collapse; margin-top: 50px; }}
+                .signature-line {{ width: 45%; text-align: center; vertical-align: top; }}
+                .signature-spacer {{ width: 10%; }}
+                .signature-rule {{ border-top: 1px solid #000; height: 1px; margin-bottom: 6px; }}
             </style>
         </head>
         <body>{html_content}</body>

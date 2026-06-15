@@ -245,9 +245,10 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:40px;color:
 h2{text-align:center;font-size:18px;text-decoration:underline;margin-bottom:24px}
 h3{font-size:14px;margin-top:20px;margin-bottom:10px}
 p{font-size:13px;line-height:1.8;text-align:justify;margin-bottom:10px}
-.signature-lines{display:flex;justify-content:space-around;margin-top:60px}
-.signature-line{text-align:center;flex:1}
-.signature-line hr{border:none;border-top:1px solid #333;margin-bottom:8px;width:80%;margin:0 auto}
+.signature-lines{width:100%;border-collapse:collapse;margin-top:60px}
+.signature-line{width:45%;text-align:center;vertical-align:top}
+.signature-spacer{width:10%}
+.signature-rule{border-top:1px solid #333;height:1px;margin-bottom:8px}
 </style></head><body>${html}</body></html>`);
     printWindow.document.close();
     printWindow.print();

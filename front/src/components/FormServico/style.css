@@ -340,20 +340,24 @@ body {
 }
 
 .signature-lines {
-    display: flex;
-    justify-content: space-around;
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 50px;
-    gap: 40px;
 }
 
 .signature-line {
-    flex: 1;
+    width: 45%;
     text-align: center;
+    vertical-align: top;
 }
 
-.signature-line hr {
-    border: none;
+.signature-spacer {
+    width: 10%;
+}
+
+.signature-rule {
     border-top: 1px solid #333;
+    height: 1px;
     margin-bottom: 8px;
 }
 
