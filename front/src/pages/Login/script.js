@@ -45,6 +45,14 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 });
 
+document.getElementById('btnGoogleLogin')?.addEventListener('click', () => {
+    showMessage('Login com Google temporariamente indisponível. Use email e senha.', 'error');
+});
+
+document.getElementById('btnFacebookLogin')?.addEventListener('click', () => {
+    showMessage('Login com Facebook temporariamente indisponível. Use email e senha.', 'error');
+});
+
 function togglePassword() {
     const input = document.getElementById('password');
     input.type = input.type === 'password' ? 'text' : 'password';
