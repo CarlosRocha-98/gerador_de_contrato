@@ -161,6 +161,31 @@ const CLIENTES_LS = 'clientes';
 const IMOVEIS_LS  = 'imoveis';
 let _tabAtual = 'clientes';
 
+function carregarClientesLocais() {
+    return JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]');
+}
+
+function salvarClientesLocais(lista) {
+    localStorage.setItem(CLIENTES_LS, JSON.stringify(lista));
+}
+
+function mesclarClientes(backendLista, localLista) {
+    const vistos = new Set();
+    const resultado = [];
+
+    [...backendLista, ...localLista].forEach(cliente => {
+        const chave = cliente.id
+            ? `id:${cliente.id}`
+            : `cpf:${cliente.cpf || ''}:nome:${(cliente.nome || '').toLowerCase()}`;
+
+        if (vistos.has(chave)) return;
+        vistos.add(chave);
+        resultado.push(cliente);
+    });
+
+    return resultado;
+}
+
 function abrirTab(tipo) {
     _tabAtual = tipo;
     document.getElementById('tab-clientes').classList.toggle('hidden', tipo !== 'clientes');
@@ -181,22 +206,20 @@ async function carregarListaClientes() {
     vazio.classList.add('hidden');
     table.classList.add('hidden');
 
-    let lista = [];
+    let lista = carregarClientesLocais();
     if (jwtToken) {
         try {
             const res = await fetch(`${BACKEND}/api/clientes/`, {
                 headers: { 'Authorization': 'Bearer ' + jwtToken }
             });
             if (res.ok) {
-                lista = await res.json();
-                // Sincroniza localStorage
-                localStorage.setItem(CLIENTES_LS, JSON.stringify(lista));
+                const backendLista = await res.json();
+                lista = mesclarClientes(backendLista, lista);
+                salvarClientesLocais(lista);
             }
         } catch (e) {
-            lista = JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]');
+            console.warn('Falha ao carregar clientes do backend. Usando clientes locais.', e);
         }
-    } else {
-        lista = JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]');
     }
 
     loading.classList.add('hidden');
@@ -238,8 +261,8 @@ async function excluirCliente(id, nome) {
         }
     }
     // Remove do localStorage também
-    const lista = JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]').filter(c => c.id !== id);
-    localStorage.setItem(CLIENTES_LS, JSON.stringify(lista));
+    const lista = carregarClientesLocais().filter(c => c.id !== id);
+    salvarClientesLocais(lista);
     carregarListaClientes();
 }
 
@@ -302,10 +325,10 @@ async function salvarEdicaoCliente() {
             if (!res.ok) throw new Error(await res.text());
             const salvo = await res.json();
             // Atualiza localStorage
-            const lista = JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]').map(c =>
+            const lista = carregarClientesLocais().map(c =>
                 String(c.id) === String(id) ? salvo : c
             );
-            localStorage.setItem(CLIENTES_LS, JSON.stringify(lista));
+            salvarClientesLocais(lista);
             msgEl.textContent = '✅ Salvo com sucesso!';
             msgEl.className = 'msg-area success';
             setTimeout(() => { fecharModalEditCliente(); carregarListaClientes(); }, 800);
@@ -317,10 +340,10 @@ async function salvarEdicaoCliente() {
         }
     }
     // Fallback local
-    const lista = JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]').map(c =>
+    const lista = carregarClientesLocais().map(c =>
         String(c.id) === String(id) ? { ...c, ...dados } : c
     );
-    localStorage.setItem(CLIENTES_LS, JSON.stringify(lista));
+    salvarClientesLocais(lista);
     fecharModalEditCliente();
     carregarListaClientes();
 }
