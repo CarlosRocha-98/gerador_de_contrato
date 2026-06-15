@@ -79,6 +79,8 @@ async function adicionarCliente(dados) {
                 salvarClientes(atualizada);
                 return saved;
             }
+
+            console.warn('Backend recusou cliente:', await res.text());
         } catch (err) {
             console.warn('Falha backend cliente:', err);
         }

@@ -313,7 +313,7 @@ body {
     text-align: justify;
 }
 
-.preview-field {
+/* .preview-field {
     color: #888;
     border-bottom: 1px solid #ccc;
     display: inline;
@@ -324,7 +324,7 @@ body {
 
 .preview-line {
     white-space: normal;
-}
+} */
 
 .preview-clause {
     font-size: 14px;

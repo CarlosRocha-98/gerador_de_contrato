@@ -352,14 +352,14 @@ async function salvarContratoNoSistema(silent = false) {
         if (!inquilinoId) {
             salvarContratoLocal(idsBackend);
             console.warn('Inquilino sem ID no backend. Contrato salvo localmente.');
-            if (!silent) alert('Contrato salvo localmente. O inquilino ainda não foi identificado no banco.');
+            if (!silent) alert('Contrato salvo localmente com sucesso. Não foi possível vincular o inquilino ao backend agora.');
             limparFormulario();
             return;
         }
         if (!imovelId) {
             salvarContratoLocal(idsBackend);
             console.warn('Imóvel sem ID no backend. Contrato salvo localmente.');
-            if (!silent) alert('Contrato salvo localmente. O imóvel ainda não foi identificado no banco.');
+            if (!silent) alert('Contrato salvo localmente com sucesso. Não foi possível vincular o imóvel ao backend agora.');
             limparFormulario();
             return;
         }
