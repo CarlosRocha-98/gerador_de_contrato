@@ -318,14 +318,12 @@ function renderizarContratos(contratos) {
                     📥
                 </button>
 
-                ${contrato.tipoContrato === 'aluguel' ? `
                 <button
                     class="btn-edit-contract"
                     title="Editar contrato"
                 >
                     ✏️
                 </button>
-                ` : ''}
 
                 <button
                     class="btn-delete"
@@ -372,17 +370,15 @@ function abrirPreviewContrato(contrato) {
 }
 
 function editarContrato(contrato) {
-    if (contrato.tipoContrato !== 'aluguel') {
-        alert('Edição disponível apenas para contrato de aluguel neste momento.');
-        return;
-    }
-
     sessionStorage.setItem(
         'contratoEdicao',
         JSON.stringify(montarContratoCompleto(contrato))
     );
 
-    window.location.href = '../../components/Form/index.html';
+    window.location.href =
+        contrato.tipoContrato === 'servico'
+            ? '../../components/FormServico/index.html'
+            : '../../components/Form/index.html';
 }
 
 async function excluirContrato(contrato) {

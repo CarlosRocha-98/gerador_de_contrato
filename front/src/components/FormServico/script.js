@@ -71,6 +71,7 @@ const CONT_FIELD_IDS = [
 ];
 
 let _selectedContratanteId = null;
+let _editingContratoId = null;
 
 function bloquearCampos(ids) {
     ids.forEach(id => {
@@ -192,6 +193,8 @@ document.addEventListener('DOMContentLoaded', () => {
             updateDatePreview(id, pvId);
         }
     });
+
+    carregarContratoServicoParaEdicao();
 });
 
 // ── Checkboxes ────────────────────────────────────────────────────────────────
@@ -606,6 +609,8 @@ function limparFormulario() {
         el.classList.remove('prefilled');
     });
     _selectedContratanteId = null;
+    _editingContratoId = null;
+    sessionStorage.removeItem('contratoEdicao');
     // Restaurar hoje nas datas
     const hoje = new Date().toISOString().slice(0, 10);
     ['data-inicio','data-termino','data-assinatura'].forEach(id => {
@@ -799,14 +804,18 @@ async function salvarContratoNoSistema(silent = false) {
             responsabilidade_subsidiaria: document.getElementById('responsabilidade-subsidiaria')?.checked ?? true,
         };
 
-        const res = await fetch(`${API_BASE}/api/contratoservico/`, {
-            method: 'POST',
+        const url = _editingContratoId
+            ? `${API_BASE}/api/contratoservico/${_editingContratoId}/`
+            : `${API_BASE}/api/contratoservico/`;
+
+        const res = await fetch(url, {
+            method: _editingContratoId ? 'PATCH' : 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + jwt },
             body: JSON.stringify(payload)
         });
 
         if (res.ok) {
-            if (!silent) alert('Contrato salvo com sucesso!');
+            if (!silent) alert(_editingContratoId ? 'Contrato atualizado com sucesso!' : 'Contrato salvo com sucesso!');
             limparFormulario();
         } else {
             const erro = await res.json().catch(() => ({}));
@@ -817,6 +826,77 @@ async function salvarContratoNoSistema(silent = false) {
         console.error('Erro ao salvar contrato:', err);
         alert('Não foi possível salvar o contrato. Veja o console para detalhes.');
     }
+}
+
+function carregarContratoServicoParaEdicao() {
+    const raw = sessionStorage.getItem('contratoEdicao');
+    if (!raw) return;
+
+    let dados;
+    try {
+        dados = JSON.parse(raw);
+    } catch (e) {
+        sessionStorage.removeItem('contratoEdicao');
+        return;
+    }
+
+    if (dados.tipoContrato !== 'servico' || !dados.contrato?.id) return;
+
+    const contrato = dados.contrato;
+    _editingContratoId = contrato.id;
+    _selectedContratanteId = contrato.contratante || null;
+
+    if (dados.contratante) preencherContratante(dados.contratante);
+    CONT_FIELD_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.removeAttribute('readonly');
+        el.removeAttribute('disabled');
+        el.classList.remove('prefilled');
+    });
+
+    const valores = {
+        'tipo-servico': contrato.tipo_servico,
+        'especificacao-servico': contrato.especificacao_servico,
+        'atividades-contratadas': contrato.atividades_contratadas,
+        'motivo-contratacao': contrato.motivo_contratacao,
+        'data-inicio': contrato.data_inicio,
+        'data-termino': contrato.data_termino,
+        'prazo-meses': contrato.prazo_meses,
+        'valor-mensal': contrato.valor_mensal,
+        'forma-pagamento': contrato.forma_pagamento,
+        'dia-vencimento': contrato.dia_vencimento,
+        'local-execucao': contrato.local_execucao,
+        'disposicoes-seguranca': contrato.disposicoes_seguranca,
+        'multa-atraso': contrato.multa_atraso,
+        'multa-rescisao': contrato.multa_rescisao,
+    };
+
+    Object.entries(valores).forEach(([id, valor]) => {
+        const el = document.getElementById(id);
+        if (!el || valor === null || valor === undefined) return;
+        el.value = valor;
+        el.dispatchEvent(new Event('input'));
+        el.dispatchEvent(new Event('change'));
+    });
+
+    [
+        ['executa-nas-dependencias', 'executa_nas_dependencias'],
+        ['responsabilidade-subsidiaria', 'responsabilidade_subsidiaria'],
+    ].forEach(([id, campo]) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.checked = Boolean(contrato[campo]);
+        el.dispatchEvent(new Event('change'));
+    });
+
+    const semMultaRescisao = document.getElementById('sem-multa-rescisao');
+    if (semMultaRescisao) {
+        semMultaRescisao.checked = Number(contrato.multa_rescisao) === 0;
+        semMultaRescisao.dispatchEvent(new Event('change'));
+    }
+
+    sincronizarTodosPreview();
 }
 
 window.salvarContratoNoSistema     = salvarContratoNoSistema;
