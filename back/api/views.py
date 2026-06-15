@@ -1,11 +1,13 @@
 from io import BytesIO
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import status
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
+from django.db import DatabaseError
 from django.http import HttpResponse
 from xhtml2pdf import pisa
 from .models import Cliente, Imovel, ContratoAluguel, ContratoServico, PerfilUsuario
@@ -64,6 +66,32 @@ class ClienteListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         return Cliente.objects.filter(usuario=self.request.user)
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            self.perform_create(serializer)
+        except DatabaseError as exc:
+            return Response(
+                {
+                    "detail": "Erro de banco ao salvar cliente.",
+                    "error": str(exc),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+        except Exception as exc:
+            return Response(
+                {
+                    "detail": "Erro inesperado ao salvar cliente.",
+                    "error": str(exc),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)
 
@@ -81,6 +109,32 @@ class ImovelListCreateView(generics.ListCreateAPIView):
 
     def get_queryset(self):
         return Imovel.objects.filter(usuario=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            self.perform_create(serializer)
+        except DatabaseError as exc:
+            return Response(
+                {
+                    "detail": "Erro de banco ao salvar imóvel.",
+                    "error": str(exc),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+        except Exception as exc:
+            return Response(
+                {
+                    "detail": "Erro inesperado ao salvar imóvel.",
+                    "error": str(exc),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)

@@ -9,6 +9,23 @@ function cpfTemTamanhoValido(valor) {
     return normalizarCPF(valor).length === 11;
 }
 
+async function lerErroResposta(res, contexto) {
+    const contentType = res.headers.get('content-type') || '';
+
+    if (contentType.includes('application/json')) {
+        const erro = await res.json().catch(() => ({}));
+        return erro.detail || erro.error || JSON.stringify(erro);
+    }
+
+    const texto = await res.text();
+    if (/^\s*<!doctype html/i.test(texto) || /^\s*<html/i.test(texto)) {
+        console.error(`${contexto}: backend retornou HTML`, texto);
+        return `Erro interno no servidor ao ${contexto.toLowerCase()}. Verifique os logs do backend/Render e se as migrations foram aplicadas.`;
+    }
+
+    return texto || `Erro ${res.status} ao ${contexto.toLowerCase()}.`;
+}
+
 function montarPayloadCliente(dados) {
     return {
         nome: dados.nome,
@@ -66,22 +83,7 @@ async function adicionarCliente(dados) {
         try {
             const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
-            const payload = {
-                nome: dados.nome,
-                cpf: normalizarCPF(dados.cpf),
-                orgao_expedidor: dados.orgao_expedidor,
-                nacionalidade: dados.nacionalidade,
-                profissao: dados.profissao,
-                estado_civil: dados.estado_civil || dados.estadoCivil || '',
-                telefone: dados.telefone,
-                email: dados.email,
-                rua: dados.endereco || dados.rua,
-                numero: dados.numero,
-                bairro: dados.bairro,
-                cep: dados.cep,
-                cidade: dados.cidade,
-                estado: dados.estado,
-            };
+            const payload = montarPayloadCliente(dados);
 
             const res = await fetch(`${API_BASE}/api/clientes/`, {
                 method: 'POST',
@@ -103,7 +105,7 @@ async function adicionarCliente(dados) {
                 return saved;
             }
 
-            const erro = await res.text();
+            const erro = await lerErroResposta(res, 'Salvar cliente');
             console.warn('Backend recusou cliente:', erro);
             return { erroBackend: erro || `Erro ${res.status} ao salvar cliente.` };
         } catch (err) {
@@ -171,15 +173,7 @@ async function adicionarImovel(imovel) {
         try {
             const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
 
-            const payload = {
-                endereco: imovel.endereco,
-                numero: imovel.numero,
-                bairro: imovel.bairro,
-                cidade: imovel.cidade,
-                estado: imovel.estado,
-                tipo: imovel.tipo || '',
-                caracteristicas: imovel.caracteristicas || ''
-            };
+            const payload = montarPayloadImovel(imovel);
 
             const res = await fetch(`${API_BASE}/api/imoveis/`, {
                 method: 'POST',
@@ -200,7 +194,7 @@ async function adicionarImovel(imovel) {
                 localStorage.setItem(IMOVEIS_KEY, JSON.stringify(atualizada));
                 return saved;
             }
-            const erro = await res.text();
+            const erro = await lerErroResposta(res, 'Salvar imóvel');
             console.warn('Backend recusou imóvel:', erro);
             return { erroBackend: erro || `Erro ${res.status} ao salvar imóvel.` };
         } catch (err) {
@@ -255,7 +249,7 @@ async function atualizarImovelBackend(id, imovel) {
             body: JSON.stringify(montarPayloadImovel(imovel))
         });
 
-        if (!res.ok) return { ok: false, erro: await res.text() };
+        if (!res.ok) return { ok: false, erro: await lerErroResposta(res, 'Atualizar imóvel') };
 
         const saved = await res.json();
         const lista = carregarImoveis().map(i => String(i.id) === String(id) ? saved : i);
@@ -281,7 +275,7 @@ async function atualizarClienteBackend(id, dados) {
             body: JSON.stringify(montarPayloadCliente(dados))
         });
 
-        if (!res.ok) return { ok: false, erro: await res.text() };
+        if (!res.ok) return { ok: false, erro: await lerErroResposta(res, 'Atualizar cliente') };
 
         const saved = await res.json();
         salvarClientes(carregarClientes().map(c => String(c.id) === String(id) ? saved : c));
