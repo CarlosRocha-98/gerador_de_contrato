@@ -45,7 +45,7 @@ async function adicionarCliente(dados) {
                 orgao_expedidor: dados.orgao_expedidor,
                 nacionalidade: dados.nacionalidade,
                 profissao: dados.profissao,
-                estado_civil: dados.estado_civil,
+                estado_civil: dados.estado_civil || dados.estadoCivil || '',
                 telefone: dados.telefone,
                 email: dados.email,
                 rua: dados.endereco || dados.rua,
@@ -67,8 +67,12 @@ async function adicionarCliente(dados) {
 
             if (res.ok) {
                 const saved = await res.json();
-                lista.push(saved);
-                salvarClientes(lista);
+                const atualizada = lista.filter(c =>
+                    String(c.id) !== String(dados.id) &&
+                    (!dados.cpf || c.cpf !== dados.cpf)
+                );
+                atualizada.push(saved);
+                salvarClientes(atualizada);
                 return saved;
             }
         } catch (err) {
@@ -144,8 +148,12 @@ async function adicionarImovel(imovel) {
 
             if (res.ok) {
                 const saved = await res.json();
-                lista.push(saved);
-                localStorage.setItem(IMOVEIS_KEY, JSON.stringify(lista));
+                const atualizada = lista.filter(i =>
+                    String(i.id) !== String(imovel.id) &&
+                    !(i.endereco === imovel.endereco && i.numero === imovel.numero)
+                );
+                atualizada.push(saved);
+                localStorage.setItem(IMOVEIS_KEY, JSON.stringify(atualizada));
                 return saved;
             }
         } catch (err) {

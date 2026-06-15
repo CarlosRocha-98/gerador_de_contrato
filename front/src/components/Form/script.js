@@ -249,8 +249,12 @@ async function resolverIdCliente(dados) {
     if (_selectedClienteId) return _selectedClienteId;
 
     if (cpf) {
-        const local = carregarClientes().find(c => c.cpf === cpf && c.id && c.id < 1e9);
-        if (local) return local.id;
+        const local = carregarClientes().find(c => c.cpf === cpf);
+        if (local?.id && local.id < 1e9) return local.id;
+        if (local) {
+            const savedLocal = await adicionarCliente({ ...local, ...dados });
+            if (savedLocal?.id) return savedLocal.id;
+        }
     }
 
     const saved = await adicionarCliente(dados);
@@ -280,8 +284,12 @@ async function resolverIdImovel(dados) {
     if (_selectedImovelId) return _selectedImovelId;
 
     if (end) {
-        const local = carregarImoveis().find(i => i.endereco === end && i.numero === num && i.id && i.id < 1e9);
-        if (local) return local.id;
+        const local = carregarImoveis().find(i => i.endereco === end && i.numero === num);
+        if (local?.id && local.id < 1e9) return local.id;
+        if (local) {
+            const savedLocal = await adicionarImovel({ ...local, ...dados, tipo: local.tipo || dados.tipo || 'casa' });
+            if (savedLocal?.id) return savedLocal.id;
+        }
     }
 
     const imovelPayload = { ...dados, cidade: dados.cidade || '', estado: dados.estado || '', tipo: dados.tipo || 'casa' };
@@ -324,10 +332,14 @@ async function salvarContratoNoSistema(silent = false) {
             criadoEm:     new Date().toISOString()
         };
 
-        if (!jwt) {
+        function salvarContratoLocal(extra = {}) {
             const lista = JSON.parse(localStorage.getItem('contratos') || '[]');
-            lista.push(contratoLocal);
+            lista.push({ ...contratoLocal, ...extra });
             localStorage.setItem('contratos', JSON.stringify(lista));
+        }
+
+        if (!jwt) {
+            salvarContratoLocal();
             if (!silent) alert('Contrato salvo localmente (faça login para salvar no servidor).');
             limparFormulario();
             return;
@@ -335,13 +347,20 @@ async function salvarContratoNoSistema(silent = false) {
 
         const inquilinoId = await resolverIdCliente(inquilinoData);
         const imovelId    = await resolverIdImovel(imovelData);
+        const idsBackend  = { inquilinoId, imovelId };
 
         if (!inquilinoId) {
-            alert('Não foi possível identificar o inquilino no banco.\nPreencha os dados do inquilino ou selecione um cliente cadastrado.');
+            salvarContratoLocal(idsBackend);
+            console.warn('Inquilino sem ID no backend. Contrato salvo localmente.');
+            if (!silent) alert('Contrato salvo localmente. O inquilino ainda não foi identificado no banco.');
+            limparFormulario();
             return;
         }
         if (!imovelId) {
-            alert('Não foi possível identificar o imóvel no banco.\nSelecione ou cadastre um imóvel.');
+            salvarContratoLocal(idsBackend);
+            console.warn('Imóvel sem ID no backend. Contrato salvo localmente.');
+            if (!silent) alert('Contrato salvo localmente. O imóvel ainda não foi identificado no banco.');
+            limparFormulario();
             return;
         }
 
@@ -371,16 +390,14 @@ async function salvarContratoNoSistema(silent = false) {
 
         if (res.ok) {
             const savedContrato = await res.json();
-            contratoLocal.backendId = savedContrato.id;
-            const lista = JSON.parse(localStorage.getItem('contratos') || '[]');
-            lista.push(contratoLocal);
-            localStorage.setItem('contratos', JSON.stringify(lista));
+            salvarContratoLocal({ ...idsBackend, backendId: savedContrato.id });
             if (!silent) alert('Contrato salvo com sucesso!');
             limparFormulario();
         } else {
             const erro = await res.json().catch(() => ({}));
             console.error('Erro ao salvar contrato no backend:', erro);
-            alert('Erro ao salvar no servidor: ' + JSON.stringify(erro));
+            salvarContratoLocal(idsBackend);
+            if (!silent) alert('Erro ao salvar no servidor: ' + JSON.stringify(erro));
         }
     } catch (err) {
         console.error('Erro ao salvar contrato:', err);
