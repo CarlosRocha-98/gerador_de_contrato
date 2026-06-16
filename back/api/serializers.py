@@ -1,13 +1,49 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 from .models import Cliente, ContratoServico, Imovel, ContratoAluguel, PerfilUsuario
+
+
+def normalizar_cpf(valor):
+    return ''.join(char for char in str(valor or '') if char.isdigit())
+
+
+def primeiro_nome(nome):
+    return str(nome or '').strip().split(' ', 1)[0].lower()
+
+
+class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        identificador = attrs.get(self.username_field, '')
+        password = attrs.get('password', '')
+        usuarios = User.objects.filter(email__iexact=identificador)
+
+        if not usuarios.exists():
+            usuarios = User.objects.filter(username=identificador)
+
+        for usuario in usuarios:
+            user = authenticate(
+                request=self.context.get('request'),
+                username=usuario.username,
+                password=password,
+            )
+
+            if user is not None:
+                attrs[self.username_field] = usuario.username
+                return super().validate(attrs)
+
+        return super().validate(attrs)
 
 
 # Perfil de Usuário
 class PerfilUsuarioSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source='usuario.email', read_only=True)
-    username = serializers.CharField(source='usuario.username', read_only=True)
+    username = serializers.SerializerMethodField()
     usuario_id = serializers.IntegerField(source='usuario.id', read_only=True)
+
+    def get_username(self, obj):
+        return primeiro_nome(obj.nome)
     
     class Meta:
         model = PerfilUsuario
@@ -24,11 +60,12 @@ class PerfilUsuarioSerializer(serializers.ModelSerializer):
 
 # Registro de usuário 
 class RegisterSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=False, allow_blank=True, validators=[])
     password = serializers.CharField(write_only=True, min_length=6)
     
     # Campos do perfil (write_only para não tentar ler do User na resposta)
     nome = serializers.CharField(required=False, allow_blank=True, write_only=True)
-    cpf = serializers.CharField(required=False, allow_blank=True, write_only=True)
+    cpf = serializers.CharField(required=True, allow_blank=False, write_only=True)
     telefone = serializers.CharField(required=False, allow_blank=True, write_only=True)
     nacionalidade = serializers.CharField(required=False, allow_blank=True, write_only=True)
     profissao = serializers.CharField(required=False, allow_blank=True, write_only=True)
@@ -52,6 +89,24 @@ class RegisterSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id']
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        nome = getattr(getattr(instance, 'perfil', None), 'nome', '')
+        data['username'] = primeiro_nome(nome) if nome else ''
+        return data
+
+    def validate_cpf(self, value):
+        cpf = normalizar_cpf(value)
+
+        if len(cpf) != 11:
+            raise serializers.ValidationError('CPF inválido.')
+
+        for perfil in PerfilUsuario.objects.only('cpf'):
+            if normalizar_cpf(perfil.cpf) == cpf:
+                raise serializers.ValidationError('Já existe um usuário cadastrado com este CPF.')
+
+        return cpf
+
     def create(self, validated_data):
         # Extrair dados do perfil
         nome = validated_data.pop('nome', '')
@@ -70,7 +125,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         # Criar usuário
         user = User.objects.create_user(
-            username=validated_data['username'],
+            username=cpf,
             email=validated_data['email'],
             password=validated_data['password'],
         )

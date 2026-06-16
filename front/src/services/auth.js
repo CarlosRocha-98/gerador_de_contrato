@@ -40,22 +40,25 @@ function clearSession() {
   clearLocal('refresh_token');
 }
 
+function usernameFromName(nome, fallback) {
+  const firstName = String(nome || '').trim().split(' ')[0];
+  return (firstName || fallback || '').toLowerCase();
+}
+
 async function register(dataOrUsername, maybePassword) {
   // Accept either (username, password) or an object with all fields
   let payload = {};
   if (typeof dataOrUsername === 'object') {
     payload = { ...dataOrUsername };
   } else {
-    const username = dataOrUsername;
+    const email = dataOrUsername;
     const password = maybePassword;
-    if (!username || !password) return { success: false, message: 'Preencha todos os campos.' };
-    const uname = username.includes('@') ? username.split('@')[0] : username;
+    if (!email || !password) return { success: false, message: 'Preencha todos os campos.' };
     payload = {
-      username: uname,
-      email: username,
+      username: usernameFromName('', email),
+      email: email,
       password: password,
-      nome: uname,
-      cpf: '00000000000'
+      nome: email
     };
   }
 
@@ -63,7 +66,8 @@ async function register(dataOrUsername, maybePassword) {
   if (!payload.username || !payload.password) return { success: false, message: 'Preencha todos os campos.' };
   payload.email = payload.email || payload.username;
   payload.nome = payload.nome || payload.username;
-  payload.cpf = payload.cpf || '00000000000';
+  payload.username = usernameFromName(payload.nome, payload.email);
+  if (!payload.cpf) return { success: false, message: 'Informe o CPF.' };
 
   try {
     const res = await fetch(`${window.API_HOST}/api/register/`, {
@@ -77,7 +81,7 @@ async function register(dataOrUsername, maybePassword) {
     }
 
     const data = await res.json();
-    const msg = data.detail || (data.username || data.non_field_errors || JSON.stringify(data));
+    const msg = data.detail || (data.cpf || data.username || data.non_field_errors || JSON.stringify(data));
     return { success: false, message: String(msg) };
   } catch (err) {
     return { success: false, message: 'Erro de conexão com o servidor.' };

@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.db import DatabaseError
@@ -18,7 +19,12 @@ from .serializers import (
     ContratoAluguelSerializer,
     ContratoServicoSerializer,
     PerfilUsuarioSerializer,
+    EmailOrUsernameTokenObtainPairSerializer,
 )
+
+
+class EmailOrUsernameTokenObtainPairView(TokenObtainPairView):
+    serializer_class = EmailOrUsernameTokenObtainPairSerializer
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
@@ -32,8 +38,9 @@ def logout_view(request):
 def profile_view(request):
     """Retorna informações básicas do usuário autenticado."""
     user = request.user
+    nome = getattr(getattr(user, 'perfil', None), 'nome', '')
     return Response({
-        "username": user.username,
+        "username": nome.strip().split(' ', 1)[0].lower() if nome else user.username,
         "email": user.email
     })
 

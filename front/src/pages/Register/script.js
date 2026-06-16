@@ -46,7 +46,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
 
     try {
       // collect all form fields to send full perfil to backend
-      const username = email.includes('@') ? email.split('@')[0] : email;
+      const username = nome.split(' ')[0].toLowerCase();
       const payload = {
         username: username,
         email: email,

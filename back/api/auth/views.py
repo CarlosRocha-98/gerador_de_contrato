@@ -3,13 +3,18 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
+def username_publico(user):
+    nome = getattr(getattr(user, 'perfil', None), 'nome', '')
+    return nome.strip().split(' ', 1)[0].lower() if nome else user.username
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated]) # protege o endpoint
 def auth_me(request):
     user = request.user
     return Response({
         "id": user.id,
-        "username": user.username,
+        "username": username_publico(user),
         "email": user.email
     })
 
@@ -27,7 +32,7 @@ def social_jwt(request):
         "refresh": str(refresh),
         "user": {
             "id": user.id,
-            "username": user.username,
+            "username": username_publico(user),
             "email": user.email
         }
     })

@@ -1,6 +1,5 @@
 from django.urls import path, include
 from rest_framework_simplejwt.views import ( 
-    TokenObtainPairView,
     TokenRefreshView,
 )
 from .views import logout_view, profile_view
@@ -17,11 +16,12 @@ from .views import (
     ContratoServicoListCreateView,
     ContratoServicoDetailView,
     GerarContratoPDFView,
+    EmailOrUsernameTokenObtainPairView,
 )
 
 urlpatterns = [
     # Auth
-    path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token/', EmailOrUsernameTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/', include('api.auth.urls')), # Nosso auth_me e social_jwt
     # path('auth/social/', include('social_django.urls', namespace='social')), # URLs do social auth
