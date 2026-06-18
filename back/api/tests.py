@@ -52,3 +52,19 @@ class TelefoneTestCase(TestCase):
     def test_formata_celular_e_fixo(self):
         self.assertEqual(formatar_telefone('11999991234'), '(11) 99999-1234')
         self.assertEqual(formatar_telefone('2123456789'), '(21) 2345-6789')
+
+
+class EstadoCivilTestCase(TestCase):
+    def test_serializer_aceita_opcoes_padronizadas(self):
+        for estado_civil in ('Solteiro(a)', 'Casado(a)', 'União Estável', 'Divorciado(a)', 'Viúvo(a)'):
+            serializer = ClienteSerializer(data={
+                'nome': 'Cliente', 'cpf': '123', 'estado_civil': estado_civil,
+            })
+            self.assertTrue(serializer.is_valid(), serializer.errors)
+
+    def test_serializer_recusa_opcao_fora_da_lista(self):
+        serializer = ClienteSerializer(data={
+            'nome': 'Cliente', 'cpf': '123', 'estado_civil': 'Outro',
+        })
+        self.assertFalse(serializer.is_valid())
+        self.assertIn('estado_civil', serializer.errors)

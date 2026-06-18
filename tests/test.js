@@ -99,7 +99,7 @@ async function gerarEmMassa() {
       telefone:      '(11) 99999-0000',
       nacionalidade: `TESTE${n}_nacionalidade`,
       profissao:     `TESTE${n}_profissao`,
-      estado_civil:  `TESTE${n}_estadocivil`,
+      estado_civil:  'Solteiro(a)',
       rua:           `TESTE${n}_rua`,
       numero:        `${n}`,
       bairro:        `TESTE${n}_bairro`,

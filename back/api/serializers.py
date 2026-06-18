@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from .models import Cliente, ContratoServico, Imovel, ContratoAluguel, PerfilUsuario
+from .models import Cliente, ContratoServico, Imovel, ContratoAluguel, PerfilUsuario, ESTADOS_CIVIS
 from .cpf import cpf_valido, formatar_cpf, somente_digitos_cpf
 from .telefone import formatar_telefone, telefone_valido
 
@@ -94,7 +94,9 @@ class RegisterSerializer(serializers.ModelSerializer):
     telefone = serializers.CharField(required=False, allow_blank=True, write_only=True)
     nacionalidade = serializers.CharField(required=False, allow_blank=True, write_only=True)
     profissao = serializers.CharField(required=False, allow_blank=True, write_only=True)
-    estado_civil = serializers.CharField(required=False, allow_blank=True, write_only=True)
+    estado_civil = serializers.ChoiceField(
+        choices=ESTADOS_CIVIS, required=False, allow_blank=True, write_only=True
+    )
     
     # Endereço
     rua = serializers.CharField(required=False, allow_blank=True, write_only=True)

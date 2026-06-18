@@ -4,6 +4,15 @@ from .cpf import formatar_cpf, validar_cpf
 from .telefone import formatar_telefone, validar_telefone
 
 
+ESTADOS_CIVIS = [
+    ('Solteiro(a)', 'Solteiro(a)'),
+    ('Casado(a)', 'Casado(a)'),
+    ('União Estável', 'União Estável'),
+    ('Divorciado(a)', 'Divorciado(a)'),
+    ('Viúvo(a)', 'Viúvo(a)'),
+]
+
+
 class PerfilUsuario(models.Model):
     """Perfil completo do usuário que fez o cadastro"""
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
@@ -12,7 +21,7 @@ class PerfilUsuario(models.Model):
     nome = models.CharField(max_length=255)
     nacionalidade = models.CharField(max_length=100, blank=True)
     profissao = models.CharField(max_length=100, blank=True)
-    estado_civil = models.CharField(max_length=20, blank=True)
+    estado_civil = models.CharField(max_length=20, choices=ESTADOS_CIVIS, blank=True)
     
     # Documentos
     cpf = models.CharField(
@@ -53,7 +62,7 @@ class Cliente(models.Model):
     nome = models.CharField(max_length=255)
     nacionalidade = models.CharField(max_length=100, blank=True)
     profissao = models.CharField(max_length=100, blank=True)
-    estado_civil = models.CharField(max_length=20, blank=True)
+    estado_civil = models.CharField(max_length=20, choices=ESTADOS_CIVIS, blank=True)
     cpf = models.CharField(
         max_length=14,
         # CPF-VALIDACAO: validação do CPF do cliente; chave em api/cpf.py.
