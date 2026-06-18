@@ -394,7 +394,7 @@ function salvarInquilinoMesmoAssim() {
     adicionarCliente(_pendingNovoInquilino);
     _pendingNovoInquilino = null;
     fecharModalDuplicadoInquilino();
-    gerarPDF();
+    gerarPDF(true);
 }
 
 function cancelarSalvarDuplicadoInquilino() {
@@ -403,7 +403,7 @@ function cancelarSalvarDuplicadoInquilino() {
 
 function confirmarSalvarInquilino() {
     const dados    = capturarDadosInquilino();
-    if (!dados.nome) { fecharModalSalvarInquilino(); gerarPDF(); return; }
+    if (!dados.nome) { fecharModalSalvarInquilino(); gerarPDF(true); return; }
     const lista    = carregarClientes();
     const similares = clienteSimilarExiste(lista, dados);
     if (similares.length > 0) {
@@ -414,10 +414,10 @@ function confirmarSalvarInquilino() {
     }
     adicionarCliente(dados);
     fecharModalSalvarInquilino();
-    gerarPDF();
+    gerarPDF(true);
 }
 
 function naoSalvarInquilino() {
     fecharModalSalvarInquilino();
-    gerarPDF();
+    gerarPDF(true);
 }

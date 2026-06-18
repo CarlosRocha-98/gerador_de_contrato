@@ -62,6 +62,68 @@ function mostrarNotificacao(tipo, titulo, mensagem, duracao = 8000) {
     if (duracao > 0) window.setTimeout(remover, duracao);
 }
 
+let permitirDadosIncompletos = false;
+
+function confirmarCamposPendentes(campos) {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.className = 'pending-fields-overlay';
+
+        const modal = document.createElement('section');
+        modal.className = 'pending-fields-modal';
+        modal.setAttribute('role', 'alertdialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'pending-fields-title');
+
+        const titulo = document.createElement('h2');
+        titulo.id = 'pending-fields-title';
+        titulo.textContent = 'Campos obrigatórios não preenchidos';
+
+        const descricao = document.createElement('p');
+        descricao.textContent = 'Os campos abaixo estão pendentes:';
+
+        const lista = document.createElement('ul');
+        campos.forEach(campo => {
+            const item = document.createElement('li');
+            item.textContent = campo;
+            lista.appendChild(item);
+        });
+
+        const aviso = document.createElement('p');
+        aviso.className = 'pending-fields-modal__warning';
+        aviso.textContent = 'Se continuar, o contrato e o PDF serão gerados somente com as informações disponíveis.';
+
+        const acoes = document.createElement('div');
+        acoes.className = 'pending-fields-modal__actions';
+        const voltar = document.createElement('button');
+        voltar.type = 'button';
+        voltar.className = 'pending-fields-modal__back';
+        voltar.textContent = 'Voltar e preencher';
+        const continuar = document.createElement('button');
+        continuar.type = 'button';
+        continuar.className = 'pending-fields-modal__continue';
+        continuar.textContent = 'Continuar mesmo assim';
+        acoes.append(voltar, continuar);
+
+        const finalizar = resultado => {
+            document.removeEventListener('keydown', aoPressionarTecla);
+            overlay.remove();
+            resolve(resultado);
+        };
+        const aoPressionarTecla = event => {
+            if (event.key === 'Escape') finalizar(false);
+        };
+
+        voltar.addEventListener('click', () => finalizar(false));
+        continuar.addEventListener('click', () => finalizar(true));
+        document.addEventListener('keydown', aoPressionarTecla);
+        modal.append(titulo, descricao, lista, aviso, acoes);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        voltar.focus();
+    });
+}
+
 if (navbarToggle && navbarMenu) {
     navbarToggle.addEventListener('click', () => {
         navbarMenu.classList.toggle('active');
@@ -220,7 +282,8 @@ document.querySelector('a.navbar-cta[href*="ContractType"]')?.addEventListener('
 });
 
 // ── Validação do formulário ───────────────────────────────────────────────────
-function validarFormulario() {
+async function validarFormulario() {
+    permitirDadosIncompletos = false;
     const campos = [
         { id: 'prop-nome',         label: 'Nome do proprietário' },
         { id: 'prop-cpf',          label: 'CPF do proprietário' },
@@ -244,11 +307,15 @@ function validarFormulario() {
         .filter(c => { const el = document.getElementById(c.id); return !el || !el.value.trim(); })
         .map(c => c.label);
     if (faltando.length > 0) {
-        mostrarNotificacao('erro', 'Campos obrigatórios', 'Preencha os campos indicados antes de continuar:\n• ' + faltando.join('\n• '));
-        return false;
+        permitirDadosIncompletos = await confirmarCamposPendentes(faltando);
+        if (!permitirDadosIncompletos) {
+            document.getElementById(campos.find(c => faltando.includes(c.label))?.id)?.focus();
+            return false;
+        }
     }
-    const diaVencimento = Number(document.getElementById('dia-vencimento')?.value);
-    if (!Number.isInteger(diaVencimento) || diaVencimento < 1 || diaVencimento > 28) {
+    const diaVencimentoValor = document.getElementById('dia-vencimento')?.value.trim() || '';
+    const diaVencimento = Number(diaVencimentoValor);
+    if (diaVencimentoValor && (!Number.isInteger(diaVencimento) || diaVencimento < 1 || diaVencimento > 28)) {
         mostrarNotificacao('erro', 'Dia de vencimento inválido', 'Informe um número inteiro entre 1 e 28.');
         document.getElementById('dia-vencimento')?.focus();
         return false;
@@ -257,7 +324,10 @@ function validarFormulario() {
     const cpfsInvalidos = [
         { id: 'prop-cpf', label: 'CPF do proprietário' },
         { id: 'inq-cpf', label: 'CPF do inquilino' },
-    ].filter(c => !cpfTemTamanhoValido(document.getElementById(c.id)?.value || ''));
+    ].filter(c => {
+        const valor = document.getElementById(c.id)?.value.trim() || '';
+        return valor && !cpfTemTamanhoValido(valor);
+    });
 
     if (cpfsInvalidos.length > 0) {
         mostrarNotificacao('erro', 'CPF inválido', 'Verifique os dígitos dos campos:\n• ' + cpfsInvalidos.map(c => c.label).join('\n• '));
@@ -282,8 +352,8 @@ function prepararHTMLImpressao(preview) {
     return copia.innerHTML;
 }
 
-async function gerarPDF() {
-    if (!validarFormulario()) return;
+async function gerarPDF(validacaoConcluida = false) {
+    if (!validacaoConcluida && !await validarFormulario()) return;
     const preview = document.getElementById('contract-preview');
     const html    = prepararHTMLImpressao(preview);
     const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
@@ -345,11 +415,13 @@ p{font-size:13px;line-height:1.8;text-align:justify;margin-bottom:10px}
 </style></head><body>${html}</body></html>`);
     printWindow.document.close();
     printWindow.print();
+    await salvarContratoNoSistema(true);
 }
 
-document.getElementById('btn-gerar-pdf')?.addEventListener('click', () => {
+document.getElementById('btn-gerar-pdf')?.addEventListener('click', async () => {
+    if (!await validarFormulario()) return;
     if (!inquilinoJaCadastrado()) abrirModalSalvarInquilino();
-    else gerarPDF();
+    else gerarPDF(true);
 });
 
 // ── Salvar contrato no banco ──────────────────────────────────────────────────
@@ -432,7 +504,7 @@ async function resolverIdImovel(dados) {
 }
 
 async function salvarContratoNoSistema(silent = false) {
-    if (!silent && !validarFormulario()) return;
+    if (!silent && !await validarFormulario()) return;
     try {
         const jwt      = localStorage.getItem('access_token') || localStorage.getItem('access');
         const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
@@ -481,12 +553,12 @@ async function salvarContratoNoSistema(silent = false) {
         const imovelId    = imovelResultado.id;
         const idsBackend  = { inquilinoId, imovelId };
 
-        if (!inquilinoId) {
+        if (!inquilinoId && !permitirDadosIncompletos) {
             console.warn('Inquilino sem ID no backend.');
             mostrarNotificacao('erro', 'Não foi possível gravar o contrato', obterMensagemErro(inquilinoResultado.erro, 'Verifique os dados do inquilino e tente novamente.'));
             return;
         }
-        if (!imovelId) {
+        if (!imovelId && !permitirDadosIncompletos) {
             console.warn('Imóvel sem ID no backend.');
             mostrarNotificacao('erro', 'Não foi possível gravar o contrato', obterMensagemErro(imovelResultado.erro, 'Verifique os dados do imóvel e tente novamente.'));
             return;
@@ -507,18 +579,18 @@ async function salvarContratoNoSistema(silent = false) {
         }
 
         const payload = {
-            inquilino:         inquilinoId,
-            imovel:            imovelId,
-            prazo_meses:       parseInt(document.getElementById('prazo')?.value)             || 12,
-            valor_aluguel:     parseFloat(document.getElementById('valor-aluguel')?.value)   || 0,
-            dia_vencimento:    parseInt(document.getElementById('dia-vencimento')?.value)    || 10,
+            inquilino:         inquilinoId || null,
+            imovel:            imovelId || null,
+            prazo_meses:       document.getElementById('prazo')?.value ? parseInt(document.getElementById('prazo').value) : null,
+            valor_aluguel:     document.getElementById('valor-aluguel')?.value ? parseFloat(document.getElementById('valor-aluguel').value) : null,
+            dia_vencimento:    document.getElementById('dia-vencimento')?.value ? parseInt(document.getElementById('dia-vencimento').value) : null,
             valor_caucao:      parseFloat(document.getElementById('valor-caucao')?.value)    || 0,
             multa_infracao:    parseFloat(document.getElementById('multa-infracao')?.value)  || 0,
             multa_rescisao:    parseFloat(document.getElementById('multa-rescisao')?.value)  || 0,
             cidade_assinatura: document.getElementById('assinatura-cidade')?.value.trim()   || '',
             estado_assinatura: document.getElementById('assinatura-estado')?.value.trim()   || '',
-            data_inicio:       document.getElementById('data-inicio')?.value                || '',
-            data_assinatura:   document.getElementById('data-assinatura')?.value            || '',
+            data_inicio:       document.getElementById('data-inicio')?.value                || null,
+            data_assinatura:   document.getElementById('data-assinatura')?.value            || null,
             sem_caucao:         document.getElementById('sem-caucao')?.checked         || false,
             sem_multa_infracao: document.getElementById('sem-multa-infracao')?.checked || false,
             sem_multa_rescisao: document.getElementById('sem-multa-rescisao')?.checked || false,

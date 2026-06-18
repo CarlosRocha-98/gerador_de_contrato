@@ -62,6 +62,68 @@ function mostrarNotificacao(tipo, titulo, mensagem, duracao = 8000) {
     if (duracao > 0) window.setTimeout(remover, duracao);
 }
 
+let permitirDadosIncompletos = false;
+
+function confirmarCamposPendentes(campos) {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.className = 'pending-fields-overlay';
+
+        const modal = document.createElement('section');
+        modal.className = 'pending-fields-modal';
+        modal.setAttribute('role', 'alertdialog');
+        modal.setAttribute('aria-modal', 'true');
+        modal.setAttribute('aria-labelledby', 'pending-fields-title');
+
+        const titulo = document.createElement('h2');
+        titulo.id = 'pending-fields-title';
+        titulo.textContent = 'Campos obrigatórios não preenchidos';
+
+        const descricao = document.createElement('p');
+        descricao.textContent = 'Os campos abaixo estão pendentes:';
+
+        const lista = document.createElement('ul');
+        campos.forEach(campo => {
+            const item = document.createElement('li');
+            item.textContent = campo;
+            lista.appendChild(item);
+        });
+
+        const aviso = document.createElement('p');
+        aviso.className = 'pending-fields-modal__warning';
+        aviso.textContent = 'Se continuar, o contrato e o PDF serão gerados somente com as informações disponíveis.';
+
+        const acoes = document.createElement('div');
+        acoes.className = 'pending-fields-modal__actions';
+        const voltar = document.createElement('button');
+        voltar.type = 'button';
+        voltar.className = 'pending-fields-modal__back';
+        voltar.textContent = 'Voltar e preencher';
+        const continuar = document.createElement('button');
+        continuar.type = 'button';
+        continuar.className = 'pending-fields-modal__continue';
+        continuar.textContent = 'Continuar mesmo assim';
+        acoes.append(voltar, continuar);
+
+        const finalizar = resultado => {
+            document.removeEventListener('keydown', aoPressionarTecla);
+            overlay.remove();
+            resolve(resultado);
+        };
+        const aoPressionarTecla = event => {
+            if (event.key === 'Escape') finalizar(false);
+        };
+
+        voltar.addEventListener('click', () => finalizar(false));
+        continuar.addEventListener('click', () => finalizar(true));
+        document.addEventListener('keydown', aoPressionarTecla);
+        modal.append(titulo, descricao, lista, aviso, acoes);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+        voltar.focus();
+    });
+}
+
 if (navbarToggle && navbarMenu) {
     navbarToggle.addEventListener('click', () => {
         navbarMenu.classList.toggle('active');
@@ -640,7 +702,7 @@ function confirmarSalvarCliente() {
     }
     adicionarCliente(novo);
     fecharModalSalvar();
-    gerarPDF();
+    gerarPDF(true);
 }
 
 function abrirModalDuplicadoCliente(similares) {
@@ -665,7 +727,7 @@ function salvarClienteMesmoAssim() {
     adicionarCliente(_pendingNovoCliente);
     _pendingNovoCliente = null;
     fecharModalDuplicadoCliente();
-    gerarPDF();
+    gerarPDF(true);
 }
 
 function cancelarSalvarDuplicadoCliente() {
@@ -674,7 +736,7 @@ function cancelarSalvarDuplicadoCliente() {
 
 function naoSalvarCliente() {
     fecharModalSalvar();
-    gerarPDF();
+    gerarPDF(true);
 }
 
 // ── Limpar formulário ─────────────────────────────────────────────────────────
@@ -716,7 +778,8 @@ function limparFormulario() {
 document.getElementById('btn-limpar')?.addEventListener('click', limparFormulario);
 
 // ── Validação do formulário ───────────────────────────────────────────────────
-function validarFormulario() {
+async function validarFormulario() {
+    permitirDadosIncompletos = false;
     const campos = [
         { id: 'prest-nome',        label: 'Nome do prestador' },
         { id: 'prest-cpf',         label: 'CPF do prestador' },
@@ -749,20 +812,29 @@ function validarFormulario() {
     });
 
     if (faltando.length > 0) {
-        mostrarNotificacao('erro', 'Campos obrigatórios', 'Preencha os campos indicados antes de continuar:\n• ' + faltando.join('\n• '));
-        return false;
+        permitirDadosIncompletos = await confirmarCamposPendentes(faltando);
+        if (!permitirDadosIncompletos) {
+            document.getElementById(campos.find(c => faltando.includes(c.label))?.id)?.focus();
+            return false;
+        }
     }
 
     // CPF-VALIDACAO: valida prestador e contratante antes de gerar o contrato.
     const cpfsInvalidos = ['prest-cpf', 'cont-cpf']
-        .filter(id => !CPF.valido(document.getElementById(id)?.value));
+        .filter(id => {
+            const valor = document.getElementById(id)?.value.trim() || '';
+            return valor && !CPF.valido(valor);
+        });
     if (cpfsInvalidos.length) {
         mostrarNotificacao('erro', 'CPF inválido', 'Verifique os dígitos informados para o prestador e o contratante.');
         return false;
     }
 
     const telefonesInvalidos = ['prest-telefone', 'cont-telefone']
-        .filter(id => !TelefoneBR.valido(document.getElementById(id)?.value));
+        .filter(id => {
+            const valor = document.getElementById(id)?.value.trim() || '';
+            return valor && !TelefoneBR.valido(valor);
+        });
     if (telefonesInvalidos.length) {
         mostrarNotificacao('erro', 'Telefone inválido', 'Informe um número de celular ou telefone fixo com DDD.');
         return false;
@@ -772,8 +844,8 @@ function validarFormulario() {
     
 }
 // ── Geração de PDF ────────────────────────────────────────────────────────────
-async function gerarPDF() {
-    if (!validarFormulario()) return;
+async function gerarPDF(validacaoConcluida = false) {
+    if (!validacaoConcluida && !await validarFormulario()) return;
     const preview = document.getElementById('contract-preview');
     const html    = preview ? preview.innerHTML : '';
     const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
@@ -834,11 +906,13 @@ p{font-size:13px;line-height:1.8;text-align:justify;margin-bottom:10px}
 </style></head><body>${html}</body></html>`);
     printWindow.document.close();
     printWindow.print();
+    await salvarContratoNoSistema(true);
 }
 
-document.getElementById('btn-gerar-pdf')?.addEventListener('click', () => {
+document.getElementById('btn-gerar-pdf')?.addEventListener('click', async () => {
+    if (!await validarFormulario()) return;
     if (!contratanteJaCadastrado()) abrirModalSalvar();
-    else gerarPDF();
+    else gerarPDF(true);
 });
 
 // ── Salvar contrato no banco ──────────────────────────────────────────────────
@@ -873,7 +947,7 @@ async function resolverIdContratante(dados) {
 }
 
 async function salvarContratoNoSistema(silent = false) {
-    if (!silent && !validarFormulario()) return;
+    if (!silent && !await validarFormulario()) return;
     try {
         const jwt      = localStorage.getItem('access_token') || localStorage.getItem('access');
         const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
@@ -892,23 +966,23 @@ async function salvarContratoNoSistema(silent = false) {
         }
 
         const contratanteId = await resolverIdContratante(contratanteData);
-        if (!contratanteId) {
+        if (!contratanteId && !permitirDadosIncompletos) {
             mostrarNotificacao('erro', 'Não foi possível gravar o contrato', 'Preencha os dados do contratante ou selecione um cliente cadastrado.');
             return;
         }
 
         const payload = {
-            contratante:                contratanteId,
+            contratante:                contratanteId || null,
             tipo_servico:               document.getElementById('tipo-servico')?.value.trim()            || '',
             especificacao_servico:      document.getElementById('especificacao-servico')?.value.trim()   || '',
             atividades_contratadas:     document.getElementById('atividades-contratadas')?.value.trim()  || '',
             motivo_contratacao:         document.getElementById('motivo-contratacao')?.value.trim()      || '',
-            data_inicio:                document.getElementById('data-inicio')?.value                    || '',
-            data_termino:               document.getElementById('data-termino')?.value                   || '',
-            prazo_meses:                parseInt(document.getElementById('prazo-meses')?.value)          || 1,
-            valor_mensal:               parseFloat(document.getElementById('valor-mensal')?.value)       || 0,
+            data_inicio:                document.getElementById('data-inicio')?.value                    || null,
+            data_termino:               document.getElementById('data-termino')?.value                   || null,
+            prazo_meses:                document.getElementById('prazo-meses')?.value ? parseInt(document.getElementById('prazo-meses').value) : null,
+            valor_mensal:               document.getElementById('valor-mensal')?.value ? parseFloat(document.getElementById('valor-mensal').value) : null,
             forma_pagamento:            document.getElementById('forma-pagamento')?.value.trim()         || '',
-            dia_vencimento:             parseInt(document.getElementById('dia-vencimento')?.value)       || 10,
+            dia_vencimento:             document.getElementById('dia-vencimento')?.value ? parseInt(document.getElementById('dia-vencimento').value) : null,
             local_execucao:             document.getElementById('local-execucao')?.value.trim()          || '',
             executa_nas_dependencias:   document.getElementById('executa-nas-dependencias')?.checked     ?? true,
             disposicoes_seguranca:      document.getElementById('disposicoes-seguranca')?.value.trim()   || '',

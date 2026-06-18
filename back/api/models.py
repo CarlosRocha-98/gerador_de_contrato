@@ -128,20 +128,20 @@ class ContratoAluguel(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='contratos')
     # Proprietário é sempre o usuário logado (via perfil)
     # Inquilino é sempre outra pessoa (Cliente)
-    inquilino = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='contratos_como_inquilino')
-    imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT, related_name='contratos')
-    prazo_meses = models.PositiveIntegerField()
-    valor_aluguel = models.DecimalField(max_digits=10, decimal_places=2)
+    inquilino = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='contratos_como_inquilino', null=True, blank=True)
+    imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT, related_name='contratos', null=True, blank=True)
+    prazo_meses = models.PositiveIntegerField(null=True, blank=True)
+    valor_aluguel = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     dia_vencimento = models.PositiveIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(28)]
+        validators=[MinValueValidator(1), MaxValueValidator(28)], null=True, blank=True
     )
     valor_caucao = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     multa_infracao = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     multa_rescisao = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    cidade_assinatura = models.CharField(max_length=100)
-    estado_assinatura = models.CharField(max_length=2)
-    data_inicio = models.DateField()
-    data_assinatura = models.DateField()
+    cidade_assinatura = models.CharField(max_length=100, blank=True, default='')
+    estado_assinatura = models.CharField(max_length=2, blank=True, default='')
+    data_inicio = models.DateField(null=True, blank=True)
+    data_assinatura = models.DateField(null=True, blank=True)
     sem_caucao = models.BooleanField(default=False)
     sem_multa_infracao = models.BooleanField(default=False)
     sem_multa_rescisao = models.BooleanField(default=False)
@@ -163,26 +163,26 @@ class ContratoServico(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='contratos_servico')
     # Prestador/contratado é sempre o usuário logado (via perfil)
     # Contratante é sempre outra pessoa (Cliente)
-    contratante = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='contratos_como_contratante')
+    contratante = models.ForeignKey(Cliente, on_delete=models.PROTECT, related_name='contratos_como_contratante', null=True, blank=True)
     
-    tipo_servico = models.CharField(max_length=100)  # Ex: Limpeza, Segurança, Manutenção
-    especificacao_servico = models.TextField()  # Descrição detalhada
-    atividades_contratadas = models.TextField()  # Definição clara das atividades
+    tipo_servico = models.CharField(max_length=100, blank=True, default='')  # Ex: Limpeza, Segurança, Manutenção
+    especificacao_servico = models.TextField(blank=True, default='')  # Descrição detalhada
+    atividades_contratadas = models.TextField(blank=True, default='')  # Definição clara das atividades
     
-    motivo_contratacao = models.TextField()  # Justificativa da necessidade
+    motivo_contratacao = models.TextField(blank=True, default='')  # Justificativa da necessidade
     
-    data_inicio = models.DateField()
-    data_termino = models.DateField()
-    prazo_meses = models.PositiveIntegerField()
+    data_inicio = models.DateField(null=True, blank=True)
+    data_termino = models.DateField(null=True, blank=True)
+    prazo_meses = models.PositiveIntegerField(null=True, blank=True)
     
-    valor_mensal = models.DecimalField(max_digits=10, decimal_places=2)
-    forma_pagamento = models.CharField(max_length=100)  # Ex: Mensal, Quinzenal
-    dia_vencimento = models.PositiveIntegerField()
+    valor_mensal = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    forma_pagamento = models.CharField(max_length=100, blank=True, default='')  # Ex: Mensal, Quinzenal
+    dia_vencimento = models.PositiveIntegerField(null=True, blank=True)
     
-    local_execucao = models.CharField(max_length=255)  # Endereço do contratante ou outro local
+    local_execucao = models.CharField(max_length=255, blank=True, default='')  # Endereço do contratante ou outro local
     executa_nas_dependencias = models.BooleanField(default=True)
     
-    disposicoes_seguranca = models.TextField()  # Condições de segurança, higiene e salubridade
+    disposicoes_seguranca = models.TextField(blank=True, default='')  # Condições de segurança, higiene e salubridade
     
     multa_atraso = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     multa_rescisao = models.DecimalField(max_digits=10, decimal_places=2, default=0)

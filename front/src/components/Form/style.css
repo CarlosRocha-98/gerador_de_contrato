@@ -442,6 +442,110 @@ textarea::placeholder {
     .system-notification { animation: none; }
 }
 
+/* Confirmação para contratos com dados incompletos */
+.pending-fields-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 11000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(3px);
+}
+
+.pending-fields-modal {
+    width: min(520px, 100%);
+    max-height: min(680px, calc(100vh - 40px));
+    overflow-y: auto;
+    padding: 26px;
+    border: 1px solid #e0e5ed;
+    border-top: 5px solid #d97706;
+    border-radius: 14px;
+    background: #fff;
+    color: #263142;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.3);
+}
+
+.pending-fields-modal h2 {
+    margin: 0 0 10px;
+    color: #172033;
+    font-size: 20px;
+    line-height: 1.3;
+}
+
+.pending-fields-modal > p {
+    margin: 0;
+    color: #566174;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.pending-fields-modal ul {
+    display: grid;
+    gap: 7px;
+    max-height: 230px;
+    margin: 16px 0;
+    padding: 14px 14px 14px 34px;
+    overflow-y: auto;
+    border: 1px solid #e4e8ef;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #364154;
+    font-size: 14px;
+}
+
+.pending-fields-modal .pending-fields-modal__warning {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: #fff7e6;
+    color: #8a4b08;
+}
+
+.pending-fields-modal__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.pending-fields-modal__actions button {
+    min-height: 42px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.pending-fields-modal__back {
+    border: 1px solid #cfd6e2;
+    background: #fff;
+    color: #39465a;
+}
+
+.pending-fields-modal__continue {
+    border: 1px solid #c46208;
+    background: #d97706;
+    color: #fff;
+}
+
+.pending-fields-modal__back:hover,
+.pending-fields-modal__back:focus-visible { background: #f3f5f8; }
+.pending-fields-modal__continue:hover,
+.pending-fields-modal__continue:focus-visible { background: #b85f05; }
+
+.pending-fields-modal__actions button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.28);
+    outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+    .pending-fields-modal { padding: 22px 18px; }
+    .pending-fields-modal__actions { flex-direction: column; }
+    .pending-fields-modal__actions button { width: 100%; }
+}
+
 .preview-signature {
     margin-top: 40px;
     text-align: center;
