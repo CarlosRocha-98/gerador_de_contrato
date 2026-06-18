@@ -322,7 +322,7 @@ async function adicionarCliente(dados) {
             const payload = {
                 nome: dados.nome, cpf: dados.cpf, telefone: TelefoneBR.formatar(dados.telefone),
                 email: dados.email || '', rua: dados.endereco || dados.rua || '',
-                numero: dados.numero || '', bairro: dados.bairro || '',
+                numero: dados.numero || '', complemento: dados.complemento || '', bairro: dados.bairro || '',
                 cep: dados.cep || '', cidade: dados.cidade || '', estado: dados.estado || '',
                 nacionalidade: dados.nacionalidade || '', profissao: dados.profissao || '',
                 estado_civil: dados.estadoCivil || dados.estado_civil || '',
@@ -464,7 +464,7 @@ function toggleNovoContratante() {
     if (btn) btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
     if (!aberto) {
         ['nc-nome','nc-nacionalidade','nc-profissao','nc-cpf',
-         'nc-telefone','nc-email','nc-rua','nc-numero','nc-bairro','nc-cep','nc-cidade','nc-estado']
+         'nc-telefone','nc-email','nc-cep','nc-rua','nc-numero','nc-complemento','nc-bairro','nc-cidade','nc-estado']
             .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         const ecEl = document.getElementById('nc-estado-civil');
         if (ecEl) ecEl.value = '';
@@ -503,6 +503,7 @@ async function salvarNovoContratanteModal() {
         email:           document.getElementById('nc-email')?.value.trim()            || '',
         rua:             document.getElementById('nc-rua')?.value.trim()              || '',
         numero:          document.getElementById('nc-numero')?.value.trim()           || '',
+        complemento:     document.getElementById('nc-complemento')?.value.trim()      || '',
         bairro:          document.getElementById('nc-bairro')?.value.trim()           || '',
         cep:             document.getElementById('nc-cep')?.value.trim()              || '',
         cidade:          document.getElementById('nc-cidade')?.value.trim()           || '',

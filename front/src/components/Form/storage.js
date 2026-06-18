@@ -39,6 +39,7 @@ function montarPayloadCliente(dados) {
         email: dados.email,
         rua: dados.endereco || dados.rua,
         numero: dados.numero,
+        complemento: dados.complemento,
         bairro: dados.bairro,
         cep: dados.cep,
         cidade: dados.cidade,
@@ -163,6 +164,7 @@ function montarPayloadImovel(imovel) {
     return {
         endereco: imovel.endereco,
         numero: imovel.numero,
+        complemento: imovel.complemento,
         bairro: imovel.bairro,
         cidade: imovel.cidade,
         estado: imovel.estado,

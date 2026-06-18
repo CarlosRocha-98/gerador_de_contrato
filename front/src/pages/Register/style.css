@@ -58,6 +58,14 @@ body {
     grid-column: 1 / -1;
 }
 
+.form-group.span-2 {
+    grid-column: span 2;
+}
+
+.form-group.numero-compacto {
+    max-width: 140px;
+}
+
 .strength-bar,
 .register-link,
 .message {
@@ -216,6 +224,14 @@ body {
  
     #registerForm {
         grid-template-columns: 1fr;
+    }
+
+    .form-group.span-2 {
+        grid-column: auto;
+    }
+
+    .form-group.numero-compacto {
+        max-width: none;
     }
 
     .login-box {

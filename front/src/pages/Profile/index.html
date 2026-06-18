@@ -91,26 +91,32 @@
           <!-- Endereço -->
           <section class="form-section">
             <h3 class="section-title">📍 Endereço</h3>
-            <div class="form-group full">
+            <div class="form-row cols-cep-rua">
+              <div class="form-group">
+                <label for="field-cep">CEP</label>
+                <input type="text" id="field-cep" placeholder="00000-000" />
+              </div>
+              <div class="form-group form-group--wide">
               <label for="field-rua">Rua / Avenida</label>
               <input
                 type="text"
                 id="field-rua"
                 placeholder="Ex: Rua das Flores"
               />
+              </div>
             </div>
-            <div class="form-row cols-3">
-              <div class="form-group">
+            <div class="form-row cols-endereco-detalhes">
+              <div class="form-group form-group--numero">
                 <label for="field-numero">Número</label>
                 <input type="text" id="field-numero" placeholder="123" />
               </div>
               <div class="form-group">
-                <label for="field-bairro">Bairro</label>
-                <input type="text" id="field-bairro" placeholder="Centro" />
+                <label for="field-complemento">Complemento</label>
+                <input type="text" id="field-complemento" placeholder="Apartamento, bloco..." />
               </div>
               <div class="form-group">
-                <label for="field-cep">CEP</label>
-                <input type="text" id="field-cep" placeholder="00000-000" />
+                <label for="field-bairro">Bairro</label>
+                <input type="text" id="field-bairro" placeholder="Centro" />
               </div>
             </div>
             <div class="form-row cols-cidade-uf">
@@ -235,12 +241,13 @@
             </div>
             <div class="form-group full"><label for="edit-cli-email">E-mail</label><input id="edit-cli-email" type="email"></div>
             <div class="form-row cols-3">
+              <div class="form-group"><label for="edit-cli-cep">CEP</label><input id="edit-cli-cep" type="text"></div>
               <div class="form-group"><label for="edit-cli-rua">Rua</label><input id="edit-cli-rua" type="text"></div>
               <div class="form-group"><label for="edit-cli-numero">Número</label><input id="edit-cli-numero" type="text"></div>
+              <div class="form-group"><label for="edit-cli-complemento">Complemento</label><input id="edit-cli-complemento" type="text"></div>
               <div class="form-group"><label for="edit-cli-bairro">Bairro</label><input id="edit-cli-bairro" type="text"></div>
             </div>
             <div class="form-row cols-3">
-              <div class="form-group"><label for="edit-cli-cep">CEP</label><input id="edit-cli-cep" type="text"></div>
               <div class="form-group"><label for="edit-cli-cidade">Cidade</label><input id="edit-cli-cidade" type="text"></div>
               <div class="form-group">
                 <label for="edit-cli-estado">Estado (UF)</label>

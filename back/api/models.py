@@ -36,6 +36,7 @@ class PerfilUsuario(models.Model):
     # Endereço
     rua = models.CharField(max_length=255, blank=True)
     numero = models.CharField(max_length=10, blank=True)
+    complemento = models.CharField(max_length=100, blank=True, default='')
     bairro = models.CharField(max_length=100, blank=True)
     cep = models.CharField(max_length=10, blank=True)
     cidade = models.CharField(max_length=100, blank=True)
@@ -72,6 +73,7 @@ class Cliente(models.Model):
     email = models.EmailField(blank=True)
     rua = models.CharField(max_length=255, blank=True)
     numero = models.CharField(max_length=10, blank=True)
+    complemento = models.CharField(max_length=100, blank=True, default='')
     bairro = models.CharField(max_length=100, blank=True)
     cep = models.CharField(max_length=10, blank=True)
     cidade = models.CharField(max_length=100, blank=True)
@@ -96,6 +98,7 @@ class Imovel(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='imoveis')
     endereco = models.CharField(max_length=255)
     numero = models.CharField(max_length=10)
+    complemento = models.CharField(max_length=100, blank=True, default='')
     bairro = models.CharField(max_length=100)
     cidade = models.CharField(max_length=100)
     estado = models.CharField(max_length=2)

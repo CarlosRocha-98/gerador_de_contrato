@@ -77,7 +77,7 @@ class PerfilUsuarioSerializer(CPFSerializerMixin, serializers.ModelSerializer):
             'usuario_id', 'username', 'email',
             'nome', 'nacionalidade', 'profissao', 'estado_civil',
             'cpf', 'telefone',
-            'rua', 'numero', 'bairro', 'cep', 'cidade', 'estado',
+            'cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado',
             'criado_em'
         ]
         read_only_fields = ['usuario', 'criado_em']
@@ -101,6 +101,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     # Endereço
     rua = serializers.CharField(required=False, allow_blank=True, write_only=True)
     numero = serializers.CharField(required=False, allow_blank=True, write_only=True)
+    complemento = serializers.CharField(required=False, allow_blank=True, write_only=True)
     bairro = serializers.CharField(required=False, allow_blank=True, write_only=True)
     cep = serializers.CharField(required=False, allow_blank=True, write_only=True)
     cidade = serializers.CharField(required=False, allow_blank=True, write_only=True)
@@ -111,7 +112,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'username', 'email', 'password',
             'nome', 'cpf', 'telefone', 'nacionalidade', 'profissao', 'estado_civil',
-            'rua', 'numero', 'bairro', 'cep', 'cidade', 'estado'
+            'cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado'
         ]
         read_only_fields = ['id']
 
@@ -151,6 +152,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         estado_civil = validated_data.pop('estado_civil', '')
         rua = validated_data.pop('rua', '')
         numero = validated_data.pop('numero', '')
+        complemento = validated_data.pop('complemento', '')
         bairro = validated_data.pop('bairro', '')
         cep = validated_data.pop('cep', '')
         cidade = validated_data.pop('cidade', '')
@@ -174,6 +176,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             estado_civil=estado_civil,
             rua=rua,
             numero=numero,
+            complemento=complemento,
             bairro=bairro,
             cep=cep,
             cidade=cidade,

@@ -67,6 +67,14 @@ h2 {
     flex: 1;
 }
 
+.input-row .input-group--wide {
+    flex: 2;
+}
+
+.input-row .input-group--numero {
+    flex: 0 0 110px;
+}
+
 label {
     font-size: 0.85rem;
     margin-bottom: 5px;

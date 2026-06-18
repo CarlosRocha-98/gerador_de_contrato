@@ -31,6 +31,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const estado_civil    = document.getElementById('estado_civil').value.trim();
   const rua             = document.getElementById('rua').value.trim();
   const numero          = document.getElementById('numero').value.trim();
+  const complemento     = document.getElementById('complemento').value.trim();
   const bairro          = document.getElementById('bairro').value.trim();
   const cep             = document.getElementById('cep').value.trim();
   const cidade          = document.getElementById('cidade').value.trim();
@@ -65,6 +66,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         estado_civil: document.getElementById('estado_civil').value.trim(),
         rua: document.getElementById('rua').value.trim(),
         numero: document.getElementById('numero').value.trim(),
+        complemento: document.getElementById('complemento').value.trim(),
         bairro: document.getElementById('bairro').value.trim(),
         cep: document.getElementById('cep').value.trim(),
         cidade: document.getElementById('cidade').value.trim(),

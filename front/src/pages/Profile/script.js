@@ -57,6 +57,7 @@ function carregarPerfil() {
             setField('field-telefone',      p.telefone);
             setField('field-rua',           p.rua);
             setField('field-numero',        p.numero);
+            setField('field-complemento',   p.complemento);
             setField('field-bairro',        p.bairro);
             setField('field-cep',           p.cep);
             setField('field-cidade',        p.cidade);
@@ -78,6 +79,7 @@ function carregarPerfil() {
         setField('field-telefone',      local.telefone);
         setField('field-rua',           local.rua);
         setField('field-numero',        local.numero);
+        setField('field-complemento',   local.complemento);
         setField('field-bairro',        local.bairro);
         setField('field-cep',           local.cep);
         setField('field-cidade',        local.cidade);
@@ -107,6 +109,7 @@ document.getElementById('profileForm').addEventListener('submit', function (e) {
         telefone:        document.getElementById('field-telefone').value.trim(),
         rua:             document.getElementById('field-rua').value.trim(),
         numero:          document.getElementById('field-numero').value.trim(),
+        complemento:     document.getElementById('field-complemento').value.trim(),
         bairro:          document.getElementById('field-bairro').value.trim(),
         cep:             document.getElementById('field-cep').value.trim(),
         cidade:          document.getElementById('field-cidade').value.trim(),
@@ -297,6 +300,7 @@ function abrirModalEditCliente(c) {
     document.getElementById('edit-cli-email').value         = c.email      || '';
     document.getElementById('edit-cli-rua').value           = c.rua        || '';
     document.getElementById('edit-cli-numero').value        = c.numero     || '';
+    document.getElementById('edit-cli-complemento').value   = c.complemento || '';
     document.getElementById('edit-cli-bairro').value        = c.bairro     || '';
     document.getElementById('edit-cli-cep').value           = c.cep        || '';
     document.getElementById('edit-cli-cidade').value        = c.cidade     || '';
@@ -323,6 +327,7 @@ async function salvarEdicaoCliente() {
         email:           document.getElementById('edit-cli-email').value.trim(),
         rua:             document.getElementById('edit-cli-rua').value.trim(),
         numero:          document.getElementById('edit-cli-numero').value.trim(),
+        complemento:     document.getElementById('edit-cli-complemento').value.trim(),
         bairro:          document.getElementById('edit-cli-bairro').value.trim(),
         cep:             document.getElementById('edit-cli-cep').value.trim(),
         cidade:          document.getElementById('edit-cli-cidade').value.trim(),

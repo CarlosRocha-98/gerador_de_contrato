@@ -133,7 +133,7 @@ function toggleNovoCliente() {
     btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
     if (!aberto) {
         ['nc-nome','nc-nacionalidade','nc-profissao','nc-cpf',
-         'nc-telefone','nc-email','nc-rua','nc-numero','nc-bairro','nc-cep','nc-cidade','nc-estado']
+         'nc-telefone','nc-email','nc-cep','nc-rua','nc-numero','nc-complemento','nc-bairro','nc-cidade','nc-estado']
             .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         const ecEl = document.getElementById('nc-estado-civil');
         if (ecEl) ecEl.value = '';
@@ -172,6 +172,7 @@ async function salvarNovoClienteModal() {
         email:          document.getElementById('nc-email')?.value.trim()            || '',
         rua:            document.getElementById('nc-rua')?.value.trim()              || '',
         numero:         document.getElementById('nc-numero')?.value.trim()           || '',
+        complemento:    document.getElementById('nc-complemento')?.value.trim()      || '',
         bairro:         document.getElementById('nc-bairro')?.value.trim()           || '',
         cep:            document.getElementById('nc-cep')?.value.trim()              || '',
         cidade:         document.getElementById('nc-cidade')?.value.trim()           || '',

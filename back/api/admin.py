@@ -19,7 +19,7 @@ class PerfilUsuarioAdmin(admin.ModelAdmin):
             'fields': ('telefone',)
         }),
         ('Endereço', {
-            'fields': ('rua', 'numero', 'bairro', 'cep', 'cidade', 'estado')
+            'fields': ('cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
         }),
         ('Sistema', {
             'fields': ('usuario', 'criado_em')
@@ -44,7 +44,7 @@ class ClienteAdmin(admin.ModelAdmin):
             'fields': ('email', 'telefone')
         }),
         ('Endereço', {
-            'fields': ('rua', 'numero', 'bairro', 'cep', 'cidade', 'estado')
+            'fields': ('cep', 'rua', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
         }),
         ('Sistema', {
             'fields': ('usuario', 'criado_em')
@@ -60,7 +60,7 @@ class ImovelAdmin(admin.ModelAdmin):
     readonly_fields = ['criado_em']
     fieldsets = (
         ('Localização', {
-            'fields': ('endereco', 'numero', 'bairro', 'cidade', 'estado')
+            'fields': ('endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
         }),
         ('Detalhes', {
             'fields': ('tipo', 'caracteristicas')
