@@ -233,3 +233,12 @@ class ContratoServicoSerializer(serializers.ModelSerializer):
         model = ContratoServico
         fields = '__all__'
         read_only_fields = ['usuario', 'criado_em']
+
+    def validate(self, attrs):
+        executa_no_endereco = attrs.get(
+            'executa_nas_dependencias',
+            getattr(self.instance, 'executa_nas_dependencias', True),
+        )
+        if executa_no_endereco:
+            attrs['local_execucao'] = 'Endereço do Contratante'
+        return attrs

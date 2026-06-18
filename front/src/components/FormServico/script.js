@@ -198,16 +198,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Checkboxes ────────────────────────────────────────────────────────────────
-document.getElementById('executa-nas-dependencias')?.addEventListener('change', function () {
+function atualizarLocalExecucao() {
+    const checkbox = document.getElementById('executa-nas-dependencias');
+    const campoLocal = document.getElementById('local-execucao');
     const localEl = document.getElementById('pv-local-texto');
-    if (!localEl) return;
-    const local = document.getElementById('pv-local-execucao')?.textContent || '______________';
-    if (this.checked) {
-        localEl.innerHTML = `Os serviços serão executados nas dependências da CONTRATANTE, situadas em <span class="preview-field" id="pv-local-execucao">${local}</span>.`;
+    if (!checkbox || !campoLocal || !localEl) return;
+
+    if (checkbox.checked) {
+        campoLocal.value = 'Endereço do Contratante';
+        campoLocal.readOnly = true;
+        campoLocal.classList.add('prefilled');
+        localEl.textContent = 'Os serviços serão executados no Endereço do Contratante.';
     } else {
-        localEl.innerHTML = `Os serviços serão executados fora das dependências da CONTRATANTE, no seguinte local: <span class="preview-field" id="pv-local-execucao">${local}</span>.`;
+        if (campoLocal.value === 'Endereço do Contratante') campoLocal.value = '';
+        campoLocal.readOnly = false;
+        campoLocal.classList.remove('prefilled');
+        const local = campoLocal.value.trim() || '______________';
+        localEl.innerHTML = `Os serviços serão executados no seguinte local: <span class="preview-field" id="pv-local-execucao">${local}</span>.`;
     }
-});
+    campoLocal.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+document.getElementById('executa-nas-dependencias')?.addEventListener('change', atualizarLocalExecucao);
+atualizarLocalExecucao();
 
 document.getElementById('sem-multa-rescisao')?.addEventListener('change', function () {
     const campo = document.getElementById('multa-rescisao');

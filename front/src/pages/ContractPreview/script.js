@@ -297,9 +297,9 @@ function contratoServicoHTML(dados) {
 
         <h2>Cláusula 5ª – DO LOCAL DE EXECUÇÃO</h2>
 
-        <p>
-            Os serviços serão executados nas dependências da CONTRATANTE,
-            situadas em ${texto(contrato.local_execucao)}.
+        <p>${contrato.executa_nas_dependencias
+            ? 'Os serviços serão executados no Endereço do Contratante.'
+            : `Os serviços serão executados no seguinte local: ${texto(contrato.local_execucao)}.`}
         </p>
 
         <h2>Cláusula 6ª – DA REMUNERAÇÃO E FORMA DE PAGAMENTO</h2>

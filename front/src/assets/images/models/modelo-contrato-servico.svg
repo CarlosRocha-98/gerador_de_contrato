@@ -42,7 +42,7 @@
   <text x="170" y="678" class="body">Vigencia por [PRAZO EM MESES] meses, com inicio em [DATA DE INICIO] e termino em [DATA DE TERMINO].</text>
 
   <text x="170" y="724" class="clause">Clausula 5a - DO LOCAL DE EXECUCAO</text>
-  <text x="170" y="750" class="body">Os servicos serao executados nas dependencias da CONTRATANTE, situadas em [LOCAL DE EXECUCAO].</text>
+  <text x="170" y="750" class="body">Os servicos serao executados no endereco do CONTRATANTE ou em [LOCAL DE EXECUCAO].</text>
 
   <text x="170" y="796" class="clause">Clausula 6a - DA REMUNERACAO E FORMA DE PAGAMENTO</text>
   <text x="170" y="822" class="body">Valor mensal de [VALOR MENSAL], forma [FORMA DE PAGAMENTO], vencimento dia [DIA DE VENCIMENTO].</text>

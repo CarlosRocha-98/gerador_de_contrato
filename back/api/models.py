@@ -179,7 +179,7 @@ class ContratoServico(models.Model):
     forma_pagamento = models.CharField(max_length=100)  # Ex: Mensal, Quinzenal
     dia_vencimento = models.PositiveIntegerField()
     
-    local_execucao = models.CharField(max_length=255)  # Dependências da contratante ou outro
+    local_execucao = models.CharField(max_length=255)  # Endereço do contratante ou outro local
     executa_nas_dependencias = models.BooleanField(default=True)
     
     disposicoes_seguranca = models.TextField()  # Condições de segurança, higiene e salubridade
