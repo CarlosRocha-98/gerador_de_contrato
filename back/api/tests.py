@@ -1,9 +1,11 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from unittest.mock import patch
 
 from .cpf import cpf_valido, cpf_valido_oficial, formatar_cpf
 from .serializers import ClienteSerializer
+from .models import ContratoAluguel
 from .telefone import formatar_telefone, telefone_valido
 from .cep import cep_valido, formatar_cep
 
@@ -87,3 +89,17 @@ class CEPTestCase(TestCase):
         })
         self.assertTrue(serializer.is_valid(), serializer.errors)
         self.assertEqual(serializer.validated_data['cep'], '01001-000')
+
+
+class DiaVencimentoAluguelTestCase(TestCase):
+    def test_aceita_dias_de_1_a_28(self):
+        campo = ContratoAluguel._meta.get_field('dia_vencimento')
+        campo.run_validators(1)
+        campo.run_validators(28)
+
+    def test_recusa_dias_fora_do_intervalo(self):
+        campo = ContratoAluguel._meta.get_field('dia_vencimento')
+        with self.assertRaises(ValidationError):
+            campo.run_validators(0)
+        with self.assertRaises(ValidationError):
+            campo.run_validators(29)

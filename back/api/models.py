@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
 from .cpf import formatar_cpf, validar_cpf
 from .telefone import formatar_telefone, validar_telefone
 from .cep import formatar_cep, validar_cep
@@ -131,7 +132,9 @@ class ContratoAluguel(models.Model):
     imovel = models.ForeignKey(Imovel, on_delete=models.PROTECT, related_name='contratos')
     prazo_meses = models.PositiveIntegerField()
     valor_aluguel = models.DecimalField(max_digits=10, decimal_places=2)
-    dia_vencimento = models.PositiveIntegerField()
+    dia_vencimento = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(28)]
+    )
     valor_caucao = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     multa_infracao = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     multa_rescisao = models.DecimalField(max_digits=10, decimal_places=2, default=0)

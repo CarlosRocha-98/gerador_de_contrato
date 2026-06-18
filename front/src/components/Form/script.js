@@ -186,6 +186,12 @@ function validarFormulario() {
         alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
         return false;
     }
+    const diaVencimento = Number(document.getElementById('dia-vencimento')?.value);
+    if (!Number.isInteger(diaVencimento) || diaVencimento < 1 || diaVencimento > 28) {
+        alert('O dia do vencimento deve ser um número inteiro entre 1 e 28.');
+        document.getElementById('dia-vencimento')?.focus();
+        return false;
+    }
     // CPF-VALIDACAO: valida proprietário e inquilino antes de gerar o contrato.
     const cpfsInvalidos = [
         { id: 'prop-cpf', label: 'CPF do proprietário' },
