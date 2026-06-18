@@ -195,19 +195,12 @@ async function salvarNovoClienteModal() {
 
 // ── Quick-add de imóvel no modal ──────────────────────────────────────────────
 
-function toggleNovoImovel() {
-    const form  = document.getElementById('form-novo-imovel');
-    const btn   = document.getElementById('btn-toggle-novo-imovel');
-    const aberto = !form.classList.contains('hidden');
-    form.classList.toggle('hidden', aberto);
-    btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
-    if (!aberto) {
-        ['ni-endereco','ni-numero','ni-bairro','ni-cidade','ni-estado','ni-caracteristicas']
-            .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-        document.getElementById('ni-tipo').value = 'apartamento';
-        const msg = document.getElementById('ni-msg');
-        msg.className = 'quick-form-msg hidden';
-    }
+function limparNovoImovel() {
+    ['ni-cep','ni-endereco','ni-numero','ni-complemento','ni-bairro','ni-cidade',
+     'ni-estado','ni-tipo','ni-caracteristicas']
+        .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    const msg = document.getElementById('ni-msg');
+    msg.className = 'quick-form-msg hidden';
 }
 
 async function salvarNovoImovelModal() {
@@ -215,16 +208,19 @@ async function salvarNovoImovelModal() {
     const numero   = document.getElementById('ni-numero')?.value.trim();
     const cidade   = document.getElementById('ni-cidade')?.value.trim();
     const estado   = document.getElementById('ni-estado')?.value.trim();
+    const tipo     = document.getElementById('ni-tipo')?.value;
     const msg      = document.getElementById('ni-msg');
-    if (!endereco || !numero || !cidade || !estado) {
-        msg.textContent = 'Endereço, número, cidade e estado são obrigatórios.';
+    if (!endereco || !numero || !cidade || !estado || !tipo) {
+        msg.textContent = 'Rua, número, cidade, estado e tipo são obrigatórios.';
         msg.className = 'quick-form-msg error';
         return;
     }
     const imovel = {
+        cep:             document.getElementById('ni-cep')?.value.trim()             || '',
         endereco, numero, cidade, estado,
+        complemento:    document.getElementById('ni-complemento')?.value.trim()      || '',
         bairro:          document.getElementById('ni-bairro')?.value.trim()          || '',
-        tipo:            document.getElementById('ni-tipo')?.value                    || 'casa',
+        tipo,
         caracteristicas: document.getElementById('ni-caracteristicas')?.value.trim() || '',
     };
     await adicionarImovel(imovel);
@@ -232,7 +228,7 @@ async function salvarNovoImovelModal() {
     msg.className = 'quick-form-msg success';
     setTimeout(() => {
         renderizarTabelaImoveis();
-        toggleNovoImovel();
+        limparNovoImovel();
         preencherImovel(imovel);
         fecharModalImoveis();
     }, 600);

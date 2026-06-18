@@ -932,10 +932,14 @@
         </div>
 
         <!-- Mini-form: novo imóvel -->
-        <div id="form-novo-imovel" class="modal-quick-form hidden">
-          <div class="quick-form-grid">
+        <div id="form-novo-imovel" class="modal-quick-form">
+          <div class="quick-form-grid imovel-grid">
+            <div class="quick-form-group full">
+              <label for="ni-cep">CEP</label>
+              <input type="text" id="ni-cep" placeholder="00000-000">
+            </div>
             <div class="quick-form-group">
-              <label for="ni-endereco">Endereço *</label>
+              <label for="ni-endereco">Rua *</label>
               <input type="text" id="ni-endereco" placeholder="Rua das Palmeiras">
             </div>
             <div class="quick-form-group">
@@ -943,34 +947,49 @@
               <input type="text" id="ni-numero" placeholder="123">
             </div>
             <div class="quick-form-group">
+              <label for="ni-complemento">Complemento</label>
+              <input type="text" id="ni-complemento" placeholder="Apartamento, bloco...">
+            </div>
+            <div class="quick-form-group">
               <label for="ni-bairro">Bairro</label>
               <input type="text" id="ni-bairro" placeholder="Centro">
             </div>
             <div class="quick-form-group">
-              <label for="ni-cidade">Cidade / UF *</label>
+              <label for="ni-cidade">Cidade *</label>
               <input type="text" id="ni-cidade" placeholder="São Paulo">
             </div>
             <div class="quick-form-group">
               <label for="ni-estado">Estado *</label>
-              <input type="text" id="ni-estado" placeholder="SP" maxlength="2">
+              <select id="ni-estado">
+                <option value="">Selecione</option>
+                <option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option>
+                <option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option>
+                <option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option>
+                <option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option>
+                <option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option>
+                <option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option>
+                <option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option>
+                <option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option>
+                <option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+              </select>
             </div>
-            <div class="quick-form-group">
-
+            <div class="quick-form-group full">
               <label for="ni-tipo">Tipo *</label>
               <select id="ni-tipo">
+                <option value="">Selecione o tipo</option>
                 <option value="apartamento">Apartamento</option>
                 <option value="casa">Casa</option>
                 <option value="comercial">Comercial</option>
               </select>
             </div>
-            <div class="quick-form-group">
+            <div class="quick-form-group full">
               <label for="ni-caracteristicas">Características</label>
-              <input type="text" id="ni-caracteristicas" placeholder="Ex: 2 quartos, 1 banheiro">
+              <textarea id="ni-caracteristicas" rows="3" placeholder="Ex: 2 quartos, 1 banheiro"></textarea>
             </div>
           </div>
           <div class="quick-form-msg hidden" id="ni-msg"></div>
           <div class="quick-form-actions">
-            <button type="button" class="btn-quick-cancel" onclick="toggleNovoImovel()">Cancelar</button>
+            <button type="button" class="btn-quick-cancel" onclick="fecharModalImoveis()">Cancelar</button>
             <button type="button" class="btn-quick-save"   onclick="salvarNovoImovelModal()">Salvar</button>
           </div>
         </div>

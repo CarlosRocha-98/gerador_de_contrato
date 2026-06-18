@@ -753,7 +753,8 @@ body {
 }
 
 .quick-form-group input,
-.quick-form-group select {
+.quick-form-group select,
+.quick-form-group textarea {
     padding: 7px 10px;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -765,8 +766,18 @@ body {
     width: 100%;
 }
 
+.modal-quick-form .quick-form-group.full {
+    grid-column: 1 / -1;
+}
+
+.quick-form-group textarea {
+    resize: vertical;
+    min-height: 74px;
+}
+
 .quick-form-group input:focus,
-.quick-form-group select:focus {
+.quick-form-group select:focus,
+.quick-form-group textarea:focus {
     outline: none;
     border-color: #b9374c;
 }
