@@ -320,6 +320,7 @@ async function salvarEdicaoCliente() {
     };
     const msgEl = document.getElementById('modal-edit-cliente-msg');
 
+    // CPF-VALIDACAO: validação do CPF na edição de cliente pelo perfil.
     if (!CPF.valido(dados.cpf)) {
         msgEl.textContent = 'CPF inválido. Verifique os dígitos informados.';
         msgEl.className = 'msg-area error';

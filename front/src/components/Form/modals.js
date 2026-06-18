@@ -151,6 +151,7 @@ async function salvarNovoClienteModal() {
         msg.className = 'quick-form-msg error';
         return;
     }
+    // CPF-VALIDACAO: valida o CPF no cadastro rápido do inquilino.
     if (!CPF.valido(cpf)) {
         msg.textContent = 'CPF inválido. Verifique os dígitos informados.';
         msg.className = 'quick-form-msg error';

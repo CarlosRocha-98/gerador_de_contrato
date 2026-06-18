@@ -43,6 +43,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   if (password.length < 6) {
     return showMessage('A senha deve ter pelo menos 6 caracteres.', 'error');
   }
+  // CPF-VALIDACAO: validação do CPF no cadastro de usuário.
   if (!CPF.valido(cpf)) {
     return showMessage('CPF inválido. Verifique os dígitos informados.', 'error');
   }

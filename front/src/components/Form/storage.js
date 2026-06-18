@@ -6,6 +6,7 @@ function normalizarCPF(valor) {
 }
 
 function cpfTemTamanhoValido(valor) {
+    // CPF-VALIDACAO: ponto central usado pelo formulário de aluguel.
     return window.CPF ? CPF.valido(valor) : normalizarCPF(valor).length === 11;
 }
 

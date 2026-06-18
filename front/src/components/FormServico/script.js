@@ -478,6 +478,7 @@ async function salvarNovoContratanteModal() {
         msg.className = 'quick-form-msg error';
         return;
     }
+    // CPF-VALIDACAO: valida o CPF no cadastro rápido do contratante.
     if (!CPF.valido(cpf)) {
         msg.textContent = 'CPF inválido. Verifique os dígitos informados.';
         msg.className = 'quick-form-msg error';
@@ -670,6 +671,7 @@ function validarFormulario() {
         return false;
     }
 
+    // CPF-VALIDACAO: valida prestador e contratante antes de gerar o contrato.
     const cpfsInvalidos = ['prest-cpf', 'cont-cpf']
         .filter(id => !CPF.valido(document.getElementById(id)?.value));
     if (cpfsInvalidos.length) {

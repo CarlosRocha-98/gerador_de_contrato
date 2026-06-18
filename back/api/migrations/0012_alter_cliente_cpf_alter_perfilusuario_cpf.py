@@ -24,11 +24,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='cliente',
             name='cpf',
+            # CPF-VALIDACAO: referência histórica ao validador do model Cliente.
             field=models.CharField(max_length=14, validators=[api.cpf.validar_cpf]),
         ),
         migrations.AlterField(
             model_name='perfilusuario',
             name='cpf',
+            # CPF-VALIDACAO: referência histórica ao validador do model PerfilUsuario.
             field=models.CharField(max_length=14, validators=[api.cpf.validar_cpf]),
         ),
     ]

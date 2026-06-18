@@ -12,6 +12,7 @@ def normalizar_cpf(valor):
 
 class CPFSerializerMixin:
     def validate_cpf(self, value):
+        # CPF-VALIDACAO: valida todos os CPFs recebidos pela API de clientes/perfil.
         if not cpf_valido(value):
             raise serializers.ValidationError('CPF inválido. Verifique os dígitos informados.')
         return formatar_cpf(value)
@@ -112,6 +113,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate_cpf(self, value):
         cpf = normalizar_cpf(value)
 
+        # CPF-VALIDACAO: valida o CPF informado no cadastro de usuário.
         if not cpf_valido(cpf):
             raise serializers.ValidationError('CPF inválido. Verifique os dígitos informados.')
 

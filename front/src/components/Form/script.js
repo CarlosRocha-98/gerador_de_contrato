@@ -186,6 +186,7 @@ function validarFormulario() {
         alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
         return false;
     }
+    // CPF-VALIDACAO: valida proprietário e inquilino antes de gerar o contrato.
     const cpfsInvalidos = [
         { id: 'prop-cpf', label: 'CPF do proprietário' },
         { id: 'inq-cpf', label: 'CPF do inquilino' },
@@ -265,6 +266,7 @@ async function resolverIdCliente(dados) {
     const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
     const cpf = normalizarCPF(dados.cpf);
 
+    // CPF-VALIDACAO: valida o CPF antes de salvar/sincronizar o inquilino.
     if (!cpfTemTamanhoValido(dados.cpf)) {
         return { id: null, erro: 'CPF do inquilino inválido. Verifique os dígitos informados.' };
     }

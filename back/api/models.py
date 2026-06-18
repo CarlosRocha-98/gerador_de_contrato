@@ -17,6 +17,7 @@ class PerfilUsuario(models.Model):
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=14,
+        # CPF-VALIDACAO: validação do CPF do perfil; chave em api/cpf.py.
         validators=[validar_cpf]
     )
     
@@ -55,6 +56,7 @@ class Cliente(models.Model):
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=14,
+        # CPF-VALIDACAO: validação do CPF do cliente; chave em api/cpf.py.
         validators=[validar_cpf]
     )
     telefone = models.CharField(max_length=20, blank=True)

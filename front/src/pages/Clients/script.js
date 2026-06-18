@@ -31,6 +31,7 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
         alert('Nome e CPF são obrigatórios para cadastrar um cliente.');
         return;
     }
+    // CPF-VALIDACAO: validação do CPF no cadastro direto de cliente.
     if (!CPF.valido(cpf)) {
         alert('CPF inválido. Verifique os dígitos informados.');
         return;
