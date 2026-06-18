@@ -16,7 +16,9 @@ function showMsg(text, type) {
 
 function setField(id, value) {
     const el = document.getElementById(id);
-    if (el && value !== undefined && value !== null && value !== '') el.value = value;
+    if (el && value !== undefined && value !== null && value !== '') {
+        el.value = id.toLowerCase().includes('telefone') ? TelefoneBR.formatar(value) : value;
+    }
 }
 
 // ── Carrega perfil ────────────────────────────────────────────────────────────
@@ -113,6 +115,14 @@ document.getElementById('profileForm').addEventListener('submit', function (e) {
         estado:          document.getElementById('field-estado').value.trim().toUpperCase(),
     };
 
+    if (!TelefoneBR.valido(dados.telefone)) {
+        showMsg('Telefone inválido. Use celular ou fixo com DDD.', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Salvar Alterações';
+        return;
+    }
+    dados.telefone = TelefoneBR.formatar(dados.telefone);
+
     if (jwtToken) {
         // --- Caminho JWT: salva no Django API ---
         fetch(BACKEND + '/api/perfil/', {
@@ -163,7 +173,11 @@ let _tabAtual = 'clientes';
 
 function carregarClientesLocais() {
     return JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]')
-        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
+        .map(cliente => ({
+            ...cliente,
+            cpf: CPF.formatar(cliente.cpf),
+            telefone: TelefoneBR.formatar(cliente.telefone),
+        }));
 }
 
 function salvarClientesLocais(lista) {
@@ -326,7 +340,13 @@ async function salvarEdicaoCliente() {
         msgEl.className = 'msg-area error';
         return;
     }
+    if (!TelefoneBR.valido(dados.telefone)) {
+        msgEl.textContent = 'Telefone inválido. Use celular ou fixo com DDD.';
+        msgEl.className = 'msg-area error';
+        return;
+    }
     dados.cpf = CPF.formatar(dados.cpf);
+    dados.telefone = TelefoneBR.formatar(dados.telefone);
 
     if (jwtToken && id && isBackendId(id)) {
         try {

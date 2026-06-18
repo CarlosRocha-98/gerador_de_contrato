@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 from .cpf import cpf_valido, cpf_valido_oficial, formatar_cpf
 from .serializers import ClienteSerializer
+from .telefone import formatar_telefone, telefone_valido
 
 
 class CPFTestCase(TestCase):
@@ -34,3 +35,20 @@ class CPFTestCase(TestCase):
             invalido = ClienteSerializer(data={'nome': 'Outro', 'cpf': '52998224724'})
             self.assertFalse(invalido.is_valid())
             self.assertIn('cpf', invalido.errors)
+
+
+class TelefoneTestCase(TestCase):
+    def test_aceita_celular_e_fixo_brasileiros(self):
+        self.assertTrue(telefone_valido('(11) 99999-1234'))
+        self.assertTrue(telefone_valido('(21) 2345-6789'))
+        self.assertTrue(telefone_valido(''))
+
+    def test_recusa_ddd_e_formatos_invalidos(self):
+        self.assertFalse(telefone_valido('(10) 99999-1234'))
+        self.assertFalse(telefone_valido('(11) 89999-1234'))
+        self.assertFalse(telefone_valido('(21) 1345-6789'))
+        self.assertFalse(telefone_valido('119999123'))
+
+    def test_formata_celular_e_fixo(self):
+        self.assertEqual(formatar_telefone('11999991234'), '(11) 99999-1234')
+        self.assertEqual(formatar_telefone('2123456789'), '(21) 2345-6789')

@@ -64,7 +64,7 @@ async function gerarEmMassa() {
       username: email, email, password: SENHA,
       nome: `TESTE${n}_nome`,
       cpf: cpfTeste,
-      telefone: `TESTE${n}_telefone`,
+      telefone: '(11) 99999-0000',
       nacionalidade: `TESTE${n}_nacionalidade`,
       profissao: `TESTE${n}_profissao`,
     });
@@ -96,7 +96,7 @@ async function gerarEmMassa() {
       nome:          `TESTE${n}_nome`,
       cpf:           cpfTeste,
       email:         `TESTE${n}_email@teste.com`,
-      telefone:      `TESTE${n}_telefone`,
+      telefone:      '(11) 99999-0000',
       nacionalidade: `TESTE${n}_nacionalidade`,
       profissao:     `TESTE${n}_profissao`,
       estado_civil:  `TESTE${n}_estadocivil`,
@@ -221,6 +221,10 @@ async function testarCadastroCliente() {
   };
 
   if (!body.nome || !body.cpf) return mostrar('cli-result', { erro: 'Nome e CPF são obrigatórios.' }, false);
+  if (!TelefoneBR.valido(body.telefone)) {
+    return mostrar('cli-result', { erro: 'Telefone inválido. Use celular ou fixo com DDD.' }, false);
+  }
+  body.telefone = TelefoneBR.formatar(body.telefone);
 
   const { ok, status, data } = await request('POST', `${API}/clientes/`, body, token);
   mostrar('cli-result', { status, ...data }, ok);

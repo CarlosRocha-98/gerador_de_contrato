@@ -47,6 +47,9 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   if (!CPF.valido(cpf)) {
     return showMessage('CPF inválido. Verifique os dígitos informados.', 'error');
   }
+  if (!TelefoneBR.valido(telefone)) {
+    return showMessage('Telefone inválido. Use celular ou fixo com DDD.', 'error');
+  }
 
     try {
       // collect all form fields to send full perfil to backend
@@ -57,7 +60,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         password: password,
         nome: document.getElementById('nome').value.trim(),
         cpf: CPF.formatar(document.getElementById('cpf').value),
-        telefone: document.getElementById('telefone').value.trim(),
+        telefone: TelefoneBR.formatar(document.getElementById('telefone').value),
         nacionalidade: document.getElementById('nacionalidade').value.trim(),
         profissao: document.getElementById('profissao').value.trim(),
         estado_civil: document.getElementById('estado_civil').value.trim(),

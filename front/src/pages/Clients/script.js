@@ -2,7 +2,11 @@ const CLIENTES_KEY = 'clientes';
 
 function carregarClientes() {
     return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]')
-        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
+        .map(cliente => ({
+            ...cliente,
+            cpf: CPF.formatar(cliente.cpf),
+            telefone: TelefoneBR.formatar(cliente.telefone),
+        }));
 }
 
 function salvarClientes(lista) {
@@ -36,6 +40,11 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
         alert('CPF inválido. Verifique os dígitos informados.');
         return;
     }
+    const telefone = getVal('telefone');
+    if (!TelefoneBR.valido(telefone)) {
+        alert('Telefone inválido. Use celular ou fixo com DDD.');
+        return;
+    }
 
     const formData = {
         nome,
@@ -44,7 +53,7 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
         nacionalidade:  getVal('nacionalidade'),
         profissao:      getVal('profissao'),
         estado_civil:   getVal('estado_civil'),
-        telefone:       getVal('telefone'),
+        telefone:       TelefoneBR.formatar(telefone),
         email:          getVal('email'),
         rua:            getVal('rua'),
         numero:         getVal('numero'),

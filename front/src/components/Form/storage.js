@@ -36,7 +36,7 @@ function montarPayloadCliente(dados) {
         nacionalidade: dados.nacionalidade,
         profissao: dados.profissao,
         estado_civil: dados.estado_civil || dados.estadoCivil || '',
-        telefone: dados.telefone,
+        telefone: TelefoneBR.formatar(dados.telefone),
         email: dados.email,
         rua: dados.endereco || dados.rua,
         numero: dados.numero,
@@ -49,7 +49,11 @@ function montarPayloadCliente(dados) {
 
 function carregarClientes() {
     return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]')
-        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
+        .map(cliente => ({
+            ...cliente,
+            cpf: CPF.formatar(cliente.cpf),
+            telefone: TelefoneBR.formatar(cliente.telefone),
+        }));
 }
 
 function salvarClientes(lista) {

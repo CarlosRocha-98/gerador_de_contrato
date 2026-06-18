@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from .cpf import formatar_cpf, validar_cpf
+from .telefone import formatar_telefone, validar_telefone
 
 
 class PerfilUsuario(models.Model):
@@ -22,7 +23,7 @@ class PerfilUsuario(models.Model):
     )
     
     # Contato
-    telefone = models.CharField(max_length=20, blank=True)
+    telefone = models.CharField(max_length=15, blank=True, validators=[validar_telefone])
     
     # Endereço
     rua = models.CharField(max_length=255, blank=True)
@@ -39,6 +40,7 @@ class PerfilUsuario(models.Model):
 
     def save(self, *args, **kwargs):
         self.cpf = formatar_cpf(self.cpf)
+        self.telefone = formatar_telefone(self.telefone)
         self.full_clean()
         return super().save(*args, **kwargs)
     
@@ -59,7 +61,7 @@ class Cliente(models.Model):
         # CPF-VALIDACAO: validação do CPF do cliente; chave em api/cpf.py.
         validators=[validar_cpf]
     )
-    telefone = models.CharField(max_length=20, blank=True)
+    telefone = models.CharField(max_length=15, blank=True, validators=[validar_telefone])
     email = models.EmailField(blank=True)
     rua = models.CharField(max_length=255, blank=True)
     numero = models.CharField(max_length=10, blank=True)
@@ -74,6 +76,7 @@ class Cliente(models.Model):
 
     def save(self, *args, **kwargs):
         self.cpf = formatar_cpf(self.cpf)
+        self.telefone = formatar_telefone(self.telefone)
         self.full_clean()
         return super().save(*args, **kwargs)
     

@@ -157,13 +157,19 @@ async function salvarNovoClienteModal() {
         msg.className = 'quick-form-msg error';
         return;
     }
+    const telefone = document.getElementById('nc-telefone')?.value.trim() || '';
+    if (!TelefoneBR.valido(telefone)) {
+        msg.textContent = 'Telefone inválido. Use celular ou fixo com DDD.';
+        msg.className = 'quick-form-msg error';
+        return;
+    }
     const dados = {
         nome, cpf: CPF.formatar(cpf),
         nacionalidade:  document.getElementById('nc-nacionalidade')?.value.trim()    || '',
         profissao:      document.getElementById('nc-profissao')?.value.trim()        || '',
         estado_civil:   document.getElementById('nc-estado-civil')?.value            || '',
         orgao_expedidor:document.getElementById('nc-orgao-expedidor')?.value.trim()  || '',
-        telefone:       document.getElementById('nc-telefone')?.value.trim()         || '',
+        telefone:       TelefoneBR.formatar(telefone),
         email:          document.getElementById('nc-email')?.value.trim()            || '',
         rua:            document.getElementById('nc-rua')?.value.trim()              || '',
         numero:         document.getElementById('nc-numero')?.value.trim()           || '',

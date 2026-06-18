@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Cliente, ContratoServico, Imovel, ContratoAluguel, PerfilUsuario
 from .cpf import cpf_valido, formatar_cpf, somente_digitos_cpf
+from .telefone import formatar_telefone, telefone_valido
 
 
 def normalizar_cpf(valor):
@@ -17,10 +18,19 @@ class CPFSerializerMixin:
             raise serializers.ValidationError('CPF inválido. Verifique os dígitos informados.')
         return formatar_cpf(value)
 
+    def validate_telefone(self, value):
+        if not telefone_valido(value):
+            raise serializers.ValidationError(
+                'Telefone inválido. Use celular (XX) XXXXX-XXXX ou fixo (XX) XXXX-XXXX.'
+            )
+        return formatar_telefone(value)
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         if data.get('cpf'):
             data['cpf'] = formatar_cpf(data['cpf'])
+        if data.get('telefone'):
+            data['telefone'] = formatar_telefone(data['telefone'])
         return data
 
 
@@ -122,6 +132,13 @@ class RegisterSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('Já existe um usuário cadastrado com este CPF.')
 
         return formatar_cpf(cpf)
+
+    def validate_telefone(self, value):
+        if not telefone_valido(value):
+            raise serializers.ValidationError(
+                'Telefone inválido. Use celular (XX) XXXXX-XXXX ou fixo (XX) XXXX-XXXX.'
+            )
+        return formatar_telefone(value)
 
     def create(self, validated_data):
         # Extrair dados do perfil

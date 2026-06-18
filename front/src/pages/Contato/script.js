@@ -36,21 +36,6 @@ function updateStatus() {
 updateStatus();
 setInterval(updateStatus, 60000);
 
-// --- Máscara de telefone ---
-document.getElementById("telefone").addEventListener("input", function () {
-  let v = this.value.replace(/\D/g, "").slice(0, 11);
-  if (v.length > 10) {
-    v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
-  } else if (v.length > 6) {
-    v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, "($1) $2-$3");
-  } else if (v.length > 2) {
-    v = v.replace(/^(\d{2})(\d{0,5})$/, "($1) $2");
-  } else if (v.length > 0) {
-    v = "(" + v;
-  }
-  this.value = v;
-});
-
 // --- Validação e envio do formulário ---
 const form = document.getElementById("contactForm");
 
@@ -76,6 +61,7 @@ form.addEventListener("submit", function (e) {
 
   const nome = document.getElementById("nome").value.trim();
   const email = document.getElementById("email").value.trim();
+  const telefone = document.getElementById("telefone").value.trim();
   const assunto = document.getElementById("assunto").value;
   const mensagem = document.getElementById("mensagem").value.trim();
   const lgpd = document.getElementById("lgpd").checked;
@@ -86,6 +72,7 @@ form.addEventListener("submit", function (e) {
 
   hasError = setError("nome", "nomeErr", nome === "") || hasError;
   hasError = setError("email", "emailErr", !validateEmail(email)) || hasError;
+  hasError = setError("telefone", "telefoneErr", !TelefoneBR.valido(telefone)) || hasError;
   hasError = setError("assunto", "assuntoErr", assunto === "") || hasError;
   hasError = setError("mensagem", "mensagemErr", mensagem === "") || hasError;
 
@@ -119,7 +106,7 @@ form.addEventListener("submit", function (e) {
 });
 
 // Remove erro ao digitar
-["nome", "email", "assunto", "mensagem"].forEach((id) => {
+["nome", "email", "telefone", "assunto", "mensagem"].forEach((id) => {
   document.getElementById(id).addEventListener("input", () => {
     document.getElementById(id).classList.remove("invalid");
     const errEl = document.getElementById(id + "Err");

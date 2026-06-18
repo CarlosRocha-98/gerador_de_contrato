@@ -238,7 +238,7 @@ function preencherPrestador(p) {
         'prest-nacionalidade': p.nacionalidade,
         'prest-profissao':     p.profissao,
         'prest-cpf':           p.cpf,
-        'prest-telefone':      p.telefone,
+        'prest-telefone':      TelefoneBR.formatar(p.telefone),
         'prest-email':         p.email,
         'prest-endereco':      p.rua,
         'prest-numero':        p.numero,
@@ -283,7 +283,11 @@ const CLIENTES_KEY = 'clientes';
 
 function carregarClientes() {
     return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]')
-        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
+        .map(cliente => ({
+            ...cliente,
+            cpf: CPF.formatar(cliente.cpf),
+            telefone: TelefoneBR.formatar(cliente.telefone),
+        }));
 }
 
 function salvarClientesLS(lista) {
@@ -316,7 +320,7 @@ async function adicionarCliente(dados) {
         try {
             const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
             const payload = {
-                nome: dados.nome, cpf: dados.cpf, telefone: dados.telefone || '',
+                nome: dados.nome, cpf: dados.cpf, telefone: TelefoneBR.formatar(dados.telefone),
                 email: dados.email || '', rua: dados.endereco || dados.rua || '',
                 numero: dados.numero || '', bairro: dados.bairro || '',
                 cep: dados.cep || '', cidade: dados.cidade || '', estado: dados.estado || '',
@@ -484,13 +488,19 @@ async function salvarNovoContratanteModal() {
         msg.className = 'quick-form-msg error';
         return;
     }
+    const telefone = document.getElementById('nc-telefone')?.value.trim() || '';
+    if (!TelefoneBR.valido(telefone)) {
+        msg.textContent = 'Telefone inválido. Use celular ou fixo com DDD.';
+        msg.className = 'quick-form-msg error';
+        return;
+    }
     const dados = {
         nome, cpf: CPF.formatar(cpf),
         nacionalidade:   document.getElementById('nc-nacionalidade')?.value.trim()    || '',
         profissao:       document.getElementById('nc-profissao')?.value.trim()        || '',
         estado_civil:    document.getElementById('nc-estado-civil')?.value            || '',
         orgao_expedidor: document.getElementById('nc-orgao-expedidor')?.value.trim()  || '',
-        telefone:        document.getElementById('nc-telefone')?.value.trim()         || '',
+        telefone:        TelefoneBR.formatar(telefone),
         email:           document.getElementById('nc-email')?.value.trim()            || '',
         rua:             document.getElementById('nc-rua')?.value.trim()              || '',
         numero:          document.getElementById('nc-numero')?.value.trim()           || '',
@@ -676,6 +686,13 @@ function validarFormulario() {
         .filter(id => !CPF.valido(document.getElementById(id)?.value));
     if (cpfsInvalidos.length) {
         alert('CPF inválido. Verifique os dígitos do prestador e do contratante.');
+        return false;
+    }
+
+    const telefonesInvalidos = ['prest-telefone', 'cont-telefone']
+        .filter(id => !TelefoneBR.valido(document.getElementById(id)?.value));
+    if (telefonesInvalidos.length) {
+        alert('Telefone inválido. Use celular ou fixo com DDD.');
         return false;
     }
 
@@ -886,6 +903,11 @@ function carregarContratoServicoParaEdicao() {
         'multa-atraso': contrato.multa_atraso,
         'multa-rescisao': contrato.multa_rescisao,
     };
+    if (!TelefoneBR.valido(novo.telefone)) {
+        alert('Telefone inválido. Use celular ou fixo com DDD.');
+        return;
+    }
+    novo.telefone = TelefoneBR.formatar(novo.telefone);
 
     Object.entries(valores).forEach(([id, valor]) => {
         const el = document.getElementById(id);
