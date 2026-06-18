@@ -162,6 +162,7 @@ function carregarImoveis() {
 
 function montarPayloadImovel(imovel) {
     return {
+        cep: imovel.cep || '',
         endereco: imovel.endereco,
         numero: imovel.numero,
         complemento: imovel.complemento,

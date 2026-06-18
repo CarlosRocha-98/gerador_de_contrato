@@ -27,8 +27,10 @@ document.getElementById('propertyForm').addEventListener('submit', function(e) {
     }
 
     const novoImovel = {
+        cep:             getValueByIds('imovel-cadastro-cep'),
         endereco:        getValueByIds('address', 'endereco'),
         numero:          getValueByIds('number', 'numero'),
+        complemento:     getValueByIds('complemento'),
         bairro:          getValueByIds('neighborhood', 'bairro'),
         cidade:          getValueByIds('cidade'),
         estado:          getValueByIds('estado'),
@@ -40,8 +42,10 @@ document.getElementById('propertyForm').addEventListener('submit', function(e) {
     if (jwt) {
         const API_BASE = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
         const payload = {
+            cep:             novoImovel.cep,
             endereco:        novoImovel.endereco,
             numero:          novoImovel.numero,
+            complemento:     novoImovel.complemento,
             bairro:          novoImovel.bairro,
             cidade:          novoImovel.cidade,
             estado:          novoImovel.estado,

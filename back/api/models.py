@@ -99,6 +99,7 @@ class Cliente(models.Model):
 
 class Imovel(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='imoveis')
+    cep = models.CharField(max_length=9, blank=True, default='', validators=[validar_cep])
     endereco = models.CharField(max_length=255)
     numero = models.CharField(max_length=10)
     complemento = models.CharField(max_length=100, blank=True, default='')
@@ -111,6 +112,11 @@ class Imovel(models.Model):
 
     def __str__(self):
         return f'{self.endereco}, {self.numero} - {self.cidade}/{self.estado}'
+
+    def save(self, *args, **kwargs):
+        self.cep = formatar_cep(self.cep)
+        self.full_clean()
+        return super().save(*args, **kwargs)
     
     class Meta:
         verbose_name = 'Imóvel'

@@ -18,6 +18,7 @@
             'cep': ['rua', 'bairro', 'cidade', 'estado'],
             'field-cep': ['field-rua', 'field-bairro', 'field-cidade', 'field-estado'],
             'edit-cli-cep': ['edit-cli-rua', 'edit-cli-bairro', 'edit-cli-cidade', 'edit-cli-estado'],
+            'imovel-cadastro-cep': ['endereco', 'bairro', 'cidade', 'estado'],
             'prop-cep': ['prop-endereco', 'prop-bairro', 'prop-cidade', 'prop-estado'],
             'inq-cep': ['inq-endereco', 'inq-bairro', 'inq-cidade', 'inq-estado'],
             'cont-cep': ['cont-endereco', 'cont-bairro', 'cont-cidade', 'cont-estado'],

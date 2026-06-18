@@ -60,7 +60,7 @@ class ImovelAdmin(admin.ModelAdmin):
     readonly_fields = ['criado_em']
     fieldsets = (
         ('Localização', {
-            'fields': ('endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
+            'fields': ('cep', 'endereco', 'numero', 'complemento', 'bairro', 'cidade', 'estado')
         }),
         ('Detalhes', {
             'fields': ('tipo', 'caracteristicas')
