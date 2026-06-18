@@ -343,6 +343,107 @@ textarea::placeholder {
     opacity: 1;
 }
 
+/* Mensagens padronizadas de geração e gravação de contratos */
+.system-notifications {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 10000;
+    display: flex;
+    width: min(420px, calc(100vw - 32px));
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.system-notification {
+    --notification-color: #2563eb;
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) 28px;
+    gap: 12px;
+    align-items: start;
+    padding: 16px;
+    border: 1px solid #d7dde7;
+    border-left: 4px solid var(--notification-color);
+    border-radius: 10px;
+    background: #fff;
+    color: #263142;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+    pointer-events: auto;
+    animation: system-notification-in 0.2s ease-out;
+}
+
+.system-notification--erro { --notification-color: #c9364f; }
+.system-notification--aviso { --notification-color: #d97706; }
+.system-notification--sucesso { --notification-color: #16845b; }
+.system-notification--info { --notification-color: #2563eb; }
+
+.system-notification__icon {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--notification-color) 12%, white);
+    color: var(--notification-color);
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.system-notification__content strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #172033;
+    font-size: 15px;
+    line-height: 1.35;
+}
+
+.system-notification__content p {
+    margin: 0;
+    color: #566174;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-line;
+}
+
+.system-notification__close {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #778195;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.system-notification__close:hover,
+.system-notification__close:focus-visible {
+    background: #f0f3f7;
+    color: #263142;
+    outline: none;
+}
+
+@keyframes system-notification-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    .system-notifications {
+        top: 16px;
+        right: 16px;
+        left: 16px;
+        width: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .system-notification { animation: none; }
+}
+
 .preview-signature {
     margin-top: 40px;
     text-align: center;

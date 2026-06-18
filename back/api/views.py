@@ -231,7 +231,9 @@ class GerarContratoPDFView(APIView):
         titulo = request.data.get('titulo', 'contrato')
 
         if not html_content:
-            return Response({'detail': 'Campo "html" é obrigatório.'}, status=400)
+            return Response({
+                'detail': 'Não foi possível gerar o PDF porque o conteúdo do contrato está vazio.'
+            }, status=400)
 
         # Envolve o HTML recebido com estilos básicos para impressão
         html_completo = f"""
@@ -265,7 +267,9 @@ class GerarContratoPDFView(APIView):
         result = pisa.CreatePDF(html_completo, dest=buffer, encoding='utf-8')
 
         if result.err:
-            return Response({'detail': 'Erro ao gerar PDF.'}, status=500)
+            return Response({
+                'detail': 'Não foi possível gerar o PDF. Revise o conteúdo do contrato e tente novamente.'
+            }, status=500)
 
         buffer.seek(0)
         filename = f"{titulo.replace(' ', '_')}.pdf"

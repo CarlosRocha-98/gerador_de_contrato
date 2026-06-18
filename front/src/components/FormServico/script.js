@@ -3,6 +3,65 @@ const navbarToggle  = document.querySelector('.navbar-toggle');
 const navbarMenu    = document.querySelector('.navbar-menu');
 const navbarOverlay = document.querySelector('.navbar-overlay');
 
+// ── Mensagens do sistema ─────────────────────────────────────────────────────
+function obterMensagemErro(erro, fallback) {
+    if (!erro) return fallback;
+    if (typeof erro === 'string') return erro.trim() || fallback;
+    if (erro instanceof Error) return erro.message || fallback;
+    if (Array.isArray(erro)) return erro.map(item => obterMensagemErro(item, '')).filter(Boolean).join(' ');
+    if (typeof erro === 'object') {
+        const principal = erro.detail || erro.error || erro.message || erro.non_field_errors;
+        if (principal) return obterMensagemErro(principal, fallback);
+        const detalhes = Object.values(erro)
+            .map(item => obterMensagemErro(item, ''))
+            .filter(Boolean)
+            .join(' ');
+        return detalhes || fallback;
+    }
+    return fallback;
+}
+
+function mostrarNotificacao(tipo, titulo, mensagem, duracao = 8000) {
+    let container = document.getElementById('system-notifications');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'system-notifications';
+        container.className = 'system-notifications';
+        container.setAttribute('aria-live', 'polite');
+        document.body.appendChild(container);
+    }
+
+    const icones = { erro: '!', aviso: '!', sucesso: '✓', info: 'i' };
+    const notificacao = document.createElement('div');
+    notificacao.className = `system-notification system-notification--${tipo}`;
+    notificacao.setAttribute('role', tipo === 'erro' ? 'alert' : 'status');
+
+    const icone = document.createElement('span');
+    icone.className = 'system-notification__icon';
+    icone.textContent = icones[tipo] || icones.info;
+
+    const conteudo = document.createElement('div');
+    conteudo.className = 'system-notification__content';
+    const tituloEl = document.createElement('strong');
+    tituloEl.textContent = titulo;
+    const mensagemEl = document.createElement('p');
+    mensagemEl.textContent = mensagem;
+    conteudo.append(tituloEl, mensagemEl);
+
+    const fechar = document.createElement('button');
+    fechar.type = 'button';
+    fechar.className = 'system-notification__close';
+    fechar.setAttribute('aria-label', 'Fechar mensagem');
+    fechar.textContent = '×';
+
+    const remover = () => notificacao.remove();
+    fechar.addEventListener('click', remover);
+    notificacao.append(icone, conteudo, fechar);
+    container.appendChild(notificacao);
+
+    if (duracao > 0) window.setTimeout(remover, duracao);
+}
+
 if (navbarToggle && navbarMenu) {
     navbarToggle.addEventListener('click', () => {
         navbarMenu.classList.toggle('active');
@@ -690,7 +749,7 @@ function validarFormulario() {
     });
 
     if (faltando.length > 0) {
-        alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
+        mostrarNotificacao('erro', 'Campos obrigatórios', 'Preencha os campos indicados antes de continuar:\n• ' + faltando.join('\n• '));
         return false;
     }
 
@@ -698,14 +757,14 @@ function validarFormulario() {
     const cpfsInvalidos = ['prest-cpf', 'cont-cpf']
         .filter(id => !CPF.valido(document.getElementById(id)?.value));
     if (cpfsInvalidos.length) {
-        alert('CPF inválido. Verifique os dígitos do prestador e do contratante.');
+        mostrarNotificacao('erro', 'CPF inválido', 'Verifique os dígitos informados para o prestador e o contratante.');
         return false;
     }
 
     const telefonesInvalidos = ['prest-telefone', 'cont-telefone']
         .filter(id => !TelefoneBR.valido(document.getElementById(id)?.value));
     if (telefonesInvalidos.length) {
-        alert('Telefone inválido. Use celular ou fixo com DDD.');
+        mostrarNotificacao('erro', 'Telefone inválido', 'Informe um número de celular ou telefone fixo com DDD.');
         return false;
     }
 
@@ -718,6 +777,11 @@ async function gerarPDF() {
     const preview = document.getElementById('contract-preview');
     const html    = preview ? preview.innerHTML : '';
     const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
+
+    if (!html.trim()) {
+        mostrarNotificacao('erro', 'Não foi possível gerar o PDF', 'A visualização do contrato está vazia. Revise os dados e tente novamente.');
+        return;
+    }
 
     if (jwt) {
         const API_BASE      = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
@@ -741,11 +805,11 @@ async function gerarPDF() {
                 return;
             } else {
                 console.error('Erro backend PDF:', await res.text());
-                alert('Falha ao gerar PDF no servidor. Abrindo visualização para impressão.');
+                mostrarNotificacao('aviso', 'PDF indisponível no servidor', 'A visualização para impressão será aberta como alternativa.');
             }
         } catch (e) {
             console.error('Erro ao chamar backend PDF:', e);
-            alert('Não foi possível conectar ao servidor. Abrindo visualização para impressão.');
+            mostrarNotificacao('aviso', 'Servidor indisponível', 'Não foi possível gerar o PDF pelo servidor. A visualização para impressão será aberta como alternativa.');
         } finally {
             if (btnPDF) { btnPDF.disabled = false; btnPDF.textContent = textoOriginal; }
         }
@@ -753,6 +817,10 @@ async function gerarPDF() {
 
     // Fallback: janela de impressão
     const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+        mostrarNotificacao('erro', 'Visualização bloqueada', 'Permita a abertura de pop-ups neste site e tente gerar o PDF novamente.');
+        return;
+    }
     printWindow.document.write(`<!DOCTYPE html>
 <html><head><meta charset="UTF-8"><title>Contrato de Prestação de Serviços</title>
 <style>
@@ -819,13 +887,13 @@ async function salvarContratoNoSistema(silent = false) {
         };
 
         if (!jwt) {
-            if (!silent) alert('Faça login para salvar o contrato no servidor.');
+            if (!silent) mostrarNotificacao('info', 'Login necessário', 'Faça login para gravar o contrato no servidor.');
             return;
         }
 
         const contratanteId = await resolverIdContratante(contratanteData);
         if (!contratanteId) {
-            alert('Não foi possível identificar o contratante no banco.\nPreencha os dados do contratante ou selecione um cliente cadastrado.');
+            mostrarNotificacao('erro', 'Não foi possível gravar o contrato', 'Preencha os dados do contratante ou selecione um cliente cadastrado.');
             return;
         }
 
@@ -860,16 +928,16 @@ async function salvarContratoNoSistema(silent = false) {
         });
 
         if (res.ok) {
-            if (!silent) alert(_editingContratoId ? 'Contrato atualizado com sucesso!' : 'Contrato salvo com sucesso!');
+            if (!silent) mostrarNotificacao('sucesso', _editingContratoId ? 'Contrato atualizado' : 'Contrato salvo', 'A operação foi concluída com sucesso.');
             limparFormulario();
         } else {
             const erro = await res.json().catch(() => ({}));
             console.error('Erro ao salvar contrato de serviço:', erro);
-            alert('Erro ao salvar no servidor: ' + JSON.stringify(erro));
+            mostrarNotificacao('erro', 'Não foi possível gravar o contrato', obterMensagemErro(erro, 'O servidor recusou os dados. Revise o formulário e tente novamente.'));
         }
     } catch (err) {
         console.error('Erro ao salvar contrato:', err);
-        alert('Não foi possível salvar o contrato. Veja o console para detalhes.');
+        mostrarNotificacao('erro', 'Não foi possível gravar o contrato', 'Ocorreu uma falha inesperada. Verifique sua conexão e tente novamente.');
     }
 }
 
@@ -917,7 +985,7 @@ function carregarContratoServicoParaEdicao() {
         'multa-rescisao': contrato.multa_rescisao,
     };
     if (!TelefoneBR.valido(novo.telefone)) {
-        alert('Telefone inválido. Use celular ou fixo com DDD.');
+        mostrarNotificacao('erro', 'Telefone inválido', 'Informe um número de celular ou telefone fixo com DDD.');
         return;
     }
     novo.telefone = TelefoneBR.formatar(novo.telefone);

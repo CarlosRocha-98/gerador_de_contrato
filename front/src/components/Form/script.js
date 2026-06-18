@@ -3,6 +3,65 @@ const navbarToggle  = document.querySelector('.navbar-toggle');
 const navbarMenu    = document.querySelector('.navbar-menu');
 const navbarOverlay = document.querySelector('.navbar-overlay');
 
+// ── Mensagens do sistema ─────────────────────────────────────────────────────
+function obterMensagemErro(erro, fallback) {
+    if (!erro) return fallback;
+    if (typeof erro === 'string') return erro.trim() || fallback;
+    if (erro instanceof Error) return erro.message || fallback;
+    if (Array.isArray(erro)) return erro.map(item => obterMensagemErro(item, '')).filter(Boolean).join(' ');
+    if (typeof erro === 'object') {
+        const principal = erro.detail || erro.error || erro.message || erro.non_field_errors;
+        if (principal) return obterMensagemErro(principal, fallback);
+        const detalhes = Object.values(erro)
+            .map(item => obterMensagemErro(item, ''))
+            .filter(Boolean)
+            .join(' ');
+        return detalhes || fallback;
+    }
+    return fallback;
+}
+
+function mostrarNotificacao(tipo, titulo, mensagem, duracao = 8000) {
+    let container = document.getElementById('system-notifications');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'system-notifications';
+        container.className = 'system-notifications';
+        container.setAttribute('aria-live', 'polite');
+        document.body.appendChild(container);
+    }
+
+    const icones = { erro: '!', aviso: '!', sucesso: '✓', info: 'i' };
+    const notificacao = document.createElement('div');
+    notificacao.className = `system-notification system-notification--${tipo}`;
+    notificacao.setAttribute('role', tipo === 'erro' ? 'alert' : 'status');
+
+    const icone = document.createElement('span');
+    icone.className = 'system-notification__icon';
+    icone.textContent = icones[tipo] || icones.info;
+
+    const conteudo = document.createElement('div');
+    conteudo.className = 'system-notification__content';
+    const tituloEl = document.createElement('strong');
+    tituloEl.textContent = titulo;
+    const mensagemEl = document.createElement('p');
+    mensagemEl.textContent = mensagem;
+    conteudo.append(tituloEl, mensagemEl);
+
+    const fechar = document.createElement('button');
+    fechar.type = 'button';
+    fechar.className = 'system-notification__close';
+    fechar.setAttribute('aria-label', 'Fechar mensagem');
+    fechar.textContent = '×';
+
+    const remover = () => notificacao.remove();
+    fechar.addEventListener('click', remover);
+    notificacao.append(icone, conteudo, fechar);
+    container.appendChild(notificacao);
+
+    if (duracao > 0) window.setTimeout(remover, duracao);
+}
+
 if (navbarToggle && navbarMenu) {
     navbarToggle.addEventListener('click', () => {
         navbarMenu.classList.toggle('active');
@@ -185,12 +244,12 @@ function validarFormulario() {
         .filter(c => { const el = document.getElementById(c.id); return !el || !el.value.trim(); })
         .map(c => c.label);
     if (faltando.length > 0) {
-        alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
+        mostrarNotificacao('erro', 'Campos obrigatórios', 'Preencha os campos indicados antes de continuar:\n• ' + faltando.join('\n• '));
         return false;
     }
     const diaVencimento = Number(document.getElementById('dia-vencimento')?.value);
     if (!Number.isInteger(diaVencimento) || diaVencimento < 1 || diaVencimento > 28) {
-        alert('O dia do vencimento deve ser um número inteiro entre 1 e 28.');
+        mostrarNotificacao('erro', 'Dia de vencimento inválido', 'Informe um número inteiro entre 1 e 28.');
         document.getElementById('dia-vencimento')?.focus();
         return false;
     }
@@ -201,7 +260,7 @@ function validarFormulario() {
     ].filter(c => !cpfTemTamanhoValido(document.getElementById(c.id)?.value || ''));
 
     if (cpfsInvalidos.length > 0) {
-        alert('Informe um CPF válido. Verifique os dígitos:\n\n• ' + cpfsInvalidos.map(c => c.label).join('\n• '));
+        mostrarNotificacao('erro', 'CPF inválido', 'Verifique os dígitos dos campos:\n• ' + cpfsInvalidos.map(c => c.label).join('\n• '));
         return false;
     }
     return true;
@@ -229,6 +288,11 @@ async function gerarPDF() {
     const html    = prepararHTMLImpressao(preview);
     const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
 
+    if (!html.trim()) {
+        mostrarNotificacao('erro', 'Não foi possível gerar o PDF', 'A visualização do contrato está vazia. Revise os dados e tente novamente.');
+        return;
+    }
+
     if (jwt) {
         const API_BASE     = window.API_HOST || 'https://gerador-de-contrato-6uck.onrender.com';
         const btnPDF       = document.getElementById('btn-gerar-pdf');
@@ -251,17 +315,21 @@ async function gerarPDF() {
                 return;
             } else {
                 console.error('Erro backend PDF:', await res.text());
-                alert('Falha ao gerar PDF no servidor. Abrindo visualização para impressão.');
+                mostrarNotificacao('aviso', 'PDF indisponível no servidor', 'A visualização para impressão será aberta como alternativa.');
             }
         } catch (e) {
             console.error('Erro ao chamar backend PDF:', e);
-            alert('Não foi possível conectar ao servidor. Abrindo visualização para impressão.');
+            mostrarNotificacao('aviso', 'Servidor indisponível', 'Não foi possível gerar o PDF pelo servidor. A visualização para impressão será aberta como alternativa.');
         } finally {
             if (btnPDF) { btnPDF.disabled = false; btnPDF.textContent = textoOriginal; }
         }
     }
 
     const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+        mostrarNotificacao('erro', 'Visualização bloqueada', 'Permita a abertura de pop-ups neste site e tente gerar o PDF novamente.');
+        return;
+    }
     printWindow.document.write(`<!DOCTYPE html>
 <html><head><meta charset="UTF-8"><title>Contrato de Locação Residencial</title>
 <style>
@@ -398,7 +466,7 @@ async function salvarContratoNoSistema(silent = false) {
 
         if (!jwt) {
             salvarContratoLocal();
-            if (!silent) alert('Contrato salvo localmente (faça login para salvar no servidor).');
+            if (!silent) mostrarNotificacao('info', 'Contrato salvo localmente', 'Faça login para também gravar o contrato no servidor.');
             limparFormulario();
             return;
         }
@@ -415,25 +483,25 @@ async function salvarContratoNoSistema(silent = false) {
 
         if (!inquilinoId) {
             console.warn('Inquilino sem ID no backend.');
-            if (!silent) alert('Não foi possível vincular o inquilino ao backend.\n\n' + (inquilinoResultado.erro || 'Verifique os dados do inquilino e tente novamente.'));
+            mostrarNotificacao('erro', 'Não foi possível gravar o contrato', obterMensagemErro(inquilinoResultado.erro, 'Verifique os dados do inquilino e tente novamente.'));
             return;
         }
         if (!imovelId) {
             console.warn('Imóvel sem ID no backend.');
-            if (!silent) alert('Não foi possível vincular o imóvel ao backend.\n\n' + (imovelResultado.erro || 'Verifique os dados do imóvel e tente novamente.'));
+            mostrarNotificacao('erro', 'Não foi possível gravar o contrato', obterMensagemErro(imovelResultado.erro, 'Verifique os dados do imóvel e tente novamente.'));
             return;
         }
 
         if (_editingContratoId) {
             const inquilinoAtualizado = await atualizarClienteBackend(inquilinoId, inquilinoData);
             if (!inquilinoAtualizado.ok) {
-                alert('Não foi possível atualizar os dados do inquilino:\n\n' + inquilinoAtualizado.erro);
+                mostrarNotificacao('erro', 'Não foi possível atualizar o contrato', obterMensagemErro(inquilinoAtualizado.erro, 'Revise os dados do inquilino e tente novamente.'));
                 return;
             }
 
             const imovelAtualizado = await atualizarImovelBackend(imovelId, { ...imovelData, tipo: 'casa' });
             if (!imovelAtualizado.ok) {
-                alert('Não foi possível atualizar os dados do imóvel:\n\n' + imovelAtualizado.erro);
+                mostrarNotificacao('erro', 'Não foi possível atualizar o contrato', obterMensagemErro(imovelAtualizado.erro, 'Revise os dados do imóvel e tente novamente.'));
                 return;
             }
         }
@@ -469,16 +537,16 @@ async function salvarContratoNoSistema(silent = false) {
         if (res.ok) {
             const savedContrato = await res.json();
             if (!_editingContratoId) salvarContratoLocal({ ...idsBackend, backendId: savedContrato.id });
-            if (!silent) alert(_editingContratoId ? 'Contrato atualizado com sucesso!' : 'Contrato salvo com sucesso!');
+            if (!silent) mostrarNotificacao('sucesso', _editingContratoId ? 'Contrato atualizado' : 'Contrato salvo', 'A operação foi concluída com sucesso.');
             limparFormulario();
         } else {
             const erro = await res.json().catch(() => ({}));
             console.error('Erro ao salvar contrato no backend:', erro);
-            if (!silent) alert('Erro ao salvar no servidor: ' + JSON.stringify(erro));
+            mostrarNotificacao('erro', 'Não foi possível gravar o contrato', obterMensagemErro(erro, 'O servidor recusou os dados. Revise o formulário e tente novamente.'));
         }
     } catch (err) {
         console.error('Erro ao salvar contrato:', err);
-        alert('Não foi possível salvar o contrato. Veja o console para detalhes.');
+        mostrarNotificacao('erro', 'Não foi possível gravar o contrato', 'Ocorreu uma falha inesperada. Verifique sua conexão e tente novamente.');
     }
 }
 
