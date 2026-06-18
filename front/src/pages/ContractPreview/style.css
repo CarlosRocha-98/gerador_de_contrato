@@ -79,6 +79,13 @@ body {
     font-size: 14px;
     margin: 18px 0 8px;
     font-weight: 700;
+    break-after: avoid-page;
+    page-break-after: avoid;
+}
+
+.clause-start {
+    break-inside: avoid-page;
+    page-break-inside: avoid;
 }
 
 .contract-paper p {
@@ -152,6 +159,16 @@ body {
         padding: 0;
         box-shadow: none;
         border-radius: 0;
+    }
+
+    .contract-paper h2 {
+        break-after: avoid-page;
+        page-break-after: avoid;
+    }
+
+    .clause-start {
+        break-inside: avoid-page;
+        page-break-inside: avoid;
     }
 
     @page {

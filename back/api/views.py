@@ -248,7 +248,7 @@ class GerarContratoPDFView(APIView):
                     line-height: 1.7;
                 }}
                 h2 {{ text-align: center; font-size: 15px; text-decoration: underline; margin-bottom: 18px; }}
-                h3 {{ font-size: 13px; margin-top: 18px; margin-bottom: 8px; }}
+                h3 {{ font-size: 13px; margin-top: 18px; margin-bottom: 8px; page-break-after: avoid; }}
                 p  {{ font-size: 12px; text-align: justify; margin-bottom: 8px; }}
                 .signature-lines {{ width: 100%; border-collapse: collapse; margin-top: 50px; }}
                 .signature-line {{ width: 42%; border-top: 1px solid #000; text-align: center; vertical-align: top; padding-top: 6px; }}

@@ -330,6 +330,8 @@ body {
     color: #333;
     margin-top: 20px;
     margin-bottom: 10px;
+    break-after: avoid-page;
+    page-break-after: avoid;
 }
 
 .preview-signature {
