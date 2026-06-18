@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from .cpf import formatar_cpf, validar_cpf
 from .telefone import formatar_telefone, validar_telefone
+from .cep import formatar_cep, validar_cep
 
 
 ESTADOS_CIVIS = [
@@ -38,7 +39,7 @@ class PerfilUsuario(models.Model):
     numero = models.CharField(max_length=10, blank=True)
     complemento = models.CharField(max_length=100, blank=True, default='')
     bairro = models.CharField(max_length=100, blank=True)
-    cep = models.CharField(max_length=10, blank=True)
+    cep = models.CharField(max_length=9, blank=True, validators=[validar_cep])
     cidade = models.CharField(max_length=100, blank=True)
     estado = models.CharField(max_length=2, blank=True)
     
@@ -50,6 +51,7 @@ class PerfilUsuario(models.Model):
     def save(self, *args, **kwargs):
         self.cpf = formatar_cpf(self.cpf)
         self.telefone = formatar_telefone(self.telefone)
+        self.cep = formatar_cep(self.cep)
         self.full_clean()
         return super().save(*args, **kwargs)
     
@@ -75,7 +77,7 @@ class Cliente(models.Model):
     numero = models.CharField(max_length=10, blank=True)
     complemento = models.CharField(max_length=100, blank=True, default='')
     bairro = models.CharField(max_length=100, blank=True)
-    cep = models.CharField(max_length=10, blank=True)
+    cep = models.CharField(max_length=9, blank=True, validators=[validar_cep])
     cidade = models.CharField(max_length=100, blank=True)
     estado = models.CharField(max_length=2, blank=True)
     criado_em = models.DateTimeField(auto_now_add=True)
@@ -86,6 +88,7 @@ class Cliente(models.Model):
     def save(self, *args, **kwargs):
         self.cpf = formatar_cpf(self.cpf)
         self.telefone = formatar_telefone(self.telefone)
+        self.cep = formatar_cep(self.cep)
         self.full_clean()
         return super().save(*args, **kwargs)
     

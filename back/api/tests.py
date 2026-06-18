@@ -5,6 +5,7 @@ from unittest.mock import patch
 from .cpf import cpf_valido, cpf_valido_oficial, formatar_cpf
 from .serializers import ClienteSerializer
 from .telefone import formatar_telefone, telefone_valido
+from .cep import cep_valido, formatar_cep
 
 
 class CPFTestCase(TestCase):
@@ -68,3 +69,21 @@ class EstadoCivilTestCase(TestCase):
         })
         self.assertFalse(serializer.is_valid())
         self.assertIn('estado_civil', serializer.errors)
+
+
+class CEPTestCase(TestCase):
+    def test_valida_e_formata_cep_brasileiro(self):
+        self.assertTrue(cep_valido('01001-000'))
+        self.assertTrue(cep_valido('01001000'))
+        self.assertEqual(formatar_cep('01001000'), '01001-000')
+
+    def test_recusa_cep_com_formato_invalido(self):
+        self.assertFalse(cep_valido('123'))
+        self.assertFalse(cep_valido('00000-000'))
+
+    def test_serializer_formata_cep(self):
+        serializer = ClienteSerializer(data={
+            'nome': 'Cliente', 'cpf': '123', 'cep': '01001000',
+        })
+        self.assertTrue(serializer.is_valid(), serializer.errors)
+        self.assertEqual(serializer.validated_data['cep'], '01001-000')

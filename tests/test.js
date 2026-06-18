@@ -103,7 +103,7 @@ async function gerarEmMassa() {
       rua:           `TESTE${n}_rua`,
       numero:        `${n}`,
       bairro:        `TESTE${n}_bairro`,
-      cep:           `TESTE${n}_cep`,
+      cep:           '01001-000',
       cidade:        `TESTE${n}_cidade`,
       estado:        'SP',
     }, token);

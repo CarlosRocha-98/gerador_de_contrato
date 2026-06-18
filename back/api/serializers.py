@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from .models import Cliente, ContratoServico, Imovel, ContratoAluguel, PerfilUsuario, ESTADOS_CIVIS
 from .cpf import cpf_valido, formatar_cpf, somente_digitos_cpf
 from .telefone import formatar_telefone, telefone_valido
+from .cep import cep_valido, formatar_cep
 
 
 def normalizar_cpf(valor):
@@ -25,12 +26,19 @@ class CPFSerializerMixin:
             )
         return formatar_telefone(value)
 
+    def validate_cep(self, value):
+        if not cep_valido(value):
+            raise serializers.ValidationError('CEP inválido. Use o formato 00000-000.')
+        return formatar_cep(value)
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         if data.get('cpf'):
             data['cpf'] = formatar_cpf(data['cpf'])
         if data.get('telefone'):
             data['telefone'] = formatar_telefone(data['telefone'])
+        if data.get('cep'):
+            data['cep'] = formatar_cep(data['cep'])
         return data
 
 
@@ -141,6 +149,11 @@ class RegisterSerializer(serializers.ModelSerializer):
                 'Telefone inválido. Use celular (XX) XXXXX-XXXX ou fixo (XX) XXXX-XXXX.'
             )
         return formatar_telefone(value)
+
+    def validate_cep(self, value):
+        if not cep_valido(value):
+            raise serializers.ValidationError('CEP inválido. Use o formato 00000-000.')
+        return formatar_cep(value)
 
     def create(self, validated_data):
         # Extrair dados do perfil
