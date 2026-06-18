@@ -6,7 +6,7 @@ function normalizarCPF(valor) {
 }
 
 function cpfTemTamanhoValido(valor) {
-    return normalizarCPF(valor).length === 11;
+    return window.CPF ? CPF.valido(valor) : normalizarCPF(valor).length === 11;
 }
 
 async function lerErroResposta(res, contexto) {
@@ -30,7 +30,7 @@ async function lerErroResposta(res, contexto) {
 function montarPayloadCliente(dados) {
     return {
         nome: dados.nome,
-        cpf: normalizarCPF(dados.cpf),
+        cpf: window.CPF ? CPF.formatar(dados.cpf) : normalizarCPF(dados.cpf),
         orgao_expedidor: dados.orgao_expedidor,
         nacionalidade: dados.nacionalidade,
         profissao: dados.profissao,
@@ -47,7 +47,8 @@ function montarPayloadCliente(dados) {
 }
 
 function carregarClientes() {
-    return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]');
+    return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]')
+        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
 }
 
 function salvarClientes(lista) {

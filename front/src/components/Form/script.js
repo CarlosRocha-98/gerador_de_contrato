@@ -192,7 +192,7 @@ function validarFormulario() {
     ].filter(c => !cpfTemTamanhoValido(document.getElementById(c.id)?.value || ''));
 
     if (cpfsInvalidos.length > 0) {
-        alert('Informe um CPF válido com 11 dígitos:\n\n• ' + cpfsInvalidos.map(c => c.label).join('\n• '));
+        alert('Informe um CPF válido. Verifique os dígitos:\n\n• ' + cpfsInvalidos.map(c => c.label).join('\n• '));
         return false;
     }
     return true;
@@ -266,7 +266,7 @@ async function resolverIdCliente(dados) {
     const cpf = normalizarCPF(dados.cpf);
 
     if (!cpfTemTamanhoValido(dados.cpf)) {
-        return { id: null, erro: 'CPF do inquilino inválido. Informe um CPF com 11 dígitos.' };
+        return { id: null, erro: 'CPF do inquilino inválido. Verifique os dígitos informados.' };
     }
 
     if (_selectedClienteId) return { id: _selectedClienteId };

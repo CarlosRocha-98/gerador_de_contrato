@@ -162,7 +162,8 @@ const IMOVEIS_LS  = 'imoveis';
 let _tabAtual = 'clientes';
 
 function carregarClientesLocais() {
-    return JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]');
+    return JSON.parse(localStorage.getItem(CLIENTES_LS) || '[]')
+        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
 }
 
 function salvarClientesLocais(lista) {
@@ -318,6 +319,13 @@ async function salvarEdicaoCliente() {
         estado:          document.getElementById('edit-cli-estado').value.toUpperCase(),
     };
     const msgEl = document.getElementById('modal-edit-cliente-msg');
+
+    if (!CPF.valido(dados.cpf)) {
+        msgEl.textContent = 'CPF inválido. Verifique os dígitos informados.';
+        msgEl.className = 'msg-area error';
+        return;
+    }
+    dados.cpf = CPF.formatar(dados.cpf);
 
     if (jwtToken && id && isBackendId(id)) {
         try {

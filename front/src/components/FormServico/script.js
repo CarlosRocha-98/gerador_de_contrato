@@ -282,7 +282,8 @@ if (jwtToken) {
 const CLIENTES_KEY = 'clientes';
 
 function carregarClientes() {
-    return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]');
+    return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]')
+        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
 }
 
 function salvarClientesLS(lista) {
@@ -477,8 +478,13 @@ async function salvarNovoContratanteModal() {
         msg.className = 'quick-form-msg error';
         return;
     }
+    if (!CPF.valido(cpf)) {
+        msg.textContent = 'CPF inválido. Verifique os dígitos informados.';
+        msg.className = 'quick-form-msg error';
+        return;
+    }
     const dados = {
-        nome, cpf,
+        nome, cpf: CPF.formatar(cpf),
         nacionalidade:   document.getElementById('nc-nacionalidade')?.value.trim()    || '',
         profissao:       document.getElementById('nc-profissao')?.value.trim()        || '',
         estado_civil:    document.getElementById('nc-estado-civil')?.value            || '',
@@ -661,6 +667,13 @@ function validarFormulario() {
 
     if (faltando.length > 0) {
         alert('Preencha os campos obrigatórios antes de continuar:\n\n• ' + faltando.join('\n• '));
+        return false;
+    }
+
+    const cpfsInvalidos = ['prest-cpf', 'cont-cpf']
+        .filter(id => !CPF.valido(document.getElementById(id)?.value));
+    if (cpfsInvalidos.length) {
+        alert('CPF inválido. Verifique os dígitos do prestador e do contratante.');
         return false;
     }
 

@@ -1,5 +1,16 @@
 const API = 'http://localhost:8000/api';
 
+function gerarCPF(seed) {
+  const base = String(100000000 + Number(seed)).slice(-9).split('').map(Number);
+  for (let tamanho = 9; tamanho <= 10; tamanho++) {
+    const soma = base.slice(0, tamanho).reduce((total, digito, i) => total + digito * (tamanho + 1 - i), 0);
+    const resto = (soma * 10) % 11;
+    base.push(resto === 10 ? 0 : resto);
+  }
+  const cpf = base.join('');
+  return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9)}`;
+}
+
 // ── Geração em Massa ──────────────────────────────────────────────────────────
 
 function log(msg, tipo) {
@@ -45,13 +56,14 @@ async function gerarEmMassa() {
 
   for (let n = 1; n <= qty; n++) {
     const email = `teste${n}@teste.com`;
+    const cpfTeste = gerarCPF(n);
     log(`\n── Usuário ${n}: ${email} ──────────────────`, 'titulo');
 
     // 1. Cadastrar usuário
     const reg = await request('POST', `${API}/register/`, {
       username: email, email, password: SENHA,
       nome: `TESTE${n}_nome`,
-      cpf:  `TESTE${n}_cpf`,
+      cpf: cpfTeste,
       telefone: `TESTE${n}_telefone`,
       nacionalidade: `TESTE${n}_nacionalidade`,
       profissao: `TESTE${n}_profissao`,
@@ -82,7 +94,7 @@ async function gerarEmMassa() {
     // 3. Cadastrar cliente
     const cli = await request('POST', `${API}/clientes/`, {
       nome:          `TESTE${n}_nome`,
-      cpf:           `TESTE${n}_cpf`,
+      cpf:           cpfTeste,
       email:         `TESTE${n}_email@teste.com`,
       telefone:      `TESTE${n}_telefone`,
       nacionalidade: `TESTE${n}_nacionalidade`,

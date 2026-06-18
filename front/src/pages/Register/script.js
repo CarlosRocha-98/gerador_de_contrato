@@ -43,6 +43,9 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   if (password.length < 6) {
     return showMessage('A senha deve ter pelo menos 6 caracteres.', 'error');
   }
+  if (!CPF.valido(cpf)) {
+    return showMessage('CPF inválido. Verifique os dígitos informados.', 'error');
+  }
 
     try {
       // collect all form fields to send full perfil to backend
@@ -52,7 +55,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         email: email,
         password: password,
         nome: document.getElementById('nome').value.trim(),
-        cpf: document.getElementById('cpf').value.trim(),
+        cpf: CPF.formatar(document.getElementById('cpf').value),
         telefone: document.getElementById('telefone').value.trim(),
         nacionalidade: document.getElementById('nacionalidade').value.trim(),
         profissao: document.getElementById('profissao').value.trim(),

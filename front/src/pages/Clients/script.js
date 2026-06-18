@@ -1,7 +1,8 @@
 const CLIENTES_KEY = 'clientes';
 
 function carregarClientes() {
-    return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]');
+    return JSON.parse(localStorage.getItem(CLIENTES_KEY) || '[]')
+        .map(cliente => ({ ...cliente, cpf: CPF.formatar(cliente.cpf) }));
 }
 
 function salvarClientes(lista) {
@@ -30,10 +31,14 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
         alert('Nome e CPF são obrigatórios para cadastrar um cliente.');
         return;
     }
+    if (!CPF.valido(cpf)) {
+        alert('CPF inválido. Verifique os dígitos informados.');
+        return;
+    }
 
     const formData = {
         nome,
-        cpf,
+        cpf: CPF.formatar(cpf),
         orgao_expedidor:getVal('orgao_expedidor'),
         nacionalidade:  getVal('nacionalidade'),
         profissao:      getVal('profissao'),

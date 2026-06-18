@@ -3,10 +3,24 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from .models import Cliente, ContratoServico, Imovel, ContratoAluguel, PerfilUsuario
+from .cpf import cpf_valido, formatar_cpf, somente_digitos_cpf
 
 
 def normalizar_cpf(valor):
-    return ''.join(char for char in str(valor or '') if char.isdigit())
+    return somente_digitos_cpf(valor)
+
+
+class CPFSerializerMixin:
+    def validate_cpf(self, value):
+        if not cpf_valido(value):
+            raise serializers.ValidationError('CPF inválido. Verifique os dígitos informados.')
+        return formatar_cpf(value)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data.get('cpf'):
+            data['cpf'] = formatar_cpf(data['cpf'])
+        return data
 
 
 def primeiro_nome(nome):
@@ -37,7 +51,7 @@ class EmailOrUsernameTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 # Perfil de Usuário
-class PerfilUsuarioSerializer(serializers.ModelSerializer):
+class PerfilUsuarioSerializer(CPFSerializerMixin, serializers.ModelSerializer):
     email = serializers.EmailField(source='usuario.email', read_only=True)
     username = serializers.SerializerMethodField()
     usuario_id = serializers.IntegerField(source='usuario.id', read_only=True)
@@ -98,14 +112,14 @@ class RegisterSerializer(serializers.ModelSerializer):
     def validate_cpf(self, value):
         cpf = normalizar_cpf(value)
 
-        if len(cpf) != 11:
-            raise serializers.ValidationError('CPF inválido.')
+        if not cpf_valido(cpf):
+            raise serializers.ValidationError('CPF inválido. Verifique os dígitos informados.')
 
         for perfil in PerfilUsuario.objects.only('cpf'):
             if normalizar_cpf(perfil.cpf) == cpf:
                 raise serializers.ValidationError('Já existe um usuário cadastrado com este CPF.')
 
-        return cpf
+        return formatar_cpf(cpf)
 
     def create(self, validated_data):
         # Extrair dados do perfil
@@ -125,7 +139,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         
         # Criar usuário
         user = User.objects.create_user(
-            username=cpf,
+            username=normalizar_cpf(cpf),
             email=validated_data['email'],
             password=validated_data['password'],
         )
@@ -151,7 +165,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
     
 # cliente
-class ClienteSerializer(serializers.ModelSerializer):
+class ClienteSerializer(CPFSerializerMixin, serializers.ModelSerializer):
     class Meta:
         model = Cliente
         fields = '__all__'

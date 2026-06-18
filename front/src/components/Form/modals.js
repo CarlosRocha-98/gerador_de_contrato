@@ -151,8 +151,13 @@ async function salvarNovoClienteModal() {
         msg.className = 'quick-form-msg error';
         return;
     }
+    if (!CPF.valido(cpf)) {
+        msg.textContent = 'CPF inválido. Verifique os dígitos informados.';
+        msg.className = 'quick-form-msg error';
+        return;
+    }
     const dados = {
-        nome, cpf,
+        nome, cpf: CPF.formatar(cpf),
         nacionalidade:  document.getElementById('nc-nacionalidade')?.value.trim()    || '',
         profissao:      document.getElementById('nc-profissao')?.value.trim()        || '',
         estado_civil:   document.getElementById('nc-estado-civil')?.value            || '',

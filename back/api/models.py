@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
-from django.core.validators import RegexValidator
+from .cpf import formatar_cpf, validar_cpf
 
 
 class PerfilUsuario(models.Model):
@@ -18,7 +17,7 @@ class PerfilUsuario(models.Model):
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=14,
-        validators=[RegexValidator(r'^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$', 'CPF inválido.')]
+        validators=[validar_cpf]
     )
     
     # Contato
@@ -36,6 +35,11 @@ class PerfilUsuario(models.Model):
 
     def __str__(self):
         return f'Perfil de {self.nome}'
+
+    def save(self, *args, **kwargs):
+        self.cpf = formatar_cpf(self.cpf)
+        self.full_clean()
+        return super().save(*args, **kwargs)
     
     class Meta:
         verbose_name = 'Perfil de Usuário'
@@ -51,7 +55,7 @@ class Cliente(models.Model):
     orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=14,
-        validators=[RegexValidator(r'^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$', 'CPF inválido.')]
+        validators=[validar_cpf]
     )
     telefone = models.CharField(max_length=20, blank=True)
     email = models.EmailField(blank=True)
@@ -65,6 +69,11 @@ class Cliente(models.Model):
 
     def __str__(self):
         return self.nome
+
+    def save(self, *args, **kwargs):
+        self.cpf = formatar_cpf(self.cpf)
+        self.full_clean()
+        return super().save(*args, **kwargs)
     
     class Meta:
         verbose_name = 'Cliente'
