@@ -10,9 +10,11 @@ const INQ_FIELD_IDS = [
 const IMOVEL_FIELD_IDS = [
     'imovel-endereco',
     'imovel-numero',
+    'imovel-complemento',
     'imovel-bairro',
     'imovel-cidade',
     'imovel-estado',
+    'imovel-tipo',
     'imovel-caracteristicas'
 ];
 
@@ -85,9 +87,11 @@ function preencherImovel(imovel) {
     const mapa = {
         'imovel-endereco':     imovel.endereco,
         'imovel-numero':       imovel.numero,
+        'imovel-complemento':  imovel.complemento,
         'imovel-bairro':       imovel.bairro,
         'imovel-cidade':       imovel.cidade,
         'imovel-estado':       imovel.estado,
+        'imovel-tipo':         imovel.tipo,
         'imovel-caracteristicas': imovel.caracteristicas,
     };
     Object.entries(mapa).forEach(([id, valor]) => {

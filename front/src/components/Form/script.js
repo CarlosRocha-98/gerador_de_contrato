@@ -169,8 +169,10 @@ function validarFormulario() {
         { id: 'inq-cpf',           label: 'CPF do inquilino' },
         { id: 'imovel-endereco',   label: 'Endereço do imóvel' },
         { id: 'imovel-numero',     label: 'Número do imóvel' },
+        { id: 'imovel-bairro',     label: 'Bairro do imóvel' },
         { id: 'imovel-cidade',     label: 'Cidade do imóvel' },
         { id: 'imovel-estado',     label: 'Estado do imóvel' },
+        { id: 'imovel-tipo',       label: 'Tipo do imóvel' },
         { id: 'prazo',             label: 'Prazo (meses)' },
         { id: 'valor-aluguel',     label: 'Valor do aluguel' },
         { id: 'dia-vencimento',    label: 'Dia de vencimento' },
@@ -354,9 +356,11 @@ async function salvarContratoNoSistema(silent = false) {
         const imovelData    = {
             endereco:        document.getElementById('imovel-endereco')?.value.trim()        || '',
             numero:          document.getElementById('imovel-numero')?.value.trim()          || '',
+            complemento:     document.getElementById('imovel-complemento')?.value.trim()     || '',
             bairro:          document.getElementById('imovel-bairro')?.value.trim()          || '',
             cidade:          document.getElementById('imovel-cidade')?.value.trim()       || '',
             estado:          document.getElementById('imovel-estado')?.value.trim()       || '',
+            tipo:            document.getElementById('imovel-tipo')?.value                || '',
             caracteristicas: document.getElementById('imovel-caracteristicas')?.value.trim() || '',
         };
 

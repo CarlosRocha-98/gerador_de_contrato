@@ -308,20 +308,22 @@
                Selecionar Imóvel Cadastrado
             </button>
 
-            <div class="form-group full">
-              <label for="imovel-endereco">Endereço do imóvel (rua/av)</label>
-              <input
-                type="text"
-                id="imovel-endereco"
-                placeholder="Ex: Rua das Palmeiras"
-              />
-            </div>
-
             <div class="form-row cols-3">
+              <div class="form-group">
+                <label for="imovel-endereco">Rua</label>
+                <input type="text" id="imovel-endereco" placeholder="Ex: Rua das Palmeiras" />
+              </div>
               <div class="form-group">
                 <label for="imovel-numero">Número</label>
                 <input type="text" id="imovel-numero" placeholder="789" />
               </div>
+              <div class="form-group">
+                <label for="imovel-complemento">Complemento</label>
+                <input type="text" id="imovel-complemento" placeholder="Apartamento, bloco..." />
+              </div>
+            </div>
+
+            <div class="form-row cols-3">
               <div class="form-group">
                 <label for="imovel-bairro">Bairro</label>
                 <input type="text" id="imovel-bairro" placeholder="Vila Nova" />
@@ -368,6 +370,16 @@
                   <option value="TO">TO</option>
                 </select>
               </div>
+            </div>
+
+            <div class="form-group full">
+              <label for="imovel-tipo">Tipo de imóvel</label>
+              <select id="imovel-tipo">
+                <option value="">Selecione o tipo</option>
+                <option value="apartamento">Apartamento</option>
+                <option value="casa">Casa</option>
+                <option value="comercial">Comercial</option>
+              </select>
             </div>
 
             <div class="form-group full">
