@@ -197,3 +197,10 @@ button:hover {
 .log-info {
     color: #aaa;
 }
+
+input::placeholder,
+textarea::placeholder {
+    color: #aeb6c5;
+    font-style: italic;
+    opacity: 1;
+}

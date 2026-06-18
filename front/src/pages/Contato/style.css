@@ -360,9 +360,11 @@ a {
     width: 100%;
 }
 
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: var(--text-muted);
+input::placeholder,
+textarea::placeholder {
+    color: #aeb6c5;
+    font-style: italic;
+    opacity: 1;
 }
 
 .form-group input:focus,

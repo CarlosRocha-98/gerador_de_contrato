@@ -142,7 +142,9 @@ select.input-field option {
 /* Placeholder e estados de foco */
 input::placeholder,
 textarea::placeholder {
-    color: rgba(255, 255, 255, 0.4);
+    color: #aeb6c5;
+    font-style: italic;
+    opacity: 1;
 }
 
 input:focus,

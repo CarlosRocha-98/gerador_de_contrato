@@ -62,8 +62,11 @@ body {
     transition: border 0.3s;
 }
 
-.form-group input::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+input::placeholder,
+textarea::placeholder {
+    color: #aeb6c5;
+    font-style: italic;
+    opacity: 1;
 }
 
 .form-group input:focus {

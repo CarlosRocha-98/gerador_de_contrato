@@ -152,8 +152,11 @@ body {
     max-width: 100%;
 }
 
-.form-group input::placeholder {
-    color: #5a6574;
+input::placeholder,
+textarea::placeholder {
+    color: #aeb6c5;
+    font-style: italic;
+    opacity: 1;
 }
 
 .form-group input:focus,

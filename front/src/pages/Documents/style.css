@@ -79,8 +79,11 @@ header p {
     transition: 0.25s;
 }
 
-.search-box input::placeholder {
-    color: #b8c0d0;
+input::placeholder,
+textarea::placeholder {
+    color: #aeb6c5;
+    font-style: italic;
+    opacity: 1;
 }
 
 .search-box input:focus {

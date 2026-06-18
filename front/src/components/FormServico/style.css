@@ -336,6 +336,13 @@ body {
     page-break-after: avoid;
 }
 
+input::placeholder,
+textarea::placeholder {
+    color: #aeb6c5;
+    font-style: italic;
+    opacity: 1;
+}
+
 .preview-signature {
     margin-top: 40px;
     text-align: center;
