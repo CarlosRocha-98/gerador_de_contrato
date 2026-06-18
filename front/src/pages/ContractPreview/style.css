@@ -88,6 +88,11 @@ body {
     page-break-inside: avoid;
 }
 
+.clause-page-break {
+    break-before: page;
+    page-break-before: always;
+}
+
 .contract-paper p {
     font-size: 13px;
     line-height: 1.8;
@@ -170,6 +175,12 @@ body {
         break-inside: avoid-page;
         page-break-inside: avoid;
     }
+
+    .clause-page-break {
+        break-before: page;
+        page-break-before: always;
+    }
+
 
     @page {
         size: A4;

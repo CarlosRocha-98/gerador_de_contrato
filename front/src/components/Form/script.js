@@ -208,10 +208,25 @@ function validarFormulario() {
 }
 
 // ── Geração de PDF ────────────────────────────────────────────────────────────
+function prepararHTMLImpressao(preview) {
+    if (!preview) return '';
+    const copia = preview.cloneNode(true);
+    copia.querySelectorAll('h3.preview-clause').forEach(titulo => {
+        const primeiroParagrafo = titulo.nextElementSibling;
+        if (!primeiroParagrafo || primeiroParagrafo.tagName !== 'P') return;
+        const grupo = document.createElement('div');
+        grupo.className = 'clause-start';
+        if (titulo.textContent.includes('Cláusula 5ª')) grupo.classList.add('clause-page-break');
+        titulo.parentNode.insertBefore(grupo, titulo);
+        grupo.append(titulo, primeiroParagrafo);
+    });
+    return copia.innerHTML;
+}
+
 async function gerarPDF() {
     if (!validarFormulario()) return;
     const preview = document.getElementById('contract-preview');
-    const html    = preview ? preview.innerHTML : '';
+    const html    = prepararHTMLImpressao(preview);
     const jwt     = localStorage.getItem('access_token') || localStorage.getItem('access');
 
     if (jwt) {
@@ -253,6 +268,8 @@ async function gerarPDF() {
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding:40px;color:#333}
 h2{text-align:center;font-size:18px;text-decoration:underline;margin-bottom:24px}
 h3{font-size:14px;margin-top:20px;margin-bottom:10px}
+.clause-start{page-break-inside:avoid;break-inside:avoid-page}
+.clause-page-break{page-break-before:always;break-before:page}
 p{font-size:13px;line-height:1.8;text-align:justify;margin-bottom:10px}
 .signature-lines{width:100%;border-collapse:collapse;margin-top:60px}
 .signature-line{width:42%;border-top:1px solid #333;text-align:center;vertical-align:top;padding-top:8px}

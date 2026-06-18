@@ -369,7 +369,7 @@ function contratoServicoHTML(dados) {
     `;
 }
 
-function agruparInicioDasClausulas() {
+function agruparInicioDasClausulas(forcarClausula5NaNovaPagina = false) {
     contractContent.querySelectorAll('h2').forEach(titulo => {
         if (!titulo.textContent.trim().toLowerCase().startsWith('cláusula')) return;
         const primeiroParagrafo = titulo.nextElementSibling;
@@ -377,6 +377,9 @@ function agruparInicioDasClausulas() {
 
         const grupo = document.createElement('section');
         grupo.className = 'clause-start';
+        if (forcarClausula5NaNovaPagina && titulo.textContent.includes('Cláusula 5ª')) {
+            grupo.classList.add('clause-page-break');
+        }
         titulo.parentNode.insertBefore(grupo, titulo);
         grupo.append(titulo, primeiroParagrafo);
     });
@@ -401,12 +404,12 @@ async function carregarPreview() {
 
     if (dados.tipoContrato === 'aluguel') {
         contractContent.innerHTML = contratoAluguelHTML(dados);
-        agruparInicioDasClausulas();
+        agruparInicioDasClausulas(true);
         return;
     }
 
     contractContent.innerHTML = contratoServicoHTML(dados);
-    agruparInicioDasClausulas();
+    agruparInicioDasClausulas(false);
 }
 
 btnPrint.addEventListener('click', () => {
