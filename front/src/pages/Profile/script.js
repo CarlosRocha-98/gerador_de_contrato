@@ -50,7 +50,6 @@ function carregarPerfil() {
             setField('field-username',      p.email || sessao?.username || '');
             setField('field-cpf',           p.cpf);
             setField('field-nome',          p.nome);
-                    setField('field-orgao-expedidor', p.orgao_expedidor);
             setField('field-nacionalidade', p.nacionalidade);
             setField('field-profissao',     p.profissao);
             setField('field-estado-civil',  p.estado_civil);
@@ -104,7 +103,6 @@ document.getElementById('profileForm').addEventListener('submit', function (e) {
         nacionalidade:   document.getElementById('field-nacionalidade').value.trim(),
         profissao:       document.getElementById('field-profissao').value.trim(),
         estado_civil:    document.getElementById('field-estado-civil').value,
-        orgao_expedidor: document.getElementById('field-orgao-expedidor').value.trim(),
 
         telefone:        document.getElementById('field-telefone').value.trim(),
         rua:             document.getElementById('field-rua').value.trim(),
@@ -292,7 +290,6 @@ function abrirModalEditCliente(c) {
     document.getElementById('edit-cli-id').value            = c.id         || '';
     document.getElementById('edit-cli-nome').value          = c.nome       || '';
     document.getElementById('edit-cli-cpf').value           = c.cpf        || '';
-    document.getElementById('edit-cli-orgao').value         = c.orgao_expedidor || '';
     document.getElementById('edit-cli-telefone').value      = c.telefone   || '';
     document.getElementById('edit-cli-nacionalidade').value = c.nacionalidade || '';
     document.getElementById('edit-cli-profissao').value     = c.profissao  || '';
@@ -319,7 +316,6 @@ async function salvarEdicaoCliente() {
     const dados = {
         nome:            document.getElementById('edit-cli-nome').value.trim(),
         cpf:             document.getElementById('edit-cli-cpf').value.trim(),
-        orgao_expedidor: document.getElementById('edit-cli-orgao').value.trim(),
         telefone:        document.getElementById('edit-cli-telefone').value.trim(),
         nacionalidade:   document.getElementById('edit-cli-nacionalidade').value.trim(),
         profissao:       document.getElementById('edit-cli-profissao').value.trim(),

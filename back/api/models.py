@@ -15,7 +15,6 @@ class PerfilUsuario(models.Model):
     estado_civil = models.CharField(max_length=20, blank=True)
     
     # Documentos
-    orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=14,
         # CPF-VALIDACAO: validação do CPF do perfil; chave em api/cpf.py.
@@ -55,7 +54,6 @@ class Cliente(models.Model):
     nacionalidade = models.CharField(max_length=100, blank=True)
     profissao = models.CharField(max_length=100, blank=True)
     estado_civil = models.CharField(max_length=20, blank=True)
-    orgao_expedidor = models.CharField(max_length=20, blank=True)
     cpf = models.CharField(
         max_length=14,
         # CPF-VALIDACAO: validação do CPF do cliente; chave em api/cpf.py.

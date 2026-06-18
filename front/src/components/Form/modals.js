@@ -132,7 +132,7 @@ function toggleNovoCliente() {
     form.classList.toggle('hidden', aberto);
     btn.textContent = aberto ? '+ Novo' : '✕ Fechar';
     if (!aberto) {
-        ['nc-nome','nc-nacionalidade','nc-profissao','nc-cpf','nc-orgao-expedidor',
+        ['nc-nome','nc-nacionalidade','nc-profissao','nc-cpf',
          'nc-telefone','nc-email','nc-rua','nc-numero','nc-bairro','nc-cep','nc-cidade','nc-estado']
             .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
         const ecEl = document.getElementById('nc-estado-civil');
@@ -168,7 +168,6 @@ async function salvarNovoClienteModal() {
         nacionalidade:  document.getElementById('nc-nacionalidade')?.value.trim()    || '',
         profissao:      document.getElementById('nc-profissao')?.value.trim()        || '',
         estado_civil:   document.getElementById('nc-estado-civil')?.value            || '',
-        orgao_expedidor:document.getElementById('nc-orgao-expedidor')?.value.trim()  || '',
         telefone:       TelefoneBR.formatar(telefone),
         email:          document.getElementById('nc-email')?.value.trim()            || '',
         rua:            document.getElementById('nc-rua')?.value.trim()              || '',

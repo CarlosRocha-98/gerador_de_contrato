@@ -49,7 +49,6 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
     const formData = {
         nome,
         cpf: CPF.formatar(cpf),
-        orgao_expedidor:getVal('orgao_expedidor'),
         nacionalidade:  getVal('nacionalidade'),
         profissao:      getVal('profissao'),
         estado_civil:   getVal('estado_civil'),
@@ -84,7 +83,6 @@ document.getElementById('clientForm').addEventListener('submit', function(e) {
                 const payload = {
                     nome: formData.nome,
                     cpf: formData.cpf,
-                    orgao_expedidor: formData.orgao_expedidor,
                     nacionalidade: formData.nacionalidade,
                     profissao: formData.profissao,
                     estado_civil: formData.estado_civil,

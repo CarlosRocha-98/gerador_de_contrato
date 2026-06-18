@@ -32,7 +32,6 @@ function montarPayloadCliente(dados) {
     return {
         nome: dados.nome,
         cpf: window.CPF ? CPF.formatar(dados.cpf) : normalizarCPF(dados.cpf),
-        orgao_expedidor: dados.orgao_expedidor,
         nacionalidade: dados.nacionalidade,
         profissao: dados.profissao,
         estado_civil: dados.estado_civil || dados.estadoCivil || '',
